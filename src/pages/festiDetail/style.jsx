@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-export const Fest_info = styled.div`
+export const Festi_info = styled.div`
 
     .fest_info{
         display: flex;
@@ -11,7 +11,7 @@ export const Fest_info = styled.div`
     }
 
     .review_info{
-        
+
     }
     
 `

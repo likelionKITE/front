@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import {Fest_info} from './style';
+import {Festi_info} from './style';
 
 function FestiDetail() {
 
 
     return (
         <>
-        <Fest_info>
+        <Festi_info>
             <div>
                 <h1>FestiDetail: 축제 개별 페이지</h1>
             </div>
@@ -42,7 +42,7 @@ function FestiDetail() {
 
             </div>
 
-            </Fest_info>
+            </Festi_info>
         </>
 
     );
