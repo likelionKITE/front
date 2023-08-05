@@ -1,23 +1,17 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
-function Fest_info() {
+export const Fest_info = styled.div`
 
-    // const ;
+    .fest_info{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        
+    }
 
-    return (
-        <Fest_info_wrapp>
-
-        </Fest_info_wrapp>
-
-
-    );
-}
-
-const Fest_info_wrapp = styled.div`
-    display: flex;
-    flex-direction: column-reverse;
+    .review_info{
+        
+    }
+    
 `
-
-
-export default  Fest_info;
