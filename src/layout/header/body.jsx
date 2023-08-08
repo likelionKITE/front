@@ -8,6 +8,7 @@ function Header() {
             <Link to='/'>KITE</Link>
             <Link to='/signin'>signin</Link>
             <Link to='/signup'>signup</Link>
+            <Link to = '/mypage'>mypage</Link>
         </header>
     )
 }
