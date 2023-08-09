@@ -10,8 +10,18 @@ export const Festi_info = styled.div`
         
     }
 
-    .review_info{
-
+    .review_posting{
+        display: flex;
+        justify-content: center ;
     }
-    
+.review_posting_detail{
+    display: flex;
+        justify-content: center ;
+        
+}
+
+    .review_posted{
+        display: flex;
+        justify-content: center ;
+    }
 `

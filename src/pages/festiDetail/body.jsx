@@ -33,11 +33,19 @@ function FestiDetail() {
 
             <div class='review_info'>
                 <div class='review_posting'>
-                    <p>후기 작성칸</p>
+                    <p>리뷰 제목: </p>
+                    <input type='text'></input>
+                    <button>리뷰 작성</button>
+                    
+                </div>
+                <div class='review_posting_detail'>
+                    <p>리뷰 내용: </p>
+                    <input type='text'></input>
                 </div>
 
                 <div class='review_posted'>
                     <p>작성된 후기 나열칸</p>
+                    <input type='text'></input>
                 </div>
 
             </div>
