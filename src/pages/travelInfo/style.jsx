@@ -1,93 +1,74 @@
 import styled from 'styled-components';
+
 const Container = styled.div`
   text-align: center;
-  border: 40px;
-
-  h1 {
-    margin-bottom: 20px;
-    font-size: 2rem;
-  }
-
-  hr {
-    margin: 30px;
-    border: none;
-    border-top: 2px solid #ccc;
-  }
 `;
 
-const EmbassySection = styled.div`
-margin: 20px 0;
+const Card = styled.div`
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
 
-h2 {
+const CardTitle = styled.h1`
   margin-bottom: 10px;
   font-size: 1.5rem;
-}
+`;
 
-h4 {
+const CardSubtitle = styled.h4`
   margin-top: 10px;
   color: #555;
-}
+`;
 
-button {
+const Button = styled.button`
   margin-top: 10px;
-  background-color: #007bff;
+  background-color: #77AAAD;
   color: white;
   border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
+  padding: 18px 30px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #6E7783;
   }
-}
 `;
 
-const TransportationSection = styled.div`
-margin: 20px 0;
-
-h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-ul {
-  list-style: none;
-  padding-left: 0;
-  text-align: center;
-
-  li {
+const Section = styled(Card)`
+  h2 {
     margin-bottom: 10px;
-    line-height: 1.5;
+    font-size: 1.5rem;
   }
-}
 
-a {
+  h4 {
+    margin-top: 10px;
+    color: #555;
+  }
+`;
+
+const ImageLink = styled.a`
   display: inline-block;
   margin-right: 10px;
-}
-`;
-const ImageLink = styled.a`
-display: inline-block;
-margin-right: 10px;
-overflow: hidden;
-transition: transform 0.3s;
-h5{
-    color: #555;
-}
+  overflow: hidden;
+  transition: transform 0.3s;
 
-&:hover {
-  transform: scale(1.05);
-}
+  h5 {
+    color: #555;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const StyledImage = styled.img`
-  width: 200px;
+  width: 150px;
   height: auto;
   border-radius: 40px;
 `;
-export {
-    Container, EmbassySection, TransportationSection, ImageLink, StyledImage
-}
+
+export {Container, Card, CardTitle, CardSubtitle, Button, Section, ImageLink,StyledImage
+};
