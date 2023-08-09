@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Body, Bodydiv, Nav, Menu, Sign } from "./style";
+import { HeaderWrapper, Content, Nav, Menu, Sign } from "./style";
 
 function Header() {
     return (
-        <Body>
-            <Bodydiv>
+        <HeaderWrapper>
+            <Content>
                 <Sign to='/'>KITE</Sign>
                 <Nav>
                     <Menu to='/festival'>Festival</Menu>
@@ -20,8 +20,8 @@ function Header() {
                         <FontAwesomeIcon icon={faCircleUser} />                    
                     </Sign>
                 </div>
-            </Bodydiv>
-        </Body>
+            </Content>
+        </HeaderWrapper>
     )
 }
 

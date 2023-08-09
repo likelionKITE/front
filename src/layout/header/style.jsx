@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const Body = styled.header`
+export const HeaderWrapper = styled.header`
     display: flex;
+    position: fixed;
     width: 100%;
     flex-direction: row;
     justify-content: center;
@@ -11,7 +12,7 @@ export const Body = styled.header`
     padding: 0.8rem 0;
 `;
 
-export const Bodydiv = styled.div`
+export const Content = styled.div`
     font-size: 1.5rem;
     display: flex;
     width: 100%;
