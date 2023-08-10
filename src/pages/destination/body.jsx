@@ -4,7 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Destination() {
     return(
-        <h1>Destination</h1>
+        <div>
+            <h1>Destination</h1>
+        </div>
     )
 }
 

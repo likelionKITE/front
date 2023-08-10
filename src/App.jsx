@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GlobalStyle } from "./style";
 import Layout from './layout/body';
 import Main from "./pages/main/body";
 import Signin from "./pages/signin/body";
@@ -14,22 +15,25 @@ import Mypage from "./layout/mypage/body";
 
 function App() {
     return (
-        <Router>
-            <Layout>
-                <Routes>
-                    <Route path={`/`} element={<Main />}></Route>
-                    <Route path={`/signin`} element={<Signin />}></Route>
-                    <Route path={`/signup`} element={<Signup />}></Route>
-                    <Route path={`/festival`} element={<Festival />}></Route>
-                    <Route path={`/destination`} element={<Destination />}></Route>
-                    <Route path={`/local`} element={<Local />}></Route>
-                    <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
-                    <Route path={`/festiDetail`} element={<FestiDetail />}></Route>
-                    <Route path={`/destiDetail`} element={<DestiDetail />}></Route>
-                    <Route path={`/mypage`} element = {<Mypage/>}></Route>
-                </Routes>
-            </Layout>
-        </Router>
+        <>
+            <GlobalStyle />
+            <Router>
+                <Layout>
+                    <Routes>
+                        <Route path={`/`} element={<Main />}></Route>
+                        <Route path={`/signin`} element={<Signin />}></Route>
+                        <Route path={`/signup`} element={<Signup />}></Route>
+                        <Route path={`/festival`} element={<Festival />}></Route>
+                        <Route path={`/destination`} element={<Destination />}></Route>
+                        <Route path={`/local`} element={<Local />}></Route>
+                        <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
+                        <Route path={`/festiDetail`} element={<FestiDetail />}></Route>
+                        <Route path={`/destiDetail`} element={<DestiDetail />}></Route>
+                        <Route path={`/mypage`} element = {<Mypage/>}></Route>
+                    </Routes>
+                </Layout>
+            </Router>
+        </>
     )
 }
 
