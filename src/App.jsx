@@ -10,6 +10,7 @@ import Local from "./pages/local/body";
 import TravelInfo from "./pages/travelInfo/body";
 import FestiDetail from "./pages/festiDetail/body";
 import DestiDetail from "./pages/destiDetail/body";
+import Mypage from "./layout/mypage/body";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                         <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
                         <Route path={`/festiDetail`} element={<FestiDetail />}></Route>
                         <Route path={`/destiDetail`} element={<DestiDetail />}></Route>
+                        <Route path={`/mypage`} element = {<Mypage/>}></Route>
                     </Routes>
                 </Layout>
             </Router>
