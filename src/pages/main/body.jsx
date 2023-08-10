@@ -7,6 +7,7 @@ function Main() {
             <h1>main</h1>
             <Link to='/festiDetail'>축제개별</Link>
             <Link to='/destiDetail'>여행지개별</Link>
+            <Link to='/mypage'>마이페이지</Link>
         </div>
     )
 }
