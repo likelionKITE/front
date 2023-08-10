@@ -14,11 +14,17 @@ function FestiDetail() {
 
             <div class='fest_info'>
                 <div class='fest_info_img'>
-                    <p>이미지</p>
+                    {/* festiDetail 폴더에 있는 hanriver 이미지 추가 */}
+                    <img src='https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg' width='300px' height='300px'></img>
+
                 </div>
 
                 <div class='fest_info_hub'>
-                    <p>핵심정보</p>
+                    <p>Name</p>
+                    <p><br></br></p>
+                    <p>Address</p>
+                    <p><br></br></p>
+                    <p>My Likes</p>
                 </div>
 
                 <div class='fest_info_sub'>

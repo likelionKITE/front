@@ -24,4 +24,11 @@ export const Festi_info = styled.div`
         display: flex;
         justify-content: center ;
     }
+    .fest_info_hub{
+        margin-top: 50px;
+        margin-left: 50px;
+        margin-right: 50px;
+
+        font-size: 35px;
+    }
 `
