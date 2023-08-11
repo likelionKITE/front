@@ -5,7 +5,7 @@ export const Body = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #ecf0f3;
+    background-color: #fdffff;
 `
 
 export const Form = styled.form`
@@ -39,8 +39,8 @@ export const Form = styled.form`
         border-radius: 1rem;
         font-size: 18px;
         border: none;
-        background-color: #227fd5;
-        color: #ecf0f3;
+        background-color: #ecfeff;
+        color: #323232;
         box-shadow:
 		8px 8px 16px #d1d9e6,
 		-8px -8px 16px #f9f9f9;
