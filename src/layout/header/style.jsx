@@ -20,6 +20,11 @@ export const Content = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 1.25rem;
+
+    button {
+        background: transparent;
+        color: white;
+    }
 `
 
 export const Nav = styled.div`
