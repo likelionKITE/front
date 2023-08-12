@@ -2,10 +2,19 @@ import styled from 'styled-components';
 
 
 export const Body = styled.div`
-    width: 100%;
+    width: 40%;
+    height: 75vh;
     display: flex;
     justify-content: center;
     background-color: #fdffff;
+    align-items: center;
+    background-color: #fdffff;
+    border-radius: 0.5rem;
+    padding: 2rem 2rem;
+    padding-top: 1rem;
+    box-shadow:
+		10px 10px 10px #d1d9e6,
+		-10px -10px 10px #f9f9f9;
 `
 
 export const Form = styled.form`
@@ -20,6 +29,10 @@ export const Form = styled.form`
         text-align: center;
     }
 
+    div {
+        text-align: center;
+    }
+
     p {
         margin-bottom: 2.5rem;
         width: 20rem;
@@ -29,18 +42,23 @@ export const Form = styled.form`
         margin-left: 0.7rem;
     }
 
-    div {
+    span {
         text-align: center;
+        margin-left: 1.3rem;
+        margin-top: 1rem;
+        margin-bottom: 0rem;
+        width: 300px;
+        font-size: 12px;
     }
 
     button {
         width: 100px;
         height: 30px;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
         border-radius: 1rem;
         font-size: 18px;
-        border: none;
-        background-color: #ecfeff;
+        border-width: 0.001rem;
+        background-color: #fdffff;
         color: #323232;
         box-shadow:
 		8px 8px 16px #d1d9e6,
@@ -79,6 +97,7 @@ export const Input = styled.input`
 
     transition: .25s ease;
 	border-radius: 8px;
+    caret-color: #404141;
 
     box-shadow:
 		inset 2px 2px 4px #d1d9e6,

@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function Main() {
+    const [mainPictures, setMainPictures] = useState([]);
+
     return(
         <div>
             <h1>main</h1>

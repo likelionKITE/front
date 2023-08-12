@@ -3,11 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { GlobalStyle } from "./style";
 import Layout from './layout/body';
-import Header from './layout/header/body';
 import Main from "./pages/main/body";
 import Signin from "./pages/signin/body";
 import Signup from "./pages/signup/body";
-import AuthPage from './pages/authpage/body';
 import Festival from "./pages/festival/body";
 import Destination from "./pages/destination/body";
 import Local from "./pages/local/body";
@@ -34,7 +32,6 @@ function App() {
                         <Route path={`/`} element={<Main />}></Route>
                         <Route path={`/signin`} element={<Signin setIsSignedIn={setIsSignedIn} setCurrentUser={setCurrentUser}/>}></Route>
                         <Route path={`/signup`} element={<Signup />}></Route>
-                        <Route path={`/authpage`} element={<AuthPage />}></Route>
                         <Route path={`/festival`} element={<Festival />}></Route>
                         <Route path={`/destination`} element={<Destination />}></Route>
                         <Route path={`/local`} element={<Local />}></Route>

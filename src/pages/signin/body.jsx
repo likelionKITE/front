@@ -18,7 +18,9 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
         setPassword(e.target.value);
     }
 
-    const getMemberInfo = (accessToken) => {
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        
         const config = {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -34,7 +36,7 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
             .catch((error) => {
                 console.log(error);
             });
-    };
+    }, []); // 빈 배열을 의미합니다. 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -70,6 +72,9 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
 
                 <div>
                     <button className='submit' type='submit'>Sign In</button>
+                    <br />
+                    <span>Create an account</span>
+                    <Link to='/signup'>Sign Up</Link>
                 </div>
             </Form>
         </Body>

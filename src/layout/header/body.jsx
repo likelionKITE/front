@@ -6,30 +6,14 @@ import axios from 'axios';
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { HeaderWrapper, Content, Nav, Menu, Sign } from "./style";
 
-function Header( { isSignedIn, currentUser, handleLogout } ) {
+function Header({ isSignedIn, currentUser, handleLogout }) {
     const navigate = useNavigate();
+    const accessToken = localStorage.getItem('accessToken');
 
     const handleLogoutClick = () => {
-        sessionStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
         handleLogout();
         navigate('/');
-
-        axios
-        .post('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/logout/', '', {
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`
-            }
-        })
-        .then((response) => {
-            // 서버 응답 처리 (로그아웃 성공 시)
-            console.log(response.data);
-            // 기타 필요한 로직 수행
-        })
-        .catch((error) => {
-            // 서버 응답 처리 (로그아웃 실패 시)
-            console.log(error);
-            // 기타 필요한 로직 수행
-        });
     };
 
     return (
@@ -43,14 +27,14 @@ function Header( { isSignedIn, currentUser, handleLogout } ) {
                     <Menu to='/travelInfo'>Travel Information</Menu>
                 </Nav>
                 <div>
-                    {isSignedIn ? (
+                    {accessToken ? (
                         <>
                             <Sign to='/mypage'>{currentUser}</Sign>
-                            <button onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket}/></button>
+                            <button onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket} /></button>
                         </>
                     ) : (
-                        <Sign to='/authpage'>
-                            <FontAwesomeIcon icon={faCircleUser} />                    
+                        <Sign to='/signin'>
+                            <FontAwesomeIcon icon={faCircleUser} />
                         </Sign>
                     )}
                 </div>

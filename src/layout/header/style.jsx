@@ -23,7 +23,8 @@ export const Content = styled.div`
 
     button {
         background: transparent;
-        color: white;
+        border: none;
+        color: #404141;
     }
 `
 
