@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { LocalContainer, ButtonContainer, LocationButton, ImageContainer, Festival, PaginationContainer } from './style';
+import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, Festival, PaginationContainer } from './style';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -15,7 +15,7 @@ function Local() {
     const [travelList, setTravelList] = useState([]); // 현재 선택한 지역의 여행지 리스트
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
     const [pageGroup, setPageGroup] = useState(1); // 현재 페이지의 그룹
-    const itemsPerPage = 8; // 한 페이지에 보여줄 여행지 개수
+    const itemsPerPage = 10; // 한 페이지에 보여줄 여행지 개수
     const pagesPerGroup = 5; // 페이지네이션 5개씩
     const totalGroups = Math.ceil(Math.ceil(travelList.length / itemsPerPage) / pagesPerGroup);
     const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
@@ -30,16 +30,23 @@ function Local() {
     const [festivalList, setFestivalList] = useState([]); // 현재 선택한 지역의 축제 리스트
     const settings = {
         dots: false,
-        infinite: true,
         speed: 500,
-        slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToShow: 1,
+        slidesToScroll: 1,
     };
 
     useEffect(() => { // 지역 불러오기
         axios.get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/city/list/')
             .then((response) => {
                 setAreas(response.data.area_dict);
+                // 지역 코드 배열 생성
+                const areaCodes = Object.values(response.data.area_dict);
+                // 랜덤 인덱스 생성
+                const randomIndex = Math.floor(Math.random() * areaCodes.length);
+                // 랜덤 지역 코드 선택
+                const randomAreaCode = areaCodes[randomIndex];
+                // 랜덤 지역 코드를 선택한 지역으로 설정
+                setSelectedArea(randomAreaCode);
             });
     }, []);
 
@@ -84,28 +91,36 @@ function Local() {
 
     return (
         <LocalContainer>
-
+            <h1>Discover the hidden fun in South Korea!</h1>
+            <Text>Please select a region</Text>
             <ButtonContainer>
                 {Object.entries(areas).map(([area, areaCode]) => (
-                    <LocationButton onClick={() => handleAreaClick(areaCode)}>{area}</LocationButton>
+                    <LocationButton
+                        onClick={() => handleAreaClick(areaCode)}
+                        selected={selectedArea === areaCode} // 선택된 지역인지 판단
+                    >
+                        {area}
+                    </LocationButton>
                 ))}
             </ButtonContainer>
 
             <ImageContainer>
-                {currentItems.map((item) => (
-                    <div>
-                        <img src={item.first_image2} alt={item.title} />
-                        <p>{removeParenthesesContent(item.title)}</p>
-                    </div>
-                ))}
+                <div className="wrapper">
+                    {currentItems.map((item) => (
+                        <div>
+                            <img src={item.first_image2} alt={item.title} />
+                            <p>{removeParenthesesContent(item.title)}</p>
+                        </div>
+                    ))}
+                </div>
             </ImageContainer>
 
             <PaginationContainer>
-                {pageGroup > 1 && <LocationButton onClick={handlePrevGroup}><FontAwesomeIcon icon={faAnglesLeft} /></LocationButton>}
+                {pageGroup > 1 && <button onClick={handlePrevGroup}><FontAwesomeIcon icon={faAnglesLeft} /></button>}
                 {Array.from({ length: Math.min(pagesPerGroup, Math.ceil(travelList.length / itemsPerPage) - (pageGroup - 1) * pagesPerGroup) }, (_, i) => (
-                    <LocationButton onClick={() => handlePageClick((pageGroup - 1) * pagesPerGroup + i + 1)}>{(pageGroup - 1) * pagesPerGroup + i + 1}</LocationButton>
+                    <button onClick={() => handlePageClick((pageGroup - 1) * pagesPerGroup + i + 1)}>{(pageGroup - 1) * pagesPerGroup + i + 1}</button>
                 ))}
-                {pageGroup < totalGroups && <LocationButton onClick={handleNextGroup}><FontAwesomeIcon icon={faAnglesRight} /></LocationButton>}
+                {pageGroup < totalGroups && <button onClick={handleNextGroup}><FontAwesomeIcon icon={faAnglesRight} /></button>}
             </PaginationContainer>
 
             <Festival>
@@ -116,6 +131,7 @@ function Local() {
                     </div>
                 ))}
             </Festival>
+
 
         </LocalContainer>
     );
