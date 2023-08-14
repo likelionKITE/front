@@ -13,13 +13,14 @@ const Card = styled.div`
 `;
 
 const CardTitle = styled.h1`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-size: 1.5rem;
 `;
 
 const CardSubtitle = styled.h4`
   margin-top: 10px;
   color: #555;
+  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
@@ -51,7 +52,7 @@ const Section = styled(Card)`
 
 const ImageLink = styled.a`
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 20px;
   overflow: hidden;
   transition: transform 0.3s;
 
@@ -65,7 +66,7 @@ const ImageLink = styled.a`
 `;
 
 const StyledImage = styled.img`
-  width: 150px;
+  width: 100px;
   height: auto;
   border-radius: 40px;
 `;
