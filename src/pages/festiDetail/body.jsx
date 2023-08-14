@@ -45,7 +45,7 @@ function FestiDetail() {
   return (
     <>
       <Festi_info>
-        <h1>Festival Info(여행지 api 불러옴. 제목이랑 연결 바꿔야함)</h1>
+        <h1>Tourist Destination</h1>
 
         <div class='fest_info'>
           <div class='fest_info_top'>
@@ -143,7 +143,7 @@ function FestiDetail() {
               </ul>
             </div>
           </div>
-          
+
           <p class='sub_p_tag' >Location</p>
           <div class='fest_info_map'>
            
