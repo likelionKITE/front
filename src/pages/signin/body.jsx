@@ -1,10 +1,28 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 import { Body, Form, Input } from './style';
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 
-function Signin({ setIsSignedIn, setCurrentUser }) {
+function fetchMyPageData(accessToken, onSuccess) {
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    };
+
+    axios
+        .get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/mypage/', config)
+        .then((response) => {
+            onSuccess(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+function Signin() {
+    const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState();
@@ -18,26 +36,6 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
         setPassword(e.target.value);
     }
 
-    useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-        
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        };
-
-        axios
-            .get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/info/', config)
-            .then((response) => {
-                setIsSignedIn(true);
-                setCurrentUser(response.data.user.nickname);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []); // 빈 배열을 의미합니다. 컴포넌트가 마운트될 때 한 번만 실행됩니다.
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -47,13 +45,18 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
                 password: password,
             })
             .then((response) => {
-                setIsSignedIn(true);
-                setCurrentUser(response.data.user.nickname);
-
                 const accessToken = response.data.access;
                 localStorage.setItem('accessToken', accessToken);
 
-                navigate('/');
+                fetchMyPageData(accessToken, (myPageData) => {
+                    // MyPage 데이터를 로컬 저장소에 저장
+                    localStorage.setItem('mypageData', JSON.stringify(myPageData));
+
+                    setIsSignedIn(true); // 로그인 상태 설정
+                    setCurrentUser(myPageData.nickname); // 사용자 닉네임 설정
+
+                    navigate('/');
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -61,24 +64,24 @@ function Signin({ setIsSignedIn, setCurrentUser }) {
             });
     }
 
-    return (
-        <Body>
-            <Form onSubmit={handleSubmit}>
-                <h1>Sign In</h1>
-                <p>To keep connected with us please login with your personal info</p>
+        return (
+            <Body>
+                <Form onSubmit={handleSubmit}>
+                    <h1>Sign In</h1>
+                    <p>To keep connected with us please login with your personal info</p>
 
-                <Input type="id" value={userName} placeholder="ID" onChange={handleUserNameChange} />
-                <Input type="password" value={password} placeholder="Password" onChange={handlePasswordChange} />
+                    <Input type="id" value={userName} placeholder="ID" onChange={handleUserNameChange} />
+                    <Input type="password" value={password} placeholder="Password" onChange={handlePasswordChange} />
 
-                <div>
-                    <button className='submit' type='submit'>Sign In</button>
-                    <br />
-                    <span>Create an account</span>
-                    <Link to='/signup'>Sign Up</Link>
-                </div>
-            </Form>
-        </Body>
-    )
-}
+                    <div>
+                        <button className='submit' type='submit'>Sign In</button>
+                        <br />
+                        <span>Create an account</span>
+                        <Link to='/signup'>Sign Up</Link>
+                    </div>
+                </Form>
+            </Body>
+        )
+    }
 
 export default Signin;

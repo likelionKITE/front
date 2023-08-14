@@ -1,18 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from 'react';
+import { AuthContext } from '../../pages/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { HeaderWrapper, Content, Nav, Menu, Sign } from "./style";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-function Header({ isSignedIn, currentUser, handleLogout }) {
+function Header() {
+    const { isSignedIn, currentUser, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    const accessToken = localStorage.getItem('accessToken');
-
+    
     const handleLogoutClick = () => {
         localStorage.removeItem('accessToken');
-        handleLogout();
+        setIsSignedIn(false);
+        setCurrentUser(null);
         navigate('/');
     };
 
@@ -27,7 +27,7 @@ function Header({ isSignedIn, currentUser, handleLogout }) {
                     <Menu to='/travelInfo'>Travel Information</Menu>
                 </Nav>
                 <div>
-                    {accessToken ? (
+                    {isSignedIn ? (
                         <>
                             <Sign to='/mypage'>{currentUser}</Sign>
                             <button onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket} /></button>

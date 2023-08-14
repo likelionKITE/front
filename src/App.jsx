@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { GlobalStyle } from "./style";
+import { AuthProvider } from './pages/AuthContext';
 import Layout from './layout/body';
 import Main from "./pages/main/body";
 import Signin from "./pages/signin/body";
@@ -14,23 +13,16 @@ import FestiDetail from "./pages/festiDetail/body";
 import DestiDetail from "./pages/destiDetail/body";
 import Mypage from "./layout/mypage/body";
 
-
 function App() {
-    const [isSignedIn, setIsSignedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
-    const handleLogout = () => {
-        setIsSignedIn(false);
-        setCurrentUser(null);
-    };
-
     return (
         <>
+        <AuthProvider>
             <GlobalStyle />
             <Router>
-                <Layout isSignedIn={isSignedIn} currentUser={currentUser} handleLogout={handleLogout}>
+                <Layout>
                     <Routes>
                         <Route path={`/`} element={<Main />}></Route>
-                        <Route path={`/signin`} element={<Signin setIsSignedIn={setIsSignedIn} setCurrentUser={setCurrentUser}/>}></Route>
+                        <Route path={`/signin`} element={<Signin />}></Route>
                         <Route path={`/signup`} element={<Signup />}></Route>
                         <Route path={`/festival`} element={<Festival />}></Route>
                         <Route path={`/destination`} element={<Destination />}></Route>
@@ -42,6 +34,7 @@ function App() {
                     </Routes>
                 </Layout>
             </Router>
+        </AuthProvider>
         </>
     )
 }
