@@ -3,37 +3,8 @@ import { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { MainContainer, SliderWrapper, Slides, Slide, ButtonWrapper, Button } from './style';
-
-function SimpleSlider({ title, items }) {
-    const [currentSlide, setCurrentSlide] = useState(0);
-
-    const nextSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide === items.length - 1 ? 0 : prevSlide + 1));
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide === 0 ? items.length - 1 : prevSlide - 1));
-    };
-
-    return (
-        <SliderWrapper>
-            <h1>{title}</h1>
-            <Slides translateValue={-currentSlide * 100}>
-                {items.map((item) => (
-                    <Slide key={item.content_id}>
-                        <img src={item.first_image} alt={item.title} />
-                        <p>{item.title}</p>
-                    </Slide>
-                ))}
-            </Slides>
-            <ButtonWrapper>
-                <Button onClick={prevSlide}>Prev</Button>
-                <Button onClick={nextSlide}>Next</Button>
-            </ButtonWrapper>
-        </SliderWrapper>
-    );
-}
+import { MainContainer, Banner, StyledArrow, Travel } from './style';
+import { removeParenthesesContent } from '../local/body';
 
 function Main() {
     const [bannerList, setBannerList] = useState([]);
@@ -45,44 +16,105 @@ function Main() {
             .then((response) => {
                 const { bannerlist_response, mostlikedtravel_response, themefestival_response } = response.data;
 
-                // 각 데이터를 상태에 할당
-                setBannerList(bannerlist_response);
-                setMostLiked(mostlikedtravel_response);
-                setThemeFestivals(themefestival_response);
+                const cleanBannerList = bannerlist_response.map(item => ({
+                    ...item,
+                    title: removeParenthesesContent(item.title)
+                }));
+
+                const cleanMostLiked = mostlikedtravel_response.map(item => ({
+                    ...item,
+                    title: removeParenthesesContent(item.title)
+                }));
+
+                setBannerList(cleanBannerList);
+                setMostLiked(cleanMostLiked);
+                setThemeFestivals(themefestival_response); // 이 부분도 필요한 경우 변환할 수 있습니다.
             })
             .catch((error) => {
                 console.error(error);
             });
     }, []);
 
-    return (
-        <MainContainer>
-            {/* 배너 리스트 렌더링 */}
-            <div>
-                {bannerList.length > 0 && <SimpleSlider title="배너 리스트" items={bannerList} />}
-            </div>
 
-            {/* 좋아요 많은 여행지 렌더링 */}
-            <div>
-                {mostLiked.map(travel => (
-                    <div key={travel.content_id}>
-                        <img src={travel.first_image2} alt={travel.title} />
-                        <p>{travel.title}</p>
+    // 배너 슬라이더
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 2000,
+        fade: true,
+        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 4500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
+
+    const BannerSlider = ({ title, items }) => (
+        <Banner>
+            <p>{title}</p>
+            <Slider {...settings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                {items.map((item) => (
+                    <div key={item.content_id}>
+                        <img src={item.first_image} alt={item.title} />
                     </div>
                 ))}
-            </div>
+            </Slider>
+        </Banner>
+    );
 
-            {/* 꽃 테마 축제 렌더링 */}
-            <div>
+    // 여행지 슬라이더
+    function Arrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <StyledArrow
+                className={className}
+                style={{ ...style, display: "block", background: 'black', borderRadius: "50%" }}
+                onClick={onClick}
+            />
+        );
+    }
+
+    const TravelSettings = {
+        nextArrow: <Arrow />,
+        prevArrow: <Arrow />,
+        dots: false,
+        infinite: true,
+        speed: 1000,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+    };
+
+    const TravelSlider = ({ title, items }) => (
+        <Travel>
+            <p>{title}</p>
+            <Slider {...TravelSettings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                {items.map((item) => (
+                    <div key={item.content_id}>
+                        <img src={item.first_image2} alt={item.title} />
+                        <p>{item.title}</p>
+                    </div>
+                ))}
+            </Slider>
+        </Travel>
+    );
+
+    return (
+        <MainContainer>
+
+            <BannerSlider title="Catch the Breeze with Kite, Sail Through Korea's Wonders" items={bannerList} />
+
+            {/* 좋아요 많은 여행지 */}
+            <TravelSlider title="Most liked Tourist Destination" items={mostLiked} />
+
+
+            {/* <div>
                 {themeFestivals.flower.map(festival => (
                     <div key={festival.content_id}>
                         <img src={festival.first_image2} alt={festival.title} />
                         <p>{festival.title}</p>
                     </div>
                 ))}
-            </div>
-
-            
+            </div> */}
         </MainContainer>
     );
 }
