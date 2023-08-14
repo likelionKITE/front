@@ -3,10 +3,14 @@ import Header from './header/body';
 import Footer from './footer/body';
 import { Content } from "./style";
 
-function Layout({ children }) {
+function Layout({ children, isSignedIn, currentUser, handleLogout }) {
     return (
         <div>
-            <Header/>
+            <Header
+                isSignedIn={isSignedIn}
+                currentUser={currentUser}
+                handleLogout={handleLogout}
+            />
             <Content>
                 {children}
             </Content>

@@ -8,7 +8,7 @@ export const HeaderWrapper = styled.header`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: #101010;
+    background-color: white;
     padding: 0.8rem 0;
 `;
 
@@ -20,6 +20,12 @@ export const Content = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 1.25rem;
+
+    button {
+        background: transparent;
+        border: none;
+        color: #404141;
+    }
 `
 
 export const Nav = styled.div`
@@ -28,7 +34,7 @@ export const Nav = styled.div`
 `
 
 export const Menu = styled(Link)`
-    color: white;
+    color: #404141;
     padding: 0 1.8rem;
     position: relative;
     text-decoration: none;
@@ -43,7 +49,7 @@ export const Menu = styled(Link)`
         width: 0;
         left: 0;
         bottom: -7px;
-        border-bottom: 3px solid white;
+        border-bottom: 3px solid #484848;
         transition: width 0.8ms, left 0.8s, opacity 1s;
         opacity: 0;
     }
@@ -59,5 +65,5 @@ export const Sign = styled(Link)`
     font-size: 1.2rem;
     max-width: 200px;
     padding: 0 0.5rem;
-    color: white;
+    color: #484848;
 `

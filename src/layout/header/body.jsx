@@ -1,10 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from 'react';
+import { AuthContext } from '../../pages/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { HeaderWrapper, Content, Nav, Menu, Sign } from "./style";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
+    const { isSignedIn, currentUser, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
+    const handleLogoutClick = () => {
+        localStorage.removeItem('accessToken');
+        setIsSignedIn(false);
+        setCurrentUser(null);
+        navigate('/');
+    };
+
     return (
         <HeaderWrapper>
             <Content>
@@ -16,9 +27,16 @@ function Header() {
                     <Menu to='/travelInfo'>Travel Information</Menu>
                 </Nav>
                 <div>
-                    <Sign to='/signin'>
-                        <FontAwesomeIcon icon={faCircleUser} />                    
-                    </Sign>
+                    {isSignedIn ? (
+                        <>
+                            <Sign to='/mypage'>{currentUser}</Sign>
+                            <button onClick={handleLogoutClick}><FontAwesomeIcon icon={faRightFromBracket} /></button>
+                        </>
+                    ) : (
+                        <Sign to='/signin'>
+                            <FontAwesomeIcon icon={faCircleUser} />
+                        </Sign>
+                    )}
                 </div>
             </Content>
         </HeaderWrapper>
