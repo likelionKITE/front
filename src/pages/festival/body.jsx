@@ -15,6 +15,7 @@ function FestivalList() {
   const [selectedArea, setSelectedArea] = useState('');
   const [currentMonthFestivals, setCurrentMonthFestivals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortType, setSortType] = useState('');
   const month_dict = {"1": "01","2": "02","3": "03","4": "04","5": "05","6": "06",
   "7": "07","8": "08","9": "09","10": "10","11": "11","12": "12",
   };
@@ -38,7 +39,9 @@ function FestivalList() {
           url += `area_code=${selectedArea}`;
         }
       }
-
+      if (sortType) {
+        url += `&sortby=${sortType}`;
+      }
       const response = await axios.get(url);
       setFestivalList(response.data);
     } catch (error) {
@@ -56,11 +59,15 @@ function FestivalList() {
       console.error('Error fetching current month festivals:', error);
     }
   };
+  const handleSortChange = (event) => {
+    const selectedSortType = event.target.value;
+    setSortType(selectedSortType);
+  };
 
   useEffect(() => {
     fetchData();
     fetchCurrentMonthFestivals();
-  }, [selectedMonth, selectedArea]);
+  }, [selectedMonth, selectedArea, sortType]);
 
   const handleMonthChange = (event) => {
     const selectedValue = event.target.value;
@@ -84,8 +91,10 @@ function FestivalList() {
         <ul className='this_month'>
           {currentMonthFestivals.map(festival => (
             <li key={festival.content_id}>
+              <Link to={`/festiDetail/${festival.content_id}`}>
               <img src={festival.first_image2} alt={festival.title} />
               <h2>{festival.title}</h2>
+              </Link>
             </li>
           ))}
         </ul>
@@ -108,11 +117,18 @@ function FestivalList() {
           </option>
         ))}
       </select>
+      <select onChange={handleSortChange} value={sortType}>
+        <option value="">Sort by</option>
+        <option value="like">Likes</option>
+        <option value="startdate">Start Date</option>
+      </select>
       <ul>
         {festivalList.map(festival => (
           <li key={festival.content_id}>
+            <Link to={`/festiDetail/${festival.content_id}`}>
             <img src={festival.first_image2} alt={festival.title} />
             <h2>{festival.title}</h2>
+            </Link>
           </li>
         ))}
       </ul>

@@ -22,7 +22,7 @@ export const StyledFestivalList = styled.div`
 
   ul {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: 20px;
     list-style: none;
     padding: 0;

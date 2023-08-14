@@ -1,49 +1,100 @@
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+function TravelList() {
+  const [travelData, setTravelData] = useState([]);
+  const [mainSort, setMainSort] = useState('');
+  const [midSort, setMidSort] = useState('');
 
-function Destination() {
-    const [data,setData]=useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  useEffect(() => {
+    async function fetchTravelData() {
+      try {
+        let url = 'https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/list/?';
 
-    useEffect(()=>{
-        axios.get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/list/')
-        .then(response=>{
-            setData(response.data.results);
-            setLoading(false);
-        })
-        .catch(error=>{
-            setError(error);
-            setLoading(false);
-        });
-    },[]);
-    if (loading) {
-        return <p>Loading...</p>;
+        if (mainSort) {
+          url += `cat1=${mainSort}`;
+
+          if (midSort && midSort !== 'all') {
+            url += `&cat2=${midSort}`;
+          }
+        }
+
+        url += '&sortby=like';
+
+        const response = await axios.get(url);
+        setTravelData(response.data.travel_data);
+      } catch (error) {
+        console.error('Error fetching travel data:', error);
       }
-    
-    if (error) {
-        return <p>Error: {error.message}</p>;
     }
-    
 
+    fetchTravelData();
+  }, [mainSort, midSort]);
 
-    
-    return(
+  const mainSortOptions = {
+    "Nature": "A01",
+    "Culture/Art/History": "A02"
+  };
+
+  const midSortOptions = {
+    "A01": {
+      "all": "",
+      "Natural Sites": "A0101",
+      "Natural Resources": "A0102"
+    },
+    "A02": {
+      "all": "",
+      "Historical Sites": "A0201",
+      "Recreational Sites": "A0202",
+      "Experience Programs": "A0203",
+      "Industrial Sites": "A0204",
+      "Architectural Sights": "A0205",
+    }
+  };
+
+  return (
+    <div>
+      <h1>Travel List</h1>
+      <div>
+        <label>Main Category</label>
+        <select
+          value={mainSort}
+          onChange={(e) => setMainSort(e.target.value)}
+        >
+          <option value="">Select</option>
+          {Object.entries(mainSortOptions).map(([label, value]) => (
+            <option key={value} value={value}>{label}</option>
+          ))}
+        </select>
+      </div>
+      {mainSort && (
         <div>
-            <h1>Destination</h1>
-            <ul>
-        {data.map(item => (
+          <label>Details:</label>
+          <select
+            value={midSort}
+            onChange={(e) => setMidSort(e.target.value)}
+          >
+            {midSortOptions[mainSort] &&
+              Object.entries(midSortOptions[mainSort]).map(([label, value]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+          </select>
+        </div>
+      )}
+      <ul>
+        {travelData.map((item) => (
           <li key={item.content_id}>
-            <h2>{item.title}</h2>
-            <img src={item.first_image} alt={item.title} />
-          </li>
+          <h2>
+            <Link to={`/destiDetail/${item.content_id}`}>{item.title}</Link>
+          </h2>
+          <img src={item.first_image2} alt={item.title} />
+        </li>
         ))}
       </ul>
-        </div>
-    );
+    </div>
+  );
 }
 
-export default Destination;
+export default TravelList;
