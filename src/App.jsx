@@ -28,8 +28,8 @@ function App() {
                         <Route path={`/destination`} element={<Destination />}></Route>
                         <Route path={`/local`} element={<Local />}></Route>
                         <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
-                        <Route path={`/festiDetail`} element={<FestiDetail />}></Route>
-                        <Route path={`/destiDetail`} element={<DestiDetail />}></Route>
+                        <Route path={`/festiDetail/:content_id`} element={<FestiDetail />}></Route>
+                        <Route path={`/destiDetail/:content_id`} element={<DestiDetail />}></Route>
                         <Route path={`/mypage`} element={<Mypage />}></Route>
                     </Routes>
                 </Layout>

@@ -82,7 +82,7 @@ function Main() {
                 ))}
             </div>
 
-            {/* 다른 테마 축제 또한 비슷한 방식으로 렌더링 */}
+            
         </MainContainer>
     );
 }

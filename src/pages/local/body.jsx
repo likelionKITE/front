@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, Festival, PaginationContainer } from './style';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 
 function Local() {
     const [areas, setAreas] = useState({}); // 지역
@@ -107,10 +105,12 @@ function Local() {
             <ImageContainer>
                 <div className="wrapper">
                     {currentItems.map((item) => (
-                        <div>
-                            <img src={item.first_image2} alt={item.title} />
-                            <p>{removeParenthesesContent(item.title)}</p>
-                        </div>
+                        <Link to={`/destiDetail/${item.content_id}`}> {/* Link를 여행지 상세 페이지로 연결 */}
+                            <div>
+                                <img src={item.first_image2} alt={item.title} />
+                                <p>{removeParenthesesContent(item.title)}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </ImageContainer>
@@ -125,10 +125,12 @@ function Local() {
 
             <Festival>
                 {festivalList && festivalList.map((festival) => (
-                    <div>
-                        <img src={festival.first_image2} alt={festival.title} />
-                        <p>{removeParenthesesContent(festival.title)}</p>
-                    </div>
+                    <Link to={`/festiDetail/${festival.content_id}`}> {/* Link를 축제 상세 페이지로 연결 */}
+                        <div>
+                            <img src={festival.first_image2} alt={festival.title} />
+                            <p>{removeParenthesesContent(festival.title)}</p>
+                        </div>
+                    </Link>
                 ))}
             </Festival>
 

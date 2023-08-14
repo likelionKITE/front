@@ -10,7 +10,6 @@ export const HeaderWrapper = styled.header`
     align-items: center;
     background-color: white;
     padding: 0.8rem 0;
-    z-index: 2; // 배너의 z-index보다 높게 설정
 `;
 
 export const Content = styled.div`
