@@ -46,19 +46,72 @@ function FestiDetail() {
   }, []);
 
   // 리뷰 작성 및 나열
-  let [title, setTitle] = useState([]);
-  let [clickedNum, setClickedNum] = useState(0);
-  let [input, setInput] = useState('');
+  const [reviews, setReviews] = useState([]);
+  const [reviewInput, setReviewInput] = useState('');
 
-  function addTitle(input) {
-    let newTitle = [...title];
-    newTitle.unshift(input);
-    setTitle(newTitle);
+  let [clickedNum, setClickedNum] = useState(0);
+
+  const addReview = async () => {
+    if (reviewInput) {
+      const newReview = {
+        content_id: content_id,
+        user: 'Current user',
+        title: 'Firest review',
+        content: reviewInput,
+        rank: 5,
+        created_at: new Date().toISOString(),
+        updatedat: new Date().toISOString()
+      };
+      try {
+        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, newReview);
+        setReviews([...reviews, newReview]);
+        setReviewInput('');
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+
+    }
+  };
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`); // 리뷰 목록을 가져오는 API 주소를 적절하게 설정해주세요
+        setReviews(response.data);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    }; fetchReviews();
+  }, []);
+
+
+
+  // 이하 지도구현
+
+  const { kakao } = window;
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+
+  }, [festidata.mapx, festidata.mapy]);
+
+  // 홈페이지 도메인 추출
+  const homepageHtml = festidata.detailCommon && festidata.detailCommon[0]?.homepage;
+
+  const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+  const match = homepageHtml ? homepageHtml.match(regex) : null;
+
+  let domain = '';
+  if (match && match[1]) {
+    const url = match[1];
+    domain = new URL(url).hostname; // 도메인 이름만 추출
+    console.log(domain);
   }
-  // const saveUserId = (e) => {
-  //   setId(e.target.value);
-  //   console.log(e.target.value);
-  // }
 
   const { kakao } = window;
 
@@ -142,7 +195,8 @@ function FestiDetail() {
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
-                  {/* {domain && <p>{domain} </p>} */}
+
+                  {domain && <p>{domain} </p>}
 
 
                 </div>
@@ -166,8 +220,6 @@ function FestiDetail() {
                   </div>
 
                   <div class='sub_age'>
-
-
                     {/* <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
                         {festidata.detail_intro_fest.rest_date} </div>
@@ -184,8 +236,8 @@ function FestiDetail() {
 
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
+            <div id="map" style={{ width: '500px', height: '500px' }}></div>;
 
-            <div id="map" style={{ width: '80%', height: '300px' }}></div>;
 
 
 
@@ -201,26 +253,23 @@ function FestiDetail() {
             <div className='review_posting_input'>
               <p>Details</p>
               <input id='content_text' placeholder='Post Your Review' type='text'
-                onChange={(e) => { setInput(e.target.value) }}></input>
-              <button className='posting_button' onClick={() => { addTitle(input) }}>post</button>
+              value={reviewInput}
+              onChange={(e) => { setReviewInput(e.target.value) }}/>
+                
+              <button className='posting_button' onClick={addReview}>
+                post
+              </button>
 
             </div>
 
             <div className='review_posted'>
               <p>Other Reviews</p>
-              {
-                title.map(function (content, idx) {
-
-                  return (
-                    <div className='list' key={idx}>
-                      <h2 onClick={() => { setClickedNum(idx) }}>
-                        {content}
-                      </h2>
-                    </div>
-                  )
-                })
-              }
-
+              {reviews.map((review, idx) => (
+              <div className='list' key={idx}>
+                <h2>{review.content}</h2>
+              </div>
+            ))}
+                
             </div>
           </div>
         </div>
