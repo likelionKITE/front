@@ -69,10 +69,10 @@ export const ImageContainer = styled.div`
       box-shadow: 6px 5px 7px rgba(0, 0, 0, 0.1);
 
       img {
-        width: 100%;
-        height: auto;
-        border-radius: 0.3rem 0.3rem 0 0;
-        margin-bottom: 0.3rem;
+        width: 11rem;
+          height: 8.5rem;
+          border-radius: 0.3rem 0.3rem 0 0;
+          margin-bottom: 0.3rem;
       }
 
       p {
