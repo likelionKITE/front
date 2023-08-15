@@ -113,17 +113,7 @@ function FestiDetail() {
     console.log(domain);
   }
 
-  const { kakao } = window;
 
-  useEffect(() => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
-      level: 3,
-    };
-    const map = new kakao.maps.Map(container, options);
-
-  }, []);
 
   // const homepageHtml = festidata.detailCommon[0].homepage;
 
@@ -253,9 +243,9 @@ function FestiDetail() {
             <div className='review_posting_input'>
               <p>Details</p>
               <input id='content_text' placeholder='Post Your Review' type='text'
-              value={reviewInput}
-              onChange={(e) => { setReviewInput(e.target.value) }}/>
-                
+                value={reviewInput}
+                onChange={(e) => { setReviewInput(e.target.value) }} />
+
               <button className='posting_button' onClick={addReview}>
                 post
               </button>
@@ -265,11 +255,11 @@ function FestiDetail() {
             <div className='review_posted'>
               <p>Other Reviews</p>
               {reviews.map((review, idx) => (
-              <div className='list' key={idx}>
-                <h2>{review.content}</h2>
-              </div>
-            ))}
-                
+                <div className='list' key={idx}>
+                  <h2>{review.content}</h2>
+                </div>
+              ))}
+
             </div>
           </div>
         </div>
