@@ -66,7 +66,7 @@ function Main() {
     function Arrow(props) {
         const { className, style, onClick } = props;
         return (
-            <StyledArrow
+            <div
                 className={className}
                 style={{ ...style, display: "block", background: 'black', borderRadius: "50%" }}
                 onClick={onClick}

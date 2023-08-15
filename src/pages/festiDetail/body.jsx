@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Festi_info } from './style';
 import { detailApi } from './apis';
 import MapComponent from './map';
+import axios from 'axios';
 
 function FestiDetail() {
   // 찜 버튼
@@ -13,15 +14,32 @@ function FestiDetail() {
     setLiked(!liked);
   }
   // 축제 정보 불러오기
-  const [festidata, setFestiData] = useState([]);
+  const [festidata, setFestiData] = useState({});
   // const [detailCommon, setDetailCommon] = useState([]);
+  const { content_id } = useParams();
 
-  const contentId = useParams().contentId;
+  // const contentId = useParams().content_id;
+
+  // const [loading, setLoading] = useState(true); // 데이터 로딩 상태
 
   const getDetail = async () => {
-    const nowDetail = await detailApi(contentId);
-    setFestiData(nowDetail[0]);
-    // setDetailCommon(nowDetail[1]);
+
+    try {
+      const url = `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/detail/${content_id}/`
+      const response = await axios.get(url);
+      setFestiData(response.data);
+
+      // const nowDetail = await detailApi(contentId);
+      // setFestiData(nowDetail[0]);
+
+      // setDetailCommon(nowDetail[1]);
+      // setLoading(false); // 데이터 로딩이 완료되었음을 설정
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // setLoading(false); // 데이터 로딩 중 에러가 발생했음을 설정
+    }
+
+
   }
   useEffect(() => {
     getDetail();
@@ -44,109 +62,99 @@ function FestiDetail() {
 
   return (
     <>
+
       <Festi_info>
         <h1>Tourist Destination</h1>
 
-        <div class='fest_info'>
-          <div class='fest_info_top'>
+        <div className='fest_info'>
+          <div className='fest_info_top'>
             <div>
-              <ul>
-                {festidata.map((festi) => (
-                  <li key={festi.content_id}>
-                    <img
-                      class='fest_info_img' src={festi.first_image}>
-                    </img>
-                  </li>
+              <ul >
 
-                ))}
+                {/* <img
+                    className ='fest_info_img' src={festidata.first_image}>
+                  </img> */}
+
               </ul>
             </div>
-
-            <div class='fest_info_hub'>
+            <div className='fest_info_hub'>
 
               <ul>
-                {festidata.map((festi) => (
-                  <li key={festi.content_id}>
-                    <div>
-                      <p class='hub_p_tag'>Name</p>
-                      {festi.title}
-                      <p><br></br></p>
-                    </div>
 
-                    <div>
-                      <p class='hub_p_tag'>Address</p>
-                      {festi.addr1}
-                      <p><br></br></p>
-                    </div>
+                <div>
+                  <p className='hub_p_tag'>Name</p>
+                  {festidata.title}
+                  <p><br></br></p>
+                </div>
 
-                  </li>
+                <div>
+                  <p className='hub_p_tag'>Address</p>
+                  {/* {festidata.addr1} */}
+                  <p><br></br></p>
+                </div>
 
-                ))}
               </ul>
               <div>
-                <p class='hub_p_tag'>My Likes (Click 🤍)</p>
-                <button class='like_button' onClick={handleLikeClick}>{liked ? '🩷' : '🤍'}</button>
+                <p className='hub_p_tag'>My Likes (Click 🤍)</p>
+                <button className='like_button' onClick={handleLikeClick}>{liked ? '🩷' : '🤍'}</button>
               </div>
             </div>
           </div>
 
-          <div class='fest_info_bottom'>
-            <div class='fest_info_bottom_overview+homepage'>
+          <div className='fest_info_bottom'>
+            <div className='fest_info_bottom_overview+homepage'>
               <ul>
-                {festidata.map((festi) => (
-                  <li key={festi.content_id}>
-                    <div class='sub_overview'>
-                      <p class='sub_p_tag'>Overview</p>
-                      {festi.detailCommon[0].overview}
 
-                    </div>
-                    <div><p><br></br></p></div>
-                    <div class='sub_homepage'>
-                      <p class='sub_p_tag'>Homepage</p>
-                      {festi.detailCommon[0].homepage}
-                    </div>
-                  </li>
-                ))}
+                <div className='sub_overview'>
+                  <p className='sub_p_tag'>Overview</p>
+                  {/* {festidata.detailCommon.overview} */}
+
+                </div>
+                <div><p><br></br></p></div>
+                <div className='sub_homepage'>
+                  <p className='sub_p_tag'>Homepage</p>
+                  {/* {festidata.detailCommon.homepage} */}
+                </div>
+
               </ul>
             </div>
 
-            <div class='fest_info_bottom_else'>
+            <div className='fest_info_bottom_else'>
               <ul>
-                {festidata.map((festi) => (
-                  <li key={festi.content_id}>
-                    <div class='fest_info_bottom_else_details'>
 
-                      <div class='sub_address'>
-                        <p class='sub_p_tag'>Address</p>
-                        {festi.addr2}
-                      </div>
+                <div className='fest_info_bottom_else_details'>
 
-                      <div class='sub_tel'>
-                        <p class='sub_p_tag'>Tel</p>
-                        {festi.tel} </div>
+                  <div className='sub_address'>
+                    <p className='sub_p_tag'>Address</p>
+                    {/* {festidata.addr2} */}
+                  </div>
 
-                      <div class='sub_age'>
+                  <div className='sub_tel'>
+                    <p className='sub_p_tag'>Tel</p>
+                    {/* {festidata.tel}  */}
+                  </div>
+
+                  {/* <div class='sub_age'>
                         <p class='sub_p_tag'>Age</p>
-                        {festi.detail_intro_travel[0].exp_age_range} </div>
+                        {festidata.detail_intro_travel.exp_age_range} </div>
 
 
                       <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
-                        {festi.detail_intro_travel[0].rest_date} </div>
+                        {festidata.detail_intro_travel.rest_date} </div>
 
                       <div class='sub_info_center'>
                         <p class='sub_p_tag'>Info Center</p>
-                        {festi.detail_intro_travel[0].info_center} </div>
-                    </div>
-                  </li>
-                ))}
+                        {festidata.detail_intro_travel[0].info_center} </div> */}
+                </div>
+
               </ul>
             </div>
           </div>
 
-          <p class='sub_p_tag' >Location</p>
-          <div class='fest_info_map'>
-           
+          <p className='sub_p_tag' >Location</p>
+          <div className='fest_info_map'>
+
             <MapComponent />
 
 
@@ -154,39 +162,40 @@ function FestiDetail() {
 
         </div>
 
-        <div class='review_info'>
+        <div className='review_info'>
           <h1>Review</h1>
 
-          <div class='review_posting'>
+          <div className='review_posting'>
 
-            <div class='review_posting_input'>
+            <div className='review_posting_input'>
               <p>Details</p>
               <input id='content_text' placeholder='Post Your Review' type='text'
                 onChange={(e) => { setInput(e.target.value) }}></input>
-              <button class='posting_button' onClick={() => { addTitle(input) }}>post</button>
+              <button className='posting_button' onClick={() => { addTitle(input) }}>post</button>
 
             </div>
 
-            <div class='review_posted'>
-            <p>Other Reviews</p>
-            {
-              title.map(function (content, idx) {
+            <div className='review_posted'>
+              <p>Other Reviews</p>
+              {
+                title.map(function (content, idx) {
 
-                return (
-                  <div class='list' key={idx}>
-                    <h2 onClick={() => { setClickedNum(idx) }}>
-                      {content}
-                    </h2>
-                  </div>
-                )
-              })
-            }
+                  return (
+                    <div className='list' key={idx}>
+                      <h2 onClick={() => { setClickedNum(idx) }}>
+                        {content}
+                      </h2>
+                    </div>
+                  )
+                })
+              }
 
             </div>
           </div>
         </div>
 
       </Festi_info >
+
     </>
 
   );
