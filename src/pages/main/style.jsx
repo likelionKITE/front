@@ -16,7 +16,8 @@ export const Banner = styled.div`
     justify-content: center;
     width: 100%;
     background-color: #fefeeb;
-    padding-bottom: 0;
+    padding: 0;
+    margin: 0;
 
     p {
         font-size: 2rem;
@@ -26,14 +27,18 @@ export const Banner = styled.div`
         margin-left: 1.5rem;
         font-family: Lexend;
         color: #3d3d38;
+        width: 100% // 이 부분을 3으로 설정
     }
 
     img {
-        width: 100%;
+        width: 100%; // 이 부분을 7로 설정
         height: 40rem;
         opacity: 0.85;
     }
 `;
+
+
+
 
 // 여행지
 export const Travel = styled.div`

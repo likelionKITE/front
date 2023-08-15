@@ -1,35 +1,26 @@
-.slick-arrow {
-    display: block;
-    width: 2rem;
-    height: 2rem;
-    background: pink;
-    border-radius: 50%;
-    transition: background 0.5s;
+.slick-next:before {
+    content: "\f054";
+    font-family: "Font Awesome 5 Free";
+    color: #404141;
+    font-weight: 900;
+}
+.slick-prev:before {
+    content: "\f053";
+    font-family: "Font Awesome 5 Free";
+    color: #404141;
+    font-weight: 900;
+}
 
-    &:hover {
-        background: blue;
-
-        &::before {
-            color: green;
-        }
-    }
-
-    &::before {
-        font-family: 'Line Awesome Free';
-        font-weight: 900;
-        font-size: 2rem;
-        transition: all 0.5s;
-    }
+.slick-prev, .slick-next {
+    top: 45%;
 }
 
 .slick-prev {
-    left: -5rem;
-
-    
+    left: -3rem;
+    transform: translateY(-100%);
 }
 
 .slick-next {
-    right: -3rem;
-
-    
+    right: -1.8rem;
+    transform: translateY(-100%);
 }
