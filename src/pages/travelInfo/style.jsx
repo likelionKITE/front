@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
+  margin-top: 5rem;
 `;
 
 const Card = styled.div`
