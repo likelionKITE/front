@@ -128,8 +128,6 @@ function FestiDetail() {
     console.log(domain);
   }
 
-
-
   // const homepageHtml = festidata.detailCommon[0].homepage;
 
   // const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
