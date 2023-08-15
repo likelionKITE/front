@@ -2,11 +2,20 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  TravelContainer,Text,CategorySelect,ImageContainer} from './style'
 
 function TravelList() {
   const [travelData, setTravelData] = useState([]);
   const [mainSort, setMainSort] = useState('');
   const [midSort, setMidSort] = useState('');
+  const removeParenthesesContent = (text) => {
+    return text
+        .replace(/(\([^)]*\))|(\))/g, '')
+        .replace(/\[[^\]]*\]/g, '')
+        .replace(/[가-힣]/g, '')
+        .trim();
+};
 
   useEffect(() => {
     async function fetchTravelData() {
@@ -34,18 +43,17 @@ function TravelList() {
   }, [mainSort, midSort]);
 
   const mainSortOptions = {
+    "all": "",
     "Nature": "A01",
     "Culture/Art/History": "A02"
   };
 
   const midSortOptions = {
     "A01": {
-      "all": "",
       "Natural Sites": "A0101",
       "Natural Resources": "A0102"
     },
     "A02": {
-      "all": "",
       "Historical Sites": "A0201",
       "Recreational Sites": "A0202",
       "Experience Programs": "A0203",
@@ -55,45 +63,49 @@ function TravelList() {
   };
 
   return (
-    <div>
+    <TravelContainer>
       <h1>Travel List</h1>
       <div>
-        <label>Main Category</label>
-        <select
+        <Text>Select a Main Category</Text>
+        <CategorySelect
           value={mainSort}
           onChange={(e) => setMainSort(e.target.value)}
         >
-          <option value="">Select</option>
           {Object.entries(mainSortOptions).map(([label, value]) => (
-            <option key={value} value={value}>{label}</option>
+            <option key={value} value={value}>
+              {label}
+            </option>
           ))}
-        </select>
+        </CategorySelect>
       </div>
       {mainSort && (
         <div>
-          <label>Details:</label>
-          <select
+          <Text>Select Details:</Text>
+          <CategorySelect
             value={midSort}
             onChange={(e) => setMidSort(e.target.value)}
           >
-            {midSortOptions[mainSort] &&
-              Object.entries(midSortOptions[mainSort]).map(([label, value]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-          </select>
+            {Object.entries(midSortOptions[mainSort]).map(([label, value]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </CategorySelect>
         </div>
       )}
-      <ul>
-        {travelData.map((item) => (
-          <li key={item.content_id}>
-          <h2>
-            <Link to={`/destiDetail/${item.content_id}`}>{item.title}</Link>
-          </h2>
-          <img src={item.first_image2} alt={item.title} />
-        </li>
-        ))}
-      </ul>
-    </div>
+      <ImageContainer>
+        <div className="wrapper">
+          {travelData.map((item) => (
+            <Link to={`/destiDetail/${item.content_id}`} key={item.content_id}>
+              <div>
+                <img src={item.first_image2} alt={item.title} />
+                <p>{removeParenthesesContent(item.title)}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </ImageContainer>
+    </TravelContainer>
   );
 }
 
