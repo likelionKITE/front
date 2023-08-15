@@ -10,6 +10,7 @@ export const HeaderWrapper = styled.header`
     align-items: center;
     background-color: white;
     padding: 0.8rem 0;
+    z-index: 1000;
 `;
 
 export const Content = styled.div`

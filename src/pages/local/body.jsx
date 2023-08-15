@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, Festival, PaginationContainer } from './style';
 
+export const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
+    return text
+        .replace(/(\([^)]*\))|(\))/g, '') // 괄호와 괄호 내의 내용 제거
+        .replace(/\[[^\]]*\]/g, '') // 대괄호와 대괄호 내의 내용 제거
+        .replace(/[가-힣]/g, '') // 한글 제거
+        .trim(); // 양쪽 공백 제거
+};
+
 function Local() {
     const [areas, setAreas] = useState({}); // 지역
     const [selectedArea, setSelectedArea] = useState(null); // 현재 선택한 지역
@@ -16,13 +24,6 @@ function Local() {
     const itemsPerPage = 10; // 한 페이지에 보여줄 여행지 개수
     const pagesPerGroup = 5; // 페이지네이션 5개씩
     const totalGroups = Math.ceil(Math.ceil(travelList.length / itemsPerPage) / pagesPerGroup);
-    const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
-        return text
-            .replace(/(\([^)]*\))|(\))/g, '') // 괄호와 괄호 내의 내용 제거
-            .replace(/\[[^\]]*\]/g, '') // 대괄호와 대괄호 내의 내용 제거
-            .replace(/[가-힣]/g, '') // 한글 제거
-            .trim(); // 양쪽 공백 제거
-    };
 
     // 축제 
     const [festivalList, setFestivalList] = useState([]); // 현재 선택한 지역의 축제 리스트
