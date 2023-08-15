@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, Festival, PaginationContainer } from './style';
+import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, PaginationContainer, Festival, FestivalContainer } from './style';
 
 export const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
     return text
@@ -30,9 +33,23 @@ function Local() {
     const settings = {
         dots: false,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: 4,
         slidesToScroll: 1,
     };
+
+    const FestivalSlider = ({ title, items }) => (
+        <Festival>
+            <p>{title}</p>
+            <Slider {...settings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                {items.map((item) => (
+                    <div key={item.content_id}>
+                        <img src={item.first_image2} alt={item.title} />
+                        <p>{item.title}</p>
+                    </div>
+                ))}
+            </Slider>
+        </Festival>
+    );
 
     useEffect(() => { // 지역 불러오기
         axios.get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/city/list/')
@@ -92,6 +109,8 @@ function Local() {
         <LocalContainer>
             <h1>Discover the hidden fun in South Korea!</h1>
             <Text>Please select a region</Text>
+            
+            {/* 지역 */}
             <ButtonContainer>
                 {Object.entries(areas).map(([area, areaCode]) => (
                     <LocationButton
@@ -123,18 +142,11 @@ function Local() {
                 ))}
                 {pageGroup < totalGroups && <button onClick={handleNextGroup}><FontAwesomeIcon icon={faAnglesRight} /></button>}
             </PaginationContainer>
-
-            <Festival>
-                {festivalList && festivalList.map((festival) => (
-                    <Link to={`/festiDetail/${festival.content_id}`}> {/* Link를 축제 상세 페이지로 연결 */}
-                        <div>
-                            <img src={festival.first_image2} alt={festival.title} />
-                            <p>{removeParenthesesContent(festival.title)}</p>
-                        </div>
-                    </Link>
-                ))}
-            </Festival>
-
+            
+            {/* 축제 */}
+            <FestivalContainer>
+                <FestivalSlider title="Festival" items={festivalList} />
+            </FestivalContainer>
 
         </LocalContainer>
     );
