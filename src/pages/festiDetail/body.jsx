@@ -65,15 +65,16 @@ function FestiDetail() {
 
       <Festi_info>
         <h1>Tourist Destination</h1>
+        
 
         <div className='fest_info'>
           <div className='fest_info_top'>
             <div>
               <ul >
 
-                {/* <img
+                <img
                     className ='fest_info_img' src={festidata.first_image}>
-                  </img> */}
+                  </img>
 
               </ul>
             </div>
@@ -89,7 +90,7 @@ function FestiDetail() {
 
                 <div>
                   <p className='hub_p_tag'>Address</p>
-                  {/* {festidata.addr1} */}
+                  {festidata.addr1}
                   <p><br></br></p>
                 </div>
 
@@ -107,13 +108,13 @@ function FestiDetail() {
 
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
-                  {/* {festidata.detailCommon.overview} */}
+                  {festidata.detailCommon[0].overview}
 
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
-                  {/* {festidata.detailCommon.homepage} */}
+                  {festidata.detailCommon[0].homepage}
                 </div>
 
               </ul>
@@ -131,21 +132,20 @@ function FestiDetail() {
 
                   <div className='sub_tel'>
                     <p className='sub_p_tag'>Tel</p>
-                    {/* {festidata.tel}  */}
+                    {festidata.tel} 
                   </div>
 
-                  {/* <div class='sub_age'>
-                        <p class='sub_p_tag'>Age</p>
-                        {festidata.detail_intro_travel.exp_age_range} </div>
+                  <div class='sub_age'>
+                      
 
-
-                      <div class='sub_rest_date'>
+                      {/* <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
-                        {festidata.detail_intro_travel.rest_date} </div>
+                        {festidata.detail_intro_fest.rest_date} </div>
 
                       <div class='sub_info_center'>
                         <p class='sub_p_tag'>Info Center</p>
                         {festidata.detail_intro_travel[0].info_center} </div> */}
+                        </div>
                 </div>
 
               </ul>
