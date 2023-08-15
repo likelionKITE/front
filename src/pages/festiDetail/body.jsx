@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Festi_info } from './style';
 import { detailApi } from './apis';
-import MapComponent from './map';
+// import MapComponent from './map';
 import axios from 'axios';
 
 function FestiDetail() {
@@ -60,20 +60,50 @@ function FestiDetail() {
   //   console.log(e.target.value);
   // }
 
+  const { kakao } = window;
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+
+  }, []);
+
+  // const homepageHtml = festidata.detailCommon[0].homepage;
+
+  // const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+  // const match = homepageHtml.match(regex);
+
+  // let domain = '';
+  // if (match && match[1]) {
+  //   const url = match[1];
+  //   domain = new URL(url).hostname; // 도메인 이름만 추출
+  //   console.log(domain);
+  // }
+
+
+
   return (
     <>
+      <div>
+
+      </div>
 
       <Festi_info>
         <h1>Tourist Destination</h1>
+
 
         <div className='fest_info'>
           <div className='fest_info_top'>
             <div>
               <ul >
 
-                {/* <img
-                    className ='fest_info_img' src={festidata.first_image}>
-                  </img> */}
+                <img
+                  className='fest_info_img' src={festidata.first_image}>
+                </img>
 
               </ul>
             </div>
@@ -89,7 +119,7 @@ function FestiDetail() {
 
                 <div>
                   <p className='hub_p_tag'>Address</p>
-                  {/* {festidata.addr1} */}
+                  {festidata.addr1}
                   <p><br></br></p>
                 </div>
 
@@ -107,13 +137,14 @@ function FestiDetail() {
 
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
-                  {/* {festidata.detailCommon.overview} */}
-
+                  {festidata.detailCommon && festidata.detailCommon[0].overview}
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
-                  {/* {festidata.detailCommon.homepage} */}
+                  {/* {domain && <p>{domain} </p>} */}
+
+
                 </div>
 
               </ul>
@@ -131,21 +162,20 @@ function FestiDetail() {
 
                   <div className='sub_tel'>
                     <p className='sub_p_tag'>Tel</p>
-                    {/* {festidata.tel}  */}
+                    {festidata.tel}
                   </div>
 
-                  {/* <div class='sub_age'>
-                        <p class='sub_p_tag'>Age</p>
-                        {festidata.detail_intro_travel.exp_age_range} </div>
+                  <div class='sub_age'>
 
 
-                      <div class='sub_rest_date'>
+                    {/* <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
-                        {festidata.detail_intro_travel.rest_date} </div>
+                        {festidata.detail_intro_fest.rest_date} </div>
 
                       <div class='sub_info_center'>
                         <p class='sub_p_tag'>Info Center</p>
                         {festidata.detail_intro_travel[0].info_center} </div> */}
+                  </div>
                 </div>
 
               </ul>
@@ -155,7 +185,8 @@ function FestiDetail() {
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
 
-            <MapComponent />
+            <div id="map" style={{ width: '80%', height: '300px' }}></div>;
+
 
 
           </div>
@@ -200,30 +231,5 @@ function FestiDetail() {
 
   );
 }
-
-
-// const MapComponent = () => {
-//   useEffect(() => {
-//     // 카카오맵 API 스크립트가 로드된 후 실행될 함수
-//     const initializeMap = () => {
-//       const container = document.getElementById('map');
-//       const options = {
-//         center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-//         level: 3,
-//       };
-//       const map = new window.kakao.maps.Map(container, options);
-//     };
-
-//     if (window.kakao) {
-//       // 카카오맵 API 스크립트가 이미 로드되어 있는 경우
-//       initializeMap();
-//     } else {
-//       // 카카오맵 API 스크립트 로드가 완료되면 초기화 함수를 실행
-//       window.initializeMap = initializeMap;
-//     }
-//   }, []);
-
-//   return <div id="map" style={{ width: '100%', height: '20px' }}></div>;
-// };
 
 export default FestiDetail;

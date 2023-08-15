@@ -1,72 +1,73 @@
-import React from "react";
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { AuthContext } from '../../pages/AuthContext';
+import { useContext } from 'react';
+import { Margin } from './style';
 
-function AboutMe() {
+function Mypage() {
+    const { mypageData, setMyPageData } = useContext(AuthContext);
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+
+        axios.get("https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/mypage/", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            setMyPageData(response.data);
+        })
+        .catch(error => {
+            console.error("Error fetching user data:", error);
+        });
+    }, [setMyPageData]);
+
     return (
-        <div class='aboutme'>
-            <h1>About Me</h1>
-            {/* 가운데 위치한 표로 닉네임, ID, 비번 */}
-
-            <table>
-                <td>
-                    <tr>Nick Name</tr>
-                    <tr>ID</tr>
-                    <tr>PW</tr>
-                </td>
-                <td>
-                    <tr>닉네임 정보</tr>
-                    <tr>아이디 정보</tr>
-                    <tr>비밀번호 정보</tr>
-                </td>
-                <td>
-                    <tr><button>변경</button></tr>
-                    <tr><br></br></tr>
-                    <tr><button>변경</button></tr>
-                </td>
-
-            </table>
-        </div>
-
+        <Margin>
+            <AboutMe nickname={mypageData ? mypageData.nickname : ""} />
+            <MyLikes likes={mypageData ? mypageData.user_like_response : []} />
+            <MyReview reviews={mypageData ? mypageData.user_review_response : []} />
+        </Margin>
     );
 }
 
-function MyLikes() {
-    // Intersection Observer를 통해 무한 스크롤 구현하기
 
-
+function AboutMe({ nickname }) {
     return (
-        <>
-            <div class='mylikes' >
-                <h1>My Likes</h1>
-                {/* 종대로(왼->오) 찜한 목록들 나열 */}
-                
-
-            </div>
-        </>
-    )
-}
-function MyReview() {
-
-    return (<>
-        <div class='myreview'>
-            <h1>My Review</h1>
-            {/* 횡대로(위->아래) 내가 쓴 리뷰들 나열  */}
-
+        <div className='aboutme'>
+            <h1>About Me</h1>
+            <p>Nickname: {nickname}</p>
+      // ... other components
         </div>
-    </>
-    )
+    );
 }
 
-
-function Mypage() {
-
+function MyLikes({ likes }) {
     return (
-        <>
-            <AboutMe></AboutMe>
-            <MyLikes></MyLikes>
-            <MyReview></MyReview>
-        </>
-    )
+        <div className='mylikes'>
+            <h1>My Likes</h1>
+            <ul>
+                {likes.map((like, index) => (
+                    <li key={index}>{like.title}</li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function MyReview({ reviews }) {
+    return (
+        <div className='myreview'>
+            <h1>My Review</h1>
+            <ul>
+                {reviews.map((review, index) => (
+                    <li key={index}>{review.title}</li>
+                ))}
+            </ul>
+        </div>
+    );
 }
 
 export default Mypage;
+
