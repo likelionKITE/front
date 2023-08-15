@@ -60,7 +60,7 @@ function FestiDetail() {
   //   console.log(e.target.value);
   // }
 
-    const { kakao } = window;
+  const { kakao } = window;
 
   useEffect(() => {
     const container = document.getElementById('map');
@@ -69,32 +69,30 @@ function FestiDetail() {
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
-    
-  }, []);
 
-    const homepageHtml = festidata.detailCommon[0].homepage;
+  }, [festidata.mapx, festidata.mapy]);
 
-    const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
-    const match = homepageHtml.match(regex);
-    
-    let domain = '';
-    if (match && match[1]) {
-      const url = match[1];
-      domain = new URL(url).hostname; // 도메인 이름만 추출
-      console.log(domain);
-    }
-   
-    
+  // 홈페이지 도메인 추출
+  const homepageHtml = festidata.detailCommon && festidata.detailCommon[0]?.homepage;
+
+  const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+  const match = homepageHtml ? homepageHtml.match(regex) : null;
+
+  let domain = '';
+  if (match && match[1]) {
+    const url = match[1];
+    domain = new URL(url).hostname; // 도메인 이름만 추출
+    console.log(domain);
+  }
 
   return (
     <>
-    <div>
-      
-    </div>
+      <div>
+
+      </div>
 
       <Festi_info>
         <h1>Tourist Destination</h1>
-        
 
         <div className='fest_info'>
           <div className='fest_info_top'>
@@ -102,8 +100,8 @@ function FestiDetail() {
               <ul >
 
                 <img
-                    className ='fest_info_img' src={festidata.first_image}>
-                  </img>
+                  className='fest_info_img' src={festidata.first_image}>
+                </img>
 
               </ul>
             </div>
@@ -137,15 +135,13 @@ function FestiDetail() {
 
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
-                  {festidata.detailCommon[0].overview}
+                  {festidata.detailCommon && festidata.detailCommon[0].overview}
 
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
                   {domain && <p>{domain} </p>}
-
-                  
                 </div>
 
               </ul>
@@ -163,20 +159,19 @@ function FestiDetail() {
 
                   <div className='sub_tel'>
                     <p className='sub_p_tag'>Tel</p>
-                    {festidata.tel} 
+                    {festidata.tel}
                   </div>
 
                   <div class='sub_age'>
-                      
 
-                      {/* <div class='sub_rest_date'>
+                    {/* <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
                         {festidata.detail_intro_fest.rest_date} </div>
 
                       <div class='sub_info_center'>
                         <p class='sub_p_tag'>Info Center</p>
                         {festidata.detail_intro_travel[0].info_center} </div> */}
-                        </div>
+                  </div>
                 </div>
 
               </ul>
@@ -186,8 +181,7 @@ function FestiDetail() {
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
 
-          <div id="map" style={{ width: '80%', height: '300px' }}></div>;
-
+            <div id="map" style={{ width: '500px', height: '500px' }}></div>;
 
 
           </div>
@@ -232,7 +226,5 @@ function FestiDetail() {
 
   );
 }
-
-
 
 export default FestiDetail;
