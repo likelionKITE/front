@@ -85,7 +85,8 @@ function FestivalList() {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3
+    slidesToScroll: 3,
+    arrows: false
   };
 
   useEffect(() => {
@@ -163,3 +164,4 @@ function FestivalList() {
 }
 
 export default FestivalList;
+//브랜치 실수 확인용

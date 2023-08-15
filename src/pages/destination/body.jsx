@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import {
   TravelContainer, Text, CategorySelect, ImageContainer, SelectWrapper
 } from './style'
@@ -131,23 +133,38 @@ function TravelList() {
           ))}
         </div>
       </ImageContainer>
-      <div className="pagination">
-        {currentGroup > 1 && <button onClick={() => setCurrentPage(startPageIndex - 1)}>Prev</button>}
-
-        {Array.from({ length: endPageIndex - startPageIndex + 1 }).map((_, index) => (
-          <button
-            key={startPageIndex + index}
-            onClick={() => setCurrentPage(startPageIndex + index)}
-            className={currentPage === startPageIndex + index ? 'active' : ''}
-          >
-            {startPageIndex + index}
+      <div className='PaginationContainer'>
+        {currentGroup > 1 && (
+          <button onClick={() => setCurrentPage(startPageIndex - 1)}>
+            <FontAwesomeIcon icon={faAnglesLeft} />
           </button>
-        ))}
-
-        {currentGroup < totalGroups && <button onClick={() => setCurrentPage(endPageIndex + 1)}>Next</button>}
+        )}
+        {Array.from({ length: endPageIndex - startPageIndex + 1 }).map(
+          (_, index) => (
+            <button
+              key={startPageIndex + index}
+              onClick={() =>
+                setCurrentPage(startPageIndex + index)
+              }
+              className={
+                currentPage === startPageIndex + index
+                  ? "active"
+                  : ""
+              }
+            >
+              {startPageIndex + index}
+            </button>
+          )
+        )}
+        {currentGroup < totalGroups && (
+          <button
+            onClick={() => setCurrentPage(endPageIndex + 1)}
+          >
+            <FontAwesomeIcon icon={faAnglesRight} /></button>
+        )}
       </div>
     </TravelContainer>
-  );
+);
 }
 
 export default TravelList;

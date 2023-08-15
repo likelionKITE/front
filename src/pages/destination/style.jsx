@@ -4,7 +4,7 @@ export const TravelContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 5rem;
   width: 100%;
 
   h1 {
@@ -92,3 +92,4 @@ margin-bottom: 1rem;
   margin-right: 2rem;
 }
 `;
+//브랜치 실수 확인용

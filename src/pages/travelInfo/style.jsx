@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
+  margin-top: 5rem;
 `;
 
 const Card = styled.div`
@@ -73,3 +74,4 @@ const StyledImage = styled.img`
 
 export {Container, Card, CardTitle, CardSubtitle, Button, Section, ImageLink,StyledImage
 };
+//브랜치 실수 확인용
