@@ -10,7 +10,22 @@ import axios from 'axios';
 function FestiDetail() {
   // 찜 버튼
   const [liked, setLiked] = useState(false);
+
+
   const handleLikeClick = () => {
+    try {
+      const response = axios.post(`127.0.0.1:8000/festival/like/${content_id}/`);
+      
+      if (response.data.message === 'success') {
+        setLiked(true);
+      } else {
+        setLiked(false);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    
+    }
+
     setLiked(!liked);
   }
   // 축제 정보 불러오기
@@ -106,8 +121,6 @@ function FestiDetail() {
     domain = new URL(url).hostname; // 도메인 이름만 추출
     console.log(domain);
   }
-
-
 
   // const homepageHtml = festidata.detailCommon[0].homepage;
 

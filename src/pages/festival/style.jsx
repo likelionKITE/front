@@ -16,7 +16,7 @@ export const FestivalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 5rem;
   width: 100%;
 
   h1 {
@@ -78,6 +78,7 @@ export const CategorySelectWrapper = styled.div`
   display: flex; 
   flex-direction: row;
   align-items: center;
+  margin-top: 1rem;
 `;
 
 export const ImageContainer = styled.div`
@@ -85,7 +86,7 @@ export const ImageContainer = styled.div`
   justify-content: center;
   background-color: #e9fdfd;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 3rem;
 
   .wrapper {
     display: grid;
@@ -124,3 +125,4 @@ export const ImageContainer = styled.div`
     }
   }
 `;
+//브랜치 실수 확인용
