@@ -15,12 +15,7 @@ function FestiDetail() {
   }
   // 축제 정보 불러오기
   const [festidata, setFestiData] = useState({});
-  // const [detailCommon, setDetailCommon] = useState([]);
   const { content_id } = useParams();
-
-  // const contentId = useParams().content_id;
-
-  // const [loading, setLoading] = useState(true); // 데이터 로딩 상태
 
   const getDetail = async () => {
 
@@ -29,11 +24,6 @@ function FestiDetail() {
       const response = await axios.get(url);
       setFestiData(response.data);
 
-      // const nowDetail = await detailApi(contentId);
-      // setFestiData(nowDetail[0]);
-
-      // setDetailCommon(nowDetail[1]);
-      // setLoading(false); // 데이터 로딩이 완료되었음을 설정
     } catch (error) {
       console.error('Error fetching data:', error);
       // setLoading(false); // 데이터 로딩 중 에러가 발생했음을 설정
@@ -49,8 +39,6 @@ function FestiDetail() {
   const [reviews, setReviews] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
 
-  let [clickedNum, setClickedNum] = useState(0);
-
   const addReview = async () => {
     if (reviewInput) {
       const newReview = {
@@ -63,7 +51,13 @@ function FestiDetail() {
         updatedat: new Date().toISOString()
       };
       try {
-        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, newReview);
+        const token = localStorage.getItem("accessToken");
+
+        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }},
+          );
         setReviews([...reviews, newReview]);
         setReviewInput('');
       } catch (error) {
@@ -227,9 +221,6 @@ function FestiDetail() {
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
             <div id="map" style={{ width: '500px', height: '500px' }}></div>;
-
-
-
 
           </div>
 
