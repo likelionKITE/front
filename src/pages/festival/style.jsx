@@ -1,18 +1,29 @@
 import styled from 'styled-components';
 import Slider from 'react-slick';
-
+//margin: 2rem auto;
+//padding: 2rem;
+//max-width: 1200px;
+// h1 {
+//     text-align: left;
+//     width: 70%;
+//     margin-left: 7rem;
+//     margin-bottom: 0.2rem;
+//   }
+//Image container
+//margin-top: 2rem;
+//padding: 2rem 0;
 export const FestivalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem auto;
-  padding: 2rem;
-  max-width: 1200px;
+  margin-top: 1rem;
+  width: 100%;
 
   h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 1.5rem;
+    text-align: left;
+    width: 70%;
+    margin-left: 7rem;
+    margin-bottom: 0.2rem;
   }
 
   h2 {
@@ -29,33 +40,44 @@ export const FestivalContainer = styled.div`
 `;
 
 export const YourSlider = styled(Slider)`
-  width: 65rem;
   opacity: 1;
+  width: 60rem;
   transform: translate3d(0px, 0px, 0px);
+  justify-content: center;
 
   .slick-slide {
     transition: opacity 0.5s ease-in-out;
 
     img {
-      max-height: 12rem;
+      width: 16rem;
+      height: 21rem;
+      border-radius: 0.3rem 0.3rem 0 0;
+      object-fit: cover;
+      margin-botton:0.4 rem;
     }
 
     h2 {
-      font-size: 1.5rem;
-      margin-top: 0.5rem;
+      font-size: 1.3rem;
+      margin: 0.5rem;
       color: #333;
+      text-align: center;
     }
   }
 `;
 
 export const CategorySelect = styled.select`
-  padding: 0.5rem 1rem;
-  margin: 0.4rem;
-  border-radius: 0.2rem;
-  background-color: #f0f0f0;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
+padding: 0.5rem 1rem;
+margin: 0.4rem;
+border-radius: 0.2rem;
+background-color: #f0f0f0;
+font-size: 1rem;
+cursor: pointer;
+border: none;
+`;
+export const CategorySelectWrapper = styled.div`
+  display: flex; 
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const ImageContainer = styled.div`
@@ -63,38 +85,39 @@ export const ImageContainer = styled.div`
   justify-content: center;
   background-color: #e9fdfd;
   width: 100%;
-  margin-top: 2rem;
-  padding: 2rem 0;
+  margin-top: 1rem;
 
   .wrapper {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    width: 100%;
-    margin: 0 auto;
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    width: 65%;
     padding-top: 2rem;
+    padding-bottom: 1rem;
 
-    li {
+    div {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
+      width: 11rem;
       border: 1px solid #ccc;
       border-radius: 0.3rem;
-      padding: 1rem;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding-bottom: 0.5rem;
+      background-color: #fdffff;
+      box-shadow: 6px 5px 7px rgba(0, 0, 0, 0.1);
 
       img {
-        width: 100%;
-        max-height: 12rem;
-        object-fit: cover;
-        border-radius: 0.3rem 0.3rem 0 0;
-        margin-bottom: 1rem;
+        width: 11rem;
+          height: 8.5rem;
+          border-radius: 0.3rem 0.3rem 0 0;
+          margin-bottom: 0.3rem;
       }
 
       p {
-        font-size: 1rem;
+        width: 100%;
+        word-wrap: break-word;
+        font-size: 0.9rem;
         text-align: center;
         margin: 0.5rem 0;
       }

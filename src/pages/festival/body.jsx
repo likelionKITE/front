@@ -10,6 +10,7 @@ import {
   YourSlider,
   CategorySelect,
   ImageContainer,
+  CategorySelectWrapper
 } from './style';
 const removeParenthesesContent = (text) => {
   return text
@@ -122,6 +123,7 @@ function FestivalList() {
       )}
 
       <h2>Search your favorite Festival!</h2>
+      <CategorySelectWrapper>
       <CategorySelect onChange={handleMonthChange} value={selectedMonth}>
         <option value="">Select Month</option>
         {Object.entries(month_dict).map(([key, value]) => (
@@ -143,17 +145,18 @@ function FestivalList() {
         <option value="like">Likes</option>
         <option value="startdate">Start Date</option>
       </CategorySelect>
+      </CategorySelectWrapper>
       <ImageContainer>
-        <ul className="wrapper">
+        <div className="wrapper">
           {festivalList.map(festival => (
-            <li key={festival.content_id}>
-              <Link to={`/festiDetail/${festival.content_id}`}>
+              <Link to={`/festiDetail/${festival.content_id}`}key={festival.content_id}>
+                <div>
                 <img src={festival.first_image2} alt={festival.title} />
                 <p>{removeParenthesesContent(festival.title)}</p>
+              </div>  
               </Link>
-            </li>
           ))}
-        </ul>
+        </div>
       </ImageContainer>
     </FestivalContainer>
   );

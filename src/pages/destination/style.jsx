@@ -19,8 +19,6 @@ export const Text = styled.p`
   color: #a9b0ba;
   font-size: 1.2rem;
   text-align: left;
-  width: 70%;
-  margin-left: 7.5rem;
   margin-bottom: 1rem;
 `;
 
@@ -84,4 +82,13 @@ export const ImageContainer = styled.div`
       }
     }
   }
+`;
+export const SelectWrapper = styled.div`
+display: flex;
+align-items: center;
+margin-bottom: 1rem;
+
+> div {
+  margin-right: 2rem;
+}
 `;

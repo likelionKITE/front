@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  TravelContainer,Text,CategorySelect,ImageContainer} from './style'
+  TravelContainer,Text,CategorySelect,ImageContainer,SelectWrapper} from './style'
 
 function TravelList() {
   const [travelData, setTravelData] = useState([]);
@@ -66,7 +66,8 @@ function TravelList() {
     <TravelContainer>
       <h1>Travel List</h1>
       <div>
-        <Text>Select a Main Category</Text>
+      <SelectWrapper>
+        <Text>Select Main Category</Text>
         <CategorySelect
           value={mainSort}
           onChange={(e) => setMainSort(e.target.value)}
@@ -77,9 +78,11 @@ function TravelList() {
             </option>
           ))}
         </CategorySelect>
+        </SelectWrapper>
       </div>
       {mainSort && (
         <div>
+          <SelectWrapper>
           <Text>Select Details:</Text>
           <CategorySelect
             value={midSort}
@@ -91,6 +94,7 @@ function TravelList() {
               </option>
             ))}
           </CategorySelect>
+          </SelectWrapper>
         </div>
       )}
       <ImageContainer>
