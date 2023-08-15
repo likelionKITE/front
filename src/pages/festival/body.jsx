@@ -2,7 +2,24 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyledFestivalList, StyledPageContainer } from './style';
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import {
+  FestivalContainer,
+  YourSlider,
+  CategorySelect,
+  ImageContainer,
+  CategorySelectWrapper
+} from './style';
+const removeParenthesesContent = (text) => {
+  return text
+    .replace(/(\([^)]*\))|(\))/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/[가-힣]/g, '')
+    .trim();
+};
+
 function getCurrentMonth() {
   const currentDate = new Date();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -63,6 +80,13 @@ function FestivalList() {
     const selectedSortType = event.target.value;
     setSortType(selectedSortType);
   };
+  const SliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3
+  };
 
   useEffect(() => {
     fetchData();
@@ -80,61 +104,61 @@ function FestivalList() {
   };
 
   return (
-    <div>
-      <StyledPageContainer>
-      <StyledFestivalList>
-       <h1>Festival List</h1>
-       <h2>Festival in this month</h2>
-       {isLoading ? (
+    <FestivalContainer>
+      <h1>Festival List</h1>
+      <h2>Festival in this month</h2>
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <ul className='this_month'>
+        <YourSlider {...SliderSettings}>
           {currentMonthFestivals.map(festival => (
-            <li key={festival.content_id}>
-              <Link to={`/festiDetail/${festival.content_id}`}>
+          <div key={festival.content_id}>
+            <Link to={`/festiDetail/${festival.content_id}`}>
               <img src={festival.first_image2} alt={festival.title} />
-              <h2>{festival.title}</h2>
-              </Link>
-            </li>
+              <p>{removeParenthesesContent(festival.title)}</p> {/* 변경된 부분 */}
+            </Link>
+          </div>
           ))}
-        </ul>
+        </YourSlider>
       )}
-       
-    <h2>Search your favorite Festival!</h2>
-      <select onChange={handleMonthChange} value={selectedMonth}>
+
+      <h2>Search your favorite Festival!</h2>
+      <CategorySelectWrapper>
+      <CategorySelect onChange={handleMonthChange} value={selectedMonth}>
         <option value="">Select Month</option>
         {Object.entries(month_dict).map(([key, value]) => (
           <option key={key} value={value}>
             {key}
           </option>
         ))}
-      </select>
-      <select onChange={handleAreaChange} value={selectedArea}>
+      </CategorySelect>
+      <CategorySelect onChange={handleAreaChange} value={selectedArea}>
         <option value="">Select Area</option>
         {Object.entries(area_dict).map(([key, value]) => (
           <option key={value} value={value}>
             {key}
           </option>
         ))}
-      </select>
-      <select onChange={handleSortChange} value={sortType}>
+      </CategorySelect>
+      <CategorySelect onChange={handleSortChange} value={sortType}>
         <option value="">Sort by</option>
         <option value="like">Likes</option>
         <option value="startdate">Start Date</option>
-      </select>
-      <ul>
-        {festivalList.map(festival => (
-          <li key={festival.content_id}>
-            <Link to={`/festiDetail/${festival.content_id}`}>
-            <img src={festival.first_image2} alt={festival.title} />
-            <h2>{festival.title}</h2>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      </StyledFestivalList>
-    </StyledPageContainer>
-    </div>
+      </CategorySelect>
+      </CategorySelectWrapper>
+      <ImageContainer>
+        <div className="wrapper">
+          {festivalList.map(festival => (
+              <Link to={`/festiDetail/${festival.content_id}`}key={festival.content_id}>
+                <div>
+                <img src={festival.first_image2} alt={festival.title} />
+                <p>{removeParenthesesContent(festival.title)}</p>
+              </div>  
+              </Link>
+          ))}
+        </div>
+      </ImageContainer>
+    </FestivalContainer>
   );
 }
 

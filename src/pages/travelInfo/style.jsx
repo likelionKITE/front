@@ -25,7 +25,7 @@ const CardSubtitle = styled.h4`
 
 const Button = styled.button`
   margin-top: 10px;
-  background-color: #77AAAD;
+  background-color: #67d6d6;
   color: white;
   border: none;
   padding: 18px 30px;

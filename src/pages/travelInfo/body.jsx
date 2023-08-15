@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Section,
-  CardTitle,
-  CardSubtitle,
-  Button,
-  ImageLink,
-  StyledImage,
-} from './style';
+import {Container,Section,CardTitle,CardSubtitle,Button,ImageLink,StyledImage} from './style';
 import Subway from './Images/Subway.jpg';
 import Kobus from './Images/Kobus.jpg';
 import Korail from './Images/Korail.jpg';
