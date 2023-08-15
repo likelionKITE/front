@@ -94,30 +94,11 @@ export const ImageContainer = styled.div`
 }
 `;
 
-export const Festival = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-
-    img {
-        width: 10rem;
-        height: 10rem;
-    }
-
-    p {
-        width: 10rem;
-        word-wrap: break-word;
-        font-size: 12px;
-        text-align: center;
-    }
-`;
-
 export const PaginationContainer = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
     background-color: #e9fdfd;
-    padding-bottom: 1.5rem;
-    margin-bottom: 5rem;
 
     button {
         padding: 0.2rem 0.5rem;
@@ -132,5 +113,44 @@ export const PaginationContainer = styled.div`
     &:hover {
         background-color: #e0e0e0;
     }
+    }
+`;
+
+
+export const FestivalContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #e9fdfd;
+    padding-bottom: 1.5rem;
+    margin-bottom: 5rem;
+`;
+
+export const Festival = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    width: 100%;
+
+    p {
+        font-size: 2rem;
+        padding-bottom: 0.6rem;
+        margin-right: 58rem;
+    }
+
+    div img {
+        width: 15rem;
+        height: 10rem;
+        border-radius: 0.3rem;
+    }
+
+    div p {
+        font-size: 1rem;
+        padding-left: 0.3rem;
+        margin-right: 0;
+        text-align: center;
+        width: 15rem;
     }
 `;

@@ -113,18 +113,6 @@ function FestiDetail() {
     console.log(domain);
   }
 
-  const { kakao } = window;
-
-  useEffect(() => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
-      level: 3,
-    };
-    const map = new kakao.maps.Map(container, options);
-
-  }, []);
-
   // const homepageHtml = festidata.detailCommon[0].homepage;
 
   // const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
