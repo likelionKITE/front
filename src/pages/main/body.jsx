@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { MainContainer, Banner, Travel } from './style';
 import './main.css';
 import { removeParenthesesContent } from '../local/body';
@@ -95,7 +97,7 @@ function Main() {
             <BannerSlider title="Catch the Breeze with KITE, Sail Through Korea's Wonders" items={bannerList} />
 
             {/* 좋아요 많은 여행지 */}
-            <ContentSlider title="Most liked Tourist Destination" items={mostLiked} />
+            <ContentSlider title={<>Most <FontAwesomeIcon icon={faHeart} /> Tourist Destination</>} items={mostLiked} />
 
             {/* 선택된 테마에 따른 축제 슬라이더 */}
             <p>Themed Festival</p>
