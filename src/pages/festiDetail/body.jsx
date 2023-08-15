@@ -69,11 +69,28 @@ function FestiDetail() {
       level: 3,
     };
     const map = new kakao.maps.Map(container, options);
-
+    
   }, []);
+
+    const homepageHtml = festidata.detailCommon[0].homepage;
+
+    const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+    const match = homepageHtml.match(regex);
+    
+    let domain = '';
+    if (match && match[1]) {
+      const url = match[1];
+      domain = new URL(url).hostname; // 도메인 이름만 추출
+      console.log(domain);
+    }
+   
+    
 
   return (
     <>
+    <div>
+      
+    </div>
 
       <Festi_info>
         <h1>Tourist Destination</h1>
@@ -120,13 +137,15 @@ function FestiDetail() {
 
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
-                  {/* {festidata.detailCommon[0].overview} */}
+                  {festidata.detailCommon[0].overview}
 
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
-                  {/* {festidata.detailCommon[0].homepage} */}
+                  {domain && <p>{domain} </p>}
+
+                  
                 </div>
 
               </ul>
