@@ -70,3 +70,4 @@ function MyReview({ reviews }) {
 }
 
 export default Mypage;
+
