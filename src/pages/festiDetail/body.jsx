@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Festi_info } from './style';
 import { detailApi } from './apis';
-import MapComponent from './map';
+// import MapComponent from './map';
 import axios from 'axios';
 
 function FestiDetail() {
@@ -60,6 +60,18 @@ function FestiDetail() {
   //   console.log(e.target.value);
   // }
 
+    const { kakao } = window;
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+
+  }, []);
+
   return (
     <>
 
@@ -108,13 +120,13 @@ function FestiDetail() {
 
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
-                  {festidata.detailCommon[0].overview}
+                  {/* {festidata.detailCommon[0].overview} */}
 
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
-                  {festidata.detailCommon[0].homepage}
+                  {/* {festidata.detailCommon[0].homepage} */}
                 </div>
 
               </ul>
@@ -155,7 +167,8 @@ function FestiDetail() {
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
 
-            <MapComponent />
+          <div id="map" style={{ width: '80%', height: '300px' }}></div>;
+
 
 
           </div>
@@ -202,28 +215,5 @@ function FestiDetail() {
 }
 
 
-// const MapComponent = () => {
-//   useEffect(() => {
-//     // 카카오맵 API 스크립트가 로드된 후 실행될 함수
-//     const initializeMap = () => {
-//       const container = document.getElementById('map');
-//       const options = {
-//         center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-//         level: 3,
-//       };
-//       const map = new window.kakao.maps.Map(container, options);
-//     };
-
-//     if (window.kakao) {
-//       // 카카오맵 API 스크립트가 이미 로드되어 있는 경우
-//       initializeMap();
-//     } else {
-//       // 카카오맵 API 스크립트 로드가 완료되면 초기화 함수를 실행
-//       window.initializeMap = initializeMap;
-//     }
-//   }, []);
-
-//   return <div id="map" style={{ width: '100%', height: '20px' }}></div>;
-// };
 
 export default FestiDetail;
