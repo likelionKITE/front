@@ -6,11 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
-    const { isSignedIn, currentUser, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+    const { isSignedIn, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    
+
+    const currentUser = localStorage.getItem('currentUser');
+            
     const handleLogoutClick = () => {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('currentUser'); // 삭제
+        localStorage.removeItem('userInfo');
+    
         setIsSignedIn(false);
         setCurrentUser(null);
         navigate('/');

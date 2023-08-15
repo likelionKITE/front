@@ -4,23 +4,6 @@ import { AuthContext } from '../AuthContext';
 import { Body, Form, Input } from './style';
 import { useState, useContext } from 'react';
 
-function fetchMyPageData(accessToken, onSuccess) {
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-        },
-    };
-
-    axios
-        .get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/mypage/', config)
-        .then((response) => {
-            onSuccess(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 function Signin() {
     const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -38,7 +21,7 @@ function Signin() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         axios
             .post('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/member/login/', {
                 username: userName,
@@ -47,16 +30,12 @@ function Signin() {
             .then((response) => {
                 const accessToken = response.data.access;
                 localStorage.setItem('accessToken', accessToken);
-
-                fetchMyPageData(accessToken, (myPageData) => {
-                    // MyPage 데이터를 로컬 저장소에 저장
-                    localStorage.setItem('mypageData', JSON.stringify(myPageData));
-
-                    setIsSignedIn(true); // 로그인 상태 설정
-                    setCurrentUser(myPageData.nickname); // 사용자 닉네임 설정
-
-                    navigate('/');
-                });
+                localStorage.setItem('currentUser', response.data.user.nickname); // 저장
+    
+                setIsSignedIn(true); 
+                setCurrentUser(response.data.username); 
+                navigate('/');
+                
             })
             .catch((error) => {
                 console.log(error);

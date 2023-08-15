@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MainContainer, Banner, StyledArrow, Travel } from './style';
+import './main.css';
 import { removeParenthesesContent } from '../local/body';
 
 function Main() {
@@ -64,19 +65,23 @@ function Main() {
 
     // 여행지 슬라이더
     function Arrow(props) {
-        const { className, style, onClick } = props;
+        const { className, direction, style, onClick } = props;
+        const arrow = direction === "next" ? "&gt;" : "&lt;";
+    
         return (
             <div
                 className={className}
-                style={{ ...style, display: "block", background: 'black', borderRadius: "50%" }}
+                style={style}
                 onClick={onClick}
-            />
+            >
+                {arrow}
+            </div>
         );
     }
 
     const TravelSettings = {
-        nextArrow: <Arrow />,
-        prevArrow: <Arrow />,
+        nextArrow: <Arrow direction="next" />,
+        prevArrow: <Arrow direction="prev" />,
         dots: false,
         infinite: true,
         speed: 1000,
