@@ -113,6 +113,32 @@ function FestiDetail() {
     console.log(domain);
   }
 
+  const { kakao } = window;
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+
+  }, []);
+
+  // const homepageHtml = festidata.detailCommon[0].homepage;
+
+  // const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+  // const match = homepageHtml.match(regex);
+
+  // let domain = '';
+  // if (match && match[1]) {
+  //   const url = match[1];
+  //   domain = new URL(url).hostname; // 도메인 이름만 추출
+  //   console.log(domain);
+  // }
+
+
+
   return (
     <>
       <div>
@@ -121,6 +147,7 @@ function FestiDetail() {
 
       <Festi_info>
         <h1>Tourist Destination</h1>
+
 
         <div className='fest_info'>
           <div className='fest_info_top'>
@@ -164,12 +191,14 @@ function FestiDetail() {
                 <div className='sub_overview'>
                   <p className='sub_p_tag'>Overview</p>
                   {festidata.detailCommon && festidata.detailCommon[0].overview}
-
                 </div>
                 <div><p><br></br></p></div>
                 <div className='sub_homepage'>
                   <p className='sub_p_tag'>Homepage</p>
+
                   {domain && <p>{domain} </p>}
+
+
                 </div>
 
               </ul>
@@ -191,7 +220,6 @@ function FestiDetail() {
                   </div>
 
                   <div class='sub_age'>
-
                     {/* <div class='sub_rest_date'>
                         <p class='sub_p_tag'>Closed Date</p>
                         {festidata.detail_intro_fest.rest_date} </div>
@@ -208,8 +236,9 @@ function FestiDetail() {
 
           <p className='sub_p_tag' >Location</p>
           <div className='fest_info_map'>
-
             <div id="map" style={{ width: '500px', height: '500px' }}></div>;
+
+
 
 
           </div>

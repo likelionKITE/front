@@ -36,16 +36,6 @@ export const Banner = styled.div`
 `;
 
 // 여행지
-export const StyledArrow = styled.div`
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    background-color: #f00; // 배경색을 변경하려면 이 값을 변경하세요.
-    color: #fff; // 화살표 색상을 변경하려면 이 값을 변경하세요.
-    cursor: pointer;
-    // 여기에 더 많은 스타일을 추가할 수 있습니다.
-`;
-
 export const Travel = styled.div`
     display: flex;
     flex-direction: column;
@@ -70,6 +60,7 @@ export const Travel = styled.div`
         font-size: 1rem;
         padding-left: 0.3rem;
         margin-right: 0;
+        text-align: center;
         width: 15rem;
     }
 `
