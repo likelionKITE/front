@@ -51,6 +51,7 @@ function FestiDetail() {
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewRank, setReviewRank] = useState(5);
 
+  //리뷰 작성
   const addReview = async () => {
     console.log("")
 
@@ -85,7 +86,7 @@ function FestiDetail() {
       }
     }
   }
-
+  //리뷰 나열
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -101,7 +102,63 @@ function FestiDetail() {
     fetchReviews();
   }, [content_id]);
 
-
+  const editReview = async (reviewId) => {
+    const updatedReview = {
+      title: 'updated title',
+      content: 'updated content',
+      rank: 4
+    };
+  
+    try {
+      const token = localStorage.getItem('accessToken');
+  
+      const response = await axios.put(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${reviewId}/`,
+        updatedReview,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      if (response.data.content_id) {
+        const updatedReviews = reviews.map(review => {
+          if (review.content_id === reviewId) {
+            return { ...review, title: 'updated title', content: 'updated content', rank: 4 };
+          }
+          return review;
+        });
+        setReviews(updatedReviews);
+      }
+    } catch (error) {
+      console.error('Error updating review:', error);
+    }
+  }
+  
+  // 리뷰 삭제
+  const deleteReview = async (reviewId) => {
+    try {
+      const token = localStorage.getItem('accessToken');
+  
+      const response = await axios.delete(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${reviewId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      if (response.status === 204) {
+        // 삭제에 성공한 경우, 해당 리뷰를 리스트에서 제거합니다.
+        const updatedReviews = reviews.filter((review) => review.content_id !== reviewId);
+        setReviews(updatedReviews);
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
+  };
 
 
   // 이하 지도구현
@@ -136,7 +193,7 @@ function FestiDetail() {
   if (match && match[1]) {
     const url = match[1];
     domain = new URL(url).hostname; // 도메인 이름만 추출
-    
+
   }
 
 
@@ -294,6 +351,7 @@ function FestiDetail() {
                   post
                 </button>
               </div>
+
               <div className="review_posted">
                 <p>Other Reviews</p>
                 {reviews.map((review, idx) => (
@@ -301,9 +359,12 @@ function FestiDetail() {
                     <h2>{review.content}</h2>
                     <p>Title: {review.title}</p>
                     <p>Rank: {review.rank}</p>
+                    <button onClick={() => editReview(review.content_id)}>Edit</button>
+                    <button onClick={() => deleteReview(review.content_id)}>Delete</button>
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>
