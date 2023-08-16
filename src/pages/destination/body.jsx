@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faAnglesRight, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import {
-  TravelContainer, Text, CategorySelect, ImageContainer, SelectWrapper,PaginationContainer
+  TravelContainer, Pagetitle, Text, Wrapper, CategorySelect, ImageContainer, SelectWrapper, PaginationContainer
 } from './style'
 
 function TravelList() {
@@ -92,35 +92,45 @@ function TravelList() {
 
   return (
     <TravelContainer>
-      <h1>Travel List</h1>
+
+      <Pagetitle>
+        <h1><FontAwesomeIcon icon={faLocationDot} /> Travel List</h1>
+      </Pagetitle>
+
       <SelectWrapper>
         <Text>Select Main Category</Text>
-        <CategorySelect
-          value={mainSort}
-          onChange={handleMainSortChange}
-        >
-          {Object.entries(mainSortOptions).map(([label, value]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </CategorySelect>
-      </SelectWrapper>
-      {mainSort && (
-        <SelectWrapper>
-          <Text>Select Details:</Text>
+        <Wrapper>
           <CategorySelect
-            value={midSort}
-            onChange={handleMidSortChange}
+            value={mainSort}
+            onChange={handleMainSortChange}
           >
-            {Object.entries(midSortOptions[mainSort]).map(([label, value]) => (
+            {Object.entries(mainSortOptions).map(([label, value]) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
           </CategorySelect>
+        </Wrapper>
+      </SelectWrapper>
+
+      {mainSort && (
+        <SelectWrapper>
+          <Text>Select Details</Text>
+          <Wrapper>
+            <CategorySelect
+              value={midSort}
+              onChange={handleMidSortChange}
+            >
+              {Object.entries(midSortOptions[mainSort]).map(([label, value]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </CategorySelect>
+          </Wrapper>
         </SelectWrapper>
       )}
+
       <ImageContainer>
         <div className="wrapper">
           {paginatedItems.map((item) => (
@@ -133,6 +143,7 @@ function TravelList() {
           ))}
         </div>
       </ImageContainer>
+
       <PaginationContainer>
         {currentGroup > 1 && (
           <button onClick={() => setCurrentPage(startPageIndex - 1)}>
@@ -163,8 +174,9 @@ function TravelList() {
             <FontAwesomeIcon icon={faAnglesRight} /></button>
         )}
       </PaginationContainer>
+
     </TravelContainer>
-);
+  );
 }
 
 export default TravelList;

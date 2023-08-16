@@ -9,6 +9,7 @@ import {
   FestivalContainer,
   Pagetitle,
   YourSlider,
+  Text,
   CategorySelect,
   ImageContainer,
   CategorySelectWrapper
@@ -135,7 +136,7 @@ function FestivalList() {
         </YourSlider>
       )}
 
-      <h2>Search your favorite Festival</h2>
+      <Text>Search your favorite Festival</Text>
       <CategorySelectWrapper>
         <CategorySelect onChange={handleMonthChange} value={selectedMonth}>
           <option value="">Select Month</option>

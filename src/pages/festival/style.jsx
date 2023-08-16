@@ -26,12 +26,14 @@ export const FestivalContainer = styled.div`
     margin-bottom: 1rem;
     font-family: Lexend;
   }
+`;
 
-  p {
-    font-size: 1rem;
-    color: #666;
-    font-family: LexendLight;
-  }
+export const Text = styled.p`
+  color: #a9b0ba;
+  font-size: 1.2rem;
+  text-align: left;
+  margin-bottom: 0.3rem;
+  font-family: LexendLight;
 `;
 
 export const Pagetitle = styled.div`
@@ -53,7 +55,7 @@ export const YourSlider = styled(Slider)`
   width: 62rem;
   transform: translate3d(0px, 0px, 0px);
   justify-content: center;
-  margin-bottom: 4rem;
+  margin-bottom: 6rem;
 
   .slick-slide {
     transition: opacity 0.5s ease-in-out;
@@ -70,6 +72,8 @@ export const YourSlider = styled(Slider)`
       width: 16rem;
       margin-top: 0.2rem;
       text-align: center;
+      color: #666;
+      font-family: LexendLight;
     }
   }
 `;
@@ -132,6 +136,9 @@ export const ImageContainer = styled.div`
         font-size: 0.8rem;
         text-align: center;
         margin: 0.13rem 0.1rem;
+        font-size: 0.8rem;
+        color: #666;
+        font-family: LexendLight;
       }
     }
   }
