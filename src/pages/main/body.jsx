@@ -83,7 +83,7 @@ function Main() {
                     {items.map((item) => (
                         <Link to={item.link} key={item.content_id}>
                             <div>
-                                <img src={item.first_image2} alt={item.title} />
+                                <img src={item.first_image} alt={item.title} />
                                 <p>{item.title}</p>
                             </div>
                         </Link>
@@ -107,7 +107,7 @@ function Main() {
                     {items.map((item) => (
                         <Link to={item.link} key={item.content_id}>
                             <div>
-                                <img src={item.first_image2} alt={item.title} />
+                                <img src={item.first_image} alt={item.title} />
                                 <p>{item.title}</p>
                             </div>
                         </Link>

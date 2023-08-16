@@ -116,7 +116,7 @@ function FestivalList() {
           {currentMonthFestivals.map(festival => (
           <div key={festival.content_id}>
             <Link to={`/festiDetail/${festival.content_id}`}>
-              <img src={festival.first_image2} alt={festival.title} />
+              <img src={festival.first_image} alt={festival.title} />
               <p>{removeParenthesesContent(festival.title)}</p> {/* 변경된 부분 */}
             </Link>
           </div>
@@ -153,7 +153,7 @@ function FestivalList() {
           {festivalList.map(festival => (
               <Link to={`/festiDetail/${festival.content_id}`}key={festival.content_id}>
                 <div>
-                <img src={festival.first_image2} alt={festival.title} />
+                <img src={festival.first_image} alt={festival.title} />
                 <p>{removeParenthesesContent(festival.title)}</p>
               </div>  
               </Link>
