@@ -10,12 +10,13 @@ function Header() {
     const navigate = useNavigate();
 
     const currentUser = localStorage.getItem('currentUser');
-            
+
     const handleLogoutClick = () => {
         localStorage.removeItem('accessToken');
-        localStorage.removeItem('currentUser'); // 삭제
+        localStorage.removeItem('currentUser');
         localStorage.removeItem('userInfo');
-    
+        localStorage.removeItem('likedDestinations'); // 찜한 내용 삭제
+
         setIsSignedIn(false);
         setCurrentUser(null);
         navigate('/');
