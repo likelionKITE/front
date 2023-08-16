@@ -70,3 +70,50 @@ export const Travel = styled.div`
     }
 `
 
+export const Festival = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    width: 100%;
+
+    div img {
+        width: 15rem;
+        height: 10rem;
+        border-radius: 0.3rem;
+    }
+
+    div p {
+        padding-left: 0.3rem;
+        margin-right: 0;
+        text-align: center;
+        width: 15rem;
+    }
+`
+
+export const Button = styled.div`
+    display: flex;
+    margin-right: 30rem;
+    margin-bottom: 1rem;
+
+    button {
+        width: 5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 0.3rem;
+        margin-right: 0.5rem;
+        transition: background-color 0.4s ease;
+    }
+
+    button:hover {
+        background-color: #b5b3b3; /* 호버 시 배경색 진해지는 색상으로 변경 */
+    }
+
+    p {
+        font-size: 2rem;
+    }
+`
+

@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { MainContainer, Banner, Travel } from './style';
+import { MainContainer, Banner, Travel, Festival, Button } from './style';
 import './main.css';
 import { removeParenthesesContent } from '../local/body';
 
@@ -75,7 +75,7 @@ function Main() {
         slidesToScroll: 1,
     };
 
-    const ContentSlider = ({ title, items }) => {
+    const TravelSlider = ({ title, items }) => {
         return (
             <Travel>
                 <p>{title}</p>
@@ -93,6 +93,30 @@ function Main() {
         );
     };
 
+    const FestivalSlider = ({ title, items }) => {
+        return (
+            <Festival>
+                <Button>
+                    <p>{title}</p>
+                    <button onClick={() => setSelectedTheme('flower')}>Flower</button>
+                    <button onClick={() => setSelectedTheme('food')}>Food</button>
+                    <button onClick={() => setSelectedTheme('traditional')}>Traditional</button>
+                    <button onClick={() => setSelectedTheme('music')}>Music</button>
+                </Button>
+                <Slider {...TravelSettings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                    {items.map((item) => (
+                        <Link to={item.link} key={item.content_id}>
+                            <div>
+                                <img src={item.first_image2} alt={item.title} />
+                                <p>{item.title}</p>
+                            </div>
+                        </Link>
+                    ))}
+                </Slider>
+            </Festival>
+        );
+    };
+
     return (
         <MainContainer>
 
@@ -100,7 +124,7 @@ function Main() {
             <BannerSlider title="Catch the Breeze with KITE, Sail Through Korea's Wonders" items={bannerList} />
 
             {/* 좋아요 많은 여행지 */}
-            <ContentSlider
+            <TravelSlider
                 title={<>Most Tourist Destination</>}
                 items={mostLiked.map(item => ({
                     ...item,
@@ -109,15 +133,9 @@ function Main() {
             />
 
             {/* 선택된 테마에 따른 축제 슬라이더 */}
-            <p>Themed Festival</p>
-            <div>
-                <button onClick={() => setSelectedTheme('flower')}>꽃</button>
-                <button onClick={() => setSelectedTheme('food')}>음식</button>
-                <button onClick={() => setSelectedTheme('traditional')}>전통</button>
-                <button onClick={() => setSelectedTheme('music')}>음악</button>
-            </div>
             {selectedTheme && (
-                <ContentSlider
+                <FestivalSlider
+                    title={<>Themed Festival</>}
                     items={themeFestivals[selectedTheme].map(item => ({
                         ...item,
                         link: `/festiDetail/${item.content_id}`

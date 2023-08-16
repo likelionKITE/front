@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { Margin } from './style';
 
 function Mypage() {
-    const { mypageData, setMyPageData } = useContext(AuthContext);
+    const { mypageData, setMyPageData } = useContext(AuthContext); // 수정된 부분
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
