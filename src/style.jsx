@@ -1,6 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 import Lexend from './font/LexendMedium.woff';
 import Dosis from './font/Dosis-Medium.ttf'
+import LexendExtraLight from './font/LexendExtraLight.ttf';
+import LexendLight from './font/LexendLight.ttf';
+
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -9,6 +12,20 @@ export const GlobalStyle = createGlobalStyle`
         src: local('Lexend'), local('Lexend');
         font-style: normal;
         src: url(${Lexend}) format('truetype');
+}
+
+@font-face {
+            font-family: 'LexendExtraLight';
+            src: local('LexendExtraLight'), local('LexendExtraLight');
+            font-style: normal;
+            src: url(${LexendExtraLight}) format('truetype');
+}
+
+    @font-face {
+            font-family: 'LexendLight';
+            src: local('LexendLight'), local('LexendLight');
+            font-style: normal;
+            src: url(${LexendLight}) format('truetype');
 }
 
     @font-face {
