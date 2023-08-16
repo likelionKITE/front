@@ -83,7 +83,7 @@ export const CategorySelectWrapper = styled.div`
 export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  background-color: #e9fdfd;
+  background-color: #e2f5e2;
   width: 100%;
   margin-top: 3rem;
 
