@@ -15,8 +15,8 @@ export const Festi_info = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        /* margin-left: 50px;
-        margin-right: 50px; */
+        margin-left: 50px;
+        margin-right: 50px;
         
     }
     .fest_info_img{
@@ -46,8 +46,14 @@ export const Festi_info = styled.div`
     //두번째 박스
     .fest_info_bottom{
         margin: 50px;  
-
+        border: solid 2px #b8b8b8;
     }
+    .sub_homepagesub_tel{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
     .fest_info_bottom_else{
         margin: 30px;   
         font-size: 15px;
@@ -61,7 +67,13 @@ export const Festi_info = styled.div`
     }
     .sub_p_tag{
         text-align: center;
+        font-size: 30px;
         font-weight: bold;
+
+    }
+    .sub_p_tag_0{
+        font-size: 10px;
+        text-align: center;
     }
     .sub_over_view{
         margin-left: 100px;
