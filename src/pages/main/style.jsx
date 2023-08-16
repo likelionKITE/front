@@ -46,7 +46,7 @@ export const Travel = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 2rem;
+    padding-top: 4rem;
     width: 100%;
 
     p {
@@ -75,8 +75,8 @@ export const Festival = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
     width: 100%;
 
     div img {
