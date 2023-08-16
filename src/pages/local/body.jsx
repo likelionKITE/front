@@ -45,7 +45,7 @@ function Local() {
                     <Link to={`/festiDetail/${item.content_id}`}>
                         <div key={item.content_id}>
                             <img src={item.first_image} alt={item.title} />
-                            <p>{removeParenthesesContent(item.title)}</p>
+                            <p>{item.title}</p>
                         </div>
                     </Link>
                 ))}
