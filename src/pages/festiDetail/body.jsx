@@ -300,11 +300,6 @@ function FestiDetail() {
 
                 </div>
 
-                <div className='sub_age'>
-                  <p className='sub_p_tag'>Age Limit</p>
-                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].age_limit}
-                </div>
-
                 <div className='sub_category'>
                   <p className='sub_p_tag'>Category</p>
                   {festidata.cat1}
@@ -332,6 +327,7 @@ function FestiDetail() {
             <h1>Review</h1>
             <div className="review_posting">
               <div className="review_posting_input">
+                {/* 리뷰 생성 */}
                 <p>Details</p>
 
                 <textarea
@@ -349,8 +345,6 @@ function FestiDetail() {
                   onChange={(e) => setReviewInput(e.target.value)}
                 />
 
-
-
                 <input
                   id="rank_number"
                   placeholder="Rank (1-5)"
@@ -365,35 +359,42 @@ function FestiDetail() {
                 </button>
               </div>
 
-
               <div className="review_posted">
+                {/* 리뷰 나열 */}
                 <p>Other Reviews</p>
 
                 {reviews.slice().reverse().map((review, idx) => (
                   <div className="list" key={idx}>
                     {editingReview && editingReview.id === review.id ? (
                       <>
-
-
-
-                        <input
-                          type="text"
-                          value={editingReview.content}
-                          onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
-                        />
                         <input
                           type="text"
                           value={editingReview.title}
                           onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
                         />
+                        <input
+                          type="text"
+                          value={editingReview.content}
+                          onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
+                        />
+
+
                         <button onClick={() => editReview(review)}>Save</button>
                         <button onClick={cancelEdit}>Cancel</button>
                       </>
                     ) : (
                       <>
-                        <h2>Title: {review.content}</h2>
-                        <p>Details: {review.title}</p>
+                        <h2>Title: {review.title}</h2>
+                        <p>Details: {review.content}</p>
                         <p>Rank: {review.rank}</p>
+
+                        <p>User Nickname: {review.user}
+
+                        </p>
+                        <p>Written on: {new Date(review.created_at).toLocaleDateString()}</p>
+                        <p>Updated on: {new Date(review.updated_at).toLocaleDateString()}
+                        </p>
+
                         <button onClick={() => setEditingReview({ ...review })}>Edit</button>
                         <button onClick={() => deleteReview(review.id)}>Delete</button>
                       </>
