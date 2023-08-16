@@ -126,7 +126,7 @@ function TravelList() {
           {paginatedItems.map((item) => (
             <Link to={`/destiDetail/${item.content_id}`} key={item.content_id}>
               <div>
-                <img src={item.first_image2} alt={item.title} />
+                <img src={item.first_image} alt={item.title} />
                 <p>{removeParenthesesContent(item.title)}</p>
               </div>
             </Link>

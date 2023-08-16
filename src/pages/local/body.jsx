@@ -44,7 +44,7 @@ function Local() {
                 {items.map((item) => (
                     <Link to={`/festiDetail/${item.content_id}`}>
                         <div key={item.content_id}>
-                            <img src={item.first_image2} alt={item.title} />
+                            <img src={item.first_image} alt={item.title} />
                             <p>{item.title}</p>
                         </div>
                     </Link>
@@ -130,7 +130,7 @@ function Local() {
                     {currentItems.map((item) => (
                         <Link to={`/destiDetail/${item.content_id}`}> {/* Link를 여행지 상세 페이지로 연결 */}
                             <div>
-                                <img src={item.first_image2} alt={item.title} />
+                                <img src={item.first_image} alt={item.title} />
                                 <p>{removeParenthesesContent(item.title)}</p>
                             </div>
                         </Link>
