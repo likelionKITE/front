@@ -10,6 +10,7 @@ export const Body = styled.div`
     align-items: center;
     background-color: #fdffff;
     border-radius: 0.5rem;
+    margin-top: 6rem;
     padding: 2rem 2rem;
     padding-top: 1rem;
     box-shadow:
