@@ -92,6 +92,7 @@ function FestivalList() {
   useEffect(() => {
     fetchData();
     fetchCurrentMonthFestivals();
+    window.scrollTo(0, 0);
   }, [selectedMonth, selectedArea, sortType]);
 
   const handleMonthChange = (event) => {

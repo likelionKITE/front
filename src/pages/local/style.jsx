@@ -99,6 +99,7 @@ export const ImageContainer = styled.div`
                 font-size: 0.9rem;
                 text-align: center;
                 margin-right: 0;
+                font-family: Dosis;
             }
         }
 }
@@ -151,12 +152,12 @@ export const Festival = styled.div`
         font-size: 2rem;
         font-family: Lexend;
         padding-bottom: 1rem;
-        margin-right: 56.5rem;
+        margin-right: 54rem;
     }
 
     div img {
         width: 14rem;
-        height: 17rem;
+        height: 15rem;
         border-radius: 0.3rem;
     }
 
@@ -166,5 +167,6 @@ export const Festival = styled.div`
         margin-right: 0;
         text-align: center;
         width: 13rem;
+        font-family: Dosis;
     }
 `;

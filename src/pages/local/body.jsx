@@ -40,12 +40,14 @@ function Local() {
     const FestivalSlider = ({ items }) => (
         <Festival>
             <p><FontAwesomeIcon icon={faIcons} /> Festival</p>
-            <Slider {...settings} style={{ width: '68rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+            <Slider {...settings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
                 {items.map((item) => (
-                    <div key={item.content_id}>
-                        <img src={item.first_image2} alt={item.title} />
-                        <p>{item.title}</p>
-                    </div>
+                    <Link to={`/festiDetail/${item.content_id}`}>
+                        <div key={item.content_id}>
+                            <img src={item.first_image2} alt={item.title} />
+                            <p>{item.title}</p>
+                        </div>
+                    </Link>
                 ))}
             </Slider>
         </Festival>
@@ -109,7 +111,7 @@ function Local() {
         <LocalContainer>
             <h1>Discover the hidden fun in South Korea!</h1>
             <Text>Please select a region</Text>
-            
+
             {/* 지역 */}
             <ButtonContainer>
                 {Object.entries(areas).map(([area, areaCode]) => (
@@ -143,7 +145,7 @@ function Local() {
                 ))}
                 {pageGroup < totalGroups && <button onClick={handleNextGroup}><FontAwesomeIcon icon={faAnglesRight} /></button>}
             </PaginationContainer>
-            
+
             {/* 축제 */}
             <FestivalContainer>
                 <FestivalSlider title={<FontAwesomeIcon icon={faIcons} /> + "Festival"} items={festivalList} />

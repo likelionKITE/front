@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -80,10 +81,12 @@ function Main() {
                 <p>{title}</p>
                 <Slider {...TravelSettings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
                     {items.map((item) => (
-                        <div key={item.content_id}>
-                            <img src={item.first_image2} alt={item.title} />
-                            <p>{item.title}</p>
-                        </div>
+                        <Link to={item.link} key={item.content_id}>
+                            <div>
+                                <img src={item.first_image2} alt={item.title} />
+                                <p>{item.title}</p>
+                            </div>
+                        </Link>
                     ))}
                 </Slider>
             </Travel>
@@ -97,7 +100,13 @@ function Main() {
             <BannerSlider title="Catch the Breeze with KITE, Sail Through Korea's Wonders" items={bannerList} />
 
             {/* 좋아요 많은 여행지 */}
-            <ContentSlider title={<>Most <FontAwesomeIcon icon={faHeart} /> Tourist Destination</>} items={mostLiked} />
+            <ContentSlider
+                title={<>Most Tourist Destination</>}
+                items={mostLiked.map(item => ({
+                    ...item,
+                    link: `/destiDetail/${item.content_id}`
+                }))}
+            />
 
             {/* 선택된 테마에 따른 축제 슬라이더 */}
             <p>Themed Festival</p>
@@ -109,7 +118,10 @@ function Main() {
             </div>
             {selectedTheme && (
                 <ContentSlider
-                    items={themeFestivals[selectedTheme]}
+                    items={themeFestivals[selectedTheme].map(item => ({
+                        ...item,
+                        link: `/festiDetail/${item.content_id}`
+                    }))}
                 />
             )}
 

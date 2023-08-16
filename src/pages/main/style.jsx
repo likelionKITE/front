@@ -52,7 +52,7 @@ export const Travel = styled.div`
     p {
         font-size: 2rem;
         padding-bottom: 0.6rem;
-        margin-right: 42rem;
+        margin-right: 45rem;
     }
 
     div img {
