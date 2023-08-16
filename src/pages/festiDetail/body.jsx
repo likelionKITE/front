@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Festi_info } from './style';
@@ -11,23 +11,20 @@ function FestiDetail() {
   // 찜 버튼
   const [liked, setLiked] = useState(false);
 
+  // const handleLikeClick = () => {
+  //   try {
+  //     const response = axios.post(`127.0.0.1:8000/festival/like/${content_id}/`);
 
-  const handleLikeClick = () => {
-    try {
-      const response = axios.post(`127.0.0.1:8000/festival/like/${content_id}/`);
-      
-      if (response.data.message === 'success') {
-        setLiked(true);
-      } else {
-        setLiked(false);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    
-    }
+  //     if (response.data.message === 'success') {
+  //       setLiked(true);
+  //     } else {
+  //       setLiked(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }}
 
-    setLiked(!liked);
-  }
+
   // 축제 정보 불러오기
   const [festidata, setFestiData] = useState({});
   const { content_id } = useParams();
@@ -54,32 +51,49 @@ function FestiDetail() {
   const [reviews, setReviews] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
 
+  const isTokenValid = (token) => {
+    try {
+      const decodedToken = jwt_decode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decodedToken.exp < currentTime) {
+        return (false, console.log('토큰 만료')); // 토큰이 만료됨
+
+      }
+
+      return true; // 토큰이 유효함
+    } catch (error) {
+      return (false, console.log('토큰 파싱 오류 등으로 유효하지 않음')); // 토큰 파싱 오류 등으로 유효하지 않음
+      ;
+    }
+  };
+
+
   const addReview = async () => {
     if (reviewInput) {
       const newReview = {
         content_id: content_id,
-        user: 'Current user',
-        title: 'Firest review',
+        // user: 'Current user',
+        // title: 'First review',
         content: reviewInput,
         rank: 5,
         created_at: new Date().toISOString(),
-        updatedat: new Date().toISOString()
+        updatedate: new Date().toISOString()
       };
       try {
         const token = localStorage.getItem("accessToken");
 
-        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, {
+        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, newReview, {
           headers: {
-              'Authorization': `Bearer ${token}`
-          }},
-          );
+            Authorization: `Bearer ${token}`
+          }
+        },
+        );
         setReviews([...reviews, newReview]);
         setReviewInput('');
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-
-
     }
   };
   useEffect(() => {
@@ -107,6 +121,14 @@ function FestiDetail() {
     };
     const map = new kakao.maps.Map(container, options);
 
+    //지도에 마커 생성 및 호출
+    const markerPosition = new kakao.maps.LatLng(festidata.mapy, festidata.mapx);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+    marker.setMap(map);
+
+
   }, [festidata.mapx, festidata.mapy]);
 
   // 홈페이지 도메인 추출
@@ -121,6 +143,8 @@ function FestiDetail() {
     domain = new URL(url).hostname; // 도메인 이름만 추출
     console.log(domain);
   }
+
+
 
   // const homepageHtml = festidata.detailCommon[0].homepage;
 
@@ -176,62 +200,69 @@ function FestiDetail() {
               </ul>
               <div>
                 <p className='hub_p_tag'>My Likes (Click 🤍)</p>
-                <button className='like_button' onClick={handleLikeClick}>{liked ? '🩷' : '🤍'}</button>
+                {/* <button className='like_button' onClick={handleLikeClick}>{liked ? '🤍' : '🩷'}</button> */}
               </div>
             </div>
           </div>
 
           <div className='fest_info_bottom'>
             <div className='fest_info_bottom_overview+homepage'>
-              <ul>
 
-                <div className='sub_overview'>
-                  <p className='sub_p_tag'>Overview</p>
-                  {festidata.detailCommon && festidata.detailCommon[0].overview}
-                </div>
-                <div><p><br></br></p></div>
-                <div className='sub_homepage'>
-                  <p className='sub_p_tag'>Homepage</p>
+              <div className='sub_overview'>
+                <p className='sub_p_tag'>Overview</p>
+                {festidata.detailCommon && festidata.detailCommon[0].overview}
+              </div>
 
-                  {domain && <p>{domain} </p>}
+              <div><p><br></br></p></div>
 
+            </div>
+            <div className='sub_homepagesub_tel'>
+              <div className='sub_homepage'>
+                <p className='sub_p_tag'>Homepage</p>
+                {domain && <p>{domain} </p>}
+              </div>
 
-                </div>
-
-              </ul>
+              <div className='sub_tel'>
+                <p className='sub_p_tag'>Tel</p>
+                {festidata.tel ? festidata.tel.replace(/<br\s*\/?>/gm, '\n').replace(/'\n'/g, '<br>' ) : ''}
+              </div>
             </div>
 
             <div className='fest_info_bottom_else'>
-              <ul>
 
-                <div className='fest_info_bottom_else_details'>
+              <div className='fest_info_bottom_else_details'>
 
-                  <div className='sub_address'>
-                    <p className='sub_p_tag'>Address</p>
-                    {/* {festidata.addr2} */}
-                  </div>
+              <div className='sub_entry_fee'>
+                  <p className='sub_p_tag'>Entry Fee</p>
+                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].use_time_festival.replace(/<br>/g, ' ')}
 
-                  <div className='sub_tel'>
-                    <p className='sub_p_tag'>Tel</p>
-                    {festidata.tel}
-                  </div>
-
-                  <div class='sub_age'>
-                    {/* <div class='sub_rest_date'>
-                        <p class='sub_p_tag'>Closed Date</p>
-                        {festidata.detail_intro_fest.rest_date} </div>
-
-                      <div class='sub_info_center'>
-                        <p class='sub_p_tag'>Info Center</p>
-                        {festidata.detail_intro_travel[0].info_center} </div> */}
-                  </div>
                 </div>
 
-              </ul>
+              <div className='sub_age'>
+                  <p className='sub_p_tag'>Age Limit</p>
+                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].age_limit}
+                </div>
+
+                <div className='sub_category'>
+                  <p className='sub_p_tag'>Category</p>
+                  {festidata.cat1}
+                </div>
+
+                <div className='sub_date'>
+                  <p className='sub_p_tag'>Duration</p>
+                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_start_date} ~ {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_end_date}
+                </div>
+
+
+              </div>
+
+
             </div>
           </div>
 
           <p className='sub_p_tag' >Location</p>
+          <p className='sub_p_tag_0' >{festidata.addr1}</p>
+          
           <div className='fest_info_map'>
             <div id="map" style={{ width: '500px', height: '500px' }}></div>;
 
@@ -258,6 +289,8 @@ function FestiDetail() {
 
             <div className='review_posted'>
               <p>Other Reviews</p>
+              {/* {festidata.reviews && festidata.reviews[0].content} */}
+
               {reviews.map((review, idx) => (
                 <div className='list' key={idx}>
                   <h2>{review.content}</h2>
