@@ -45,6 +45,7 @@ export const ImageContainer = styled.div`
   background-color: #e9fdfd;
   width: 100%;
   margin-top: 1rem;
+  padding-top: 1rem;
 
   .wrapper {
     display: grid;
@@ -97,6 +98,7 @@ export const PaginationContainer = styled.div`
     justify-content: center;
     width: 100%;
     background-color: #e9fdfd;
+    padding-bottom: 2rem;
 
     button {
         padding: 0.2rem 0.5rem;
