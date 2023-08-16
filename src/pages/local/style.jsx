@@ -14,6 +14,7 @@ export const LocalContainer = styled.div`
         width: 70%;
         margin-left: 7rem;
         margin-bottom: 0.2rem;
+        font-family: LexendLight;
     }
 `
 

@@ -101,9 +101,10 @@ export const ImageContainer = styled.div`
       p {
         width: 11.8rem;
         word-wrap: break-word;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         text-align: center;
         margin: 0.2rem 0;
+        font-family: LexendLight;
       }
     }
   }

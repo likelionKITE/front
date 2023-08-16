@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { MainContainer, Banner, Travel, Festival, Button } from './style';
+import { MainContainer, Banner, Travel, Festival, YourSlider, Button } from './style';
 import './main.css';
 import { removeParenthesesContent } from '../local/body';
 
@@ -103,16 +103,16 @@ function Main() {
                     <button onClick={() => setSelectedTheme('traditional')}>Traditional</button>
                     <button onClick={() => setSelectedTheme('music')}>Music</button>
                 </Button>
-                <Slider {...TravelSettings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                <YourSlider {...TravelSettings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
                     {items.map((item) => (
                         <Link to={item.link} key={item.content_id}>
                             <div>
                                 <img src={item.first_image} alt={item.title} />
-                                <p>{item.title}</p>
+                                <p>{removeParenthesesContent(item.title)}</p>
                             </div>
                         </Link>
                     ))}
-                </Slider>
+                </YourSlider>
             </Festival>
         );
     };

@@ -17,6 +17,7 @@ export const FestivalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 5rem;
+  margin-bottom: 5rem;
   width: 100%;
 
   h2 {
@@ -24,7 +25,7 @@ export const FestivalContainer = styled.div`
     color: #333;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
-    font-family: Lexend;
+    font-family: LexendLight;
   }
 `;
 
@@ -107,8 +108,8 @@ export const ImageContainer = styled.div`
     grid-template-rows: repeat(2, auto);
     gap: 10px;
     width: 65%;
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
 
     div {
       display: flex;
