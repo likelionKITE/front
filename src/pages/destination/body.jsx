@@ -5,7 +5,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import {
-  TravelContainer, Text, CategorySelect, ImageContainer, SelectWrapper
+  TravelContainer, Text, CategorySelect, ImageContainer, SelectWrapper,PaginationContainer
 } from './style'
 
 function TravelList() {
@@ -133,7 +133,7 @@ function TravelList() {
           ))}
         </div>
       </ImageContainer>
-      <div className='PaginationContainer'>
+      <PaginationContainer>
         {currentGroup > 1 && (
           <button onClick={() => setCurrentPage(startPageIndex - 1)}>
             <FontAwesomeIcon icon={faAnglesLeft} />
@@ -162,7 +162,7 @@ function TravelList() {
           >
             <FontAwesomeIcon icon={faAnglesRight} /></button>
         )}
-      </div>
+      </PaginationContainer>
     </TravelContainer>
 );
 }

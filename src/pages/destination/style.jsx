@@ -92,4 +92,24 @@ margin-bottom: 1rem;
   margin-right: 2rem;
 }
 `;
-//브랜치 실수 확인용
+export const PaginationContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #e9fdfd;
+
+    button {
+        padding: 0.2rem 0.5rem;
+        margin: 0.2rem;
+        border: 1px solid #ccc;
+        border-radius: 0.2rem;
+        background-color: #fdffff;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+    }
+`;
