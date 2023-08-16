@@ -111,7 +111,7 @@ export const ImageContainer = styled.div`
       flex-direction: column;
       align-items: center;
       width: 12rem;
-      height: 13rem;
+      height: 12.9rem;
       border: 1px solid #ccc;
       border-radius: 0.3rem;
       padding-bottom: 0.5rem;

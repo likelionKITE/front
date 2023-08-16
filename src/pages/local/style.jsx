@@ -79,27 +79,29 @@ export const ImageContainer = styled.div`
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 11rem;
+            width: 12rem;
+            height: 12.9rem;
             border: 1px solid #ccc;
             border-radius: 0.3rem;
+            margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
             background-color: #fdffff;
             box-shadow: 6px 5px 7px rgba(0, 0, 0, 0.1);
 
             img {
-            width: 11rem;
-            height: 8.5rem;
+            width: 11.9rem;
+            height: 9.5rem;
             border-radius: 0.3rem 0.3rem 0 0;
             margin-bottom: 0.3rem;
         }
 
             p {
-                width: 10rem;
+                width: 11.8rem;
                 word-wrap: break-word;
-                font-size: 0.9rem;
+                font-size: 0.8rem;
+                margin-top: 0.1rem;
                 text-align: center;
-                margin-right: 0;
-                font-family: Dosis;
+                font-family: LexendLight;
             }
         }
 }
@@ -157,16 +159,17 @@ export const Festival = styled.div`
 
     div img {
         width: 14rem;
-        height: 15.5rem;
+        height: 18rem;
         border-radius: 0.3rem;
     }
 
     div p {
         font-size: 1rem;
+        margin-top: 0.2rem;
         padding-left: 0.3rem;
         margin-right: 0;
         text-align: center;
         width: 13rem;
-        font-family: Dosis;
+        font-family: LexendLight;
     }
 `;
