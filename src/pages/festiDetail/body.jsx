@@ -24,7 +24,6 @@ function FestiDetail() {
   //     console.error('Error fetching data:', error);
   //   }}
 
-
   // 축제 정보 불러오기
   const [festidata, setFestiData] = useState({});
   const { content_id } = useParams();
@@ -41,7 +40,6 @@ function FestiDetail() {
       // setLoading(false); // 데이터 로딩 중 에러가 발생했음을 설정
     }
 
-
   }
   useEffect(() => {
     getDetail();
@@ -50,62 +48,59 @@ function FestiDetail() {
   // 리뷰 작성 및 나열
   const [reviews, setReviews] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
-
-  const isTokenValid = (token) => {
-    try {
-      const decodedToken = jwt_decode(token);
-      const currentTime = Date.now() / 1000;
-
-      if (decodedToken.exp < currentTime) {
-        return (false, console.log('토큰 만료')); // 토큰이 만료됨
-
-      }
-
-      return true; // 토큰이 유효함
-    } catch (error) {
-      return (false, console.log('토큰 파싱 오류 등으로 유효하지 않음')); // 토큰 파싱 오류 등으로 유효하지 않음
-      ;
-    }
-  };
-
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewRank, setReviewRank] = useState(5);
 
   const addReview = async () => {
-    if (reviewInput) {
-      const newReview = {
-        content_id: content_id,
-        // user: 'Current user',
-        // title: 'First review',
-        content: reviewInput,
-        rank: 5,
-        created_at: new Date().toISOString(),
-        updatedate: new Date().toISOString()
-      };
-      try {
-        const token = localStorage.getItem("accessToken");
+    console.log("")
 
-        await axios.post(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`, newReview, {
-          headers: {
-            Authorization: `Bearer ${token}`
+    if (reviewInput && reviewTitle) {
+      const newReview = {
+        title: reviewTitle,
+        content: reviewInput,
+        rank: reviewRank,
+      };
+
+      try {
+        const token = localStorage.getItem('accessToken');
+
+        const response = await axios.post(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`,
+          newReview,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        },
         );
-        setReviews([...reviews, newReview]);
-        setReviewInput('');
+
+        if (response.data.content_id) {
+          setReviews([...reviews, response.data]);
+          setReviewInput('');
+          setReviewTitle('');
+          setReviewRank(5);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error adding review:', error);
       }
     }
-  };
+  }
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`); // 리뷰 목록을 가져오는 API 주소를 적절하게 설정해주세요
+        const response = await axios.get(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`
+        );
         setReviews(response.data);
       } catch (error) {
         console.error('Error fetching reviews:', error);
       }
-    }; fetchReviews();
-  }, []);
+    };
+
+    fetchReviews();
+  }, [content_id]);
+
 
 
 
@@ -117,7 +112,7 @@ function FestiDetail() {
     const container = document.getElementById('map');
     const options = {
       center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
-      level: 3,
+      level: 5,
     };
     const map = new kakao.maps.Map(container, options);
 
@@ -141,7 +136,7 @@ function FestiDetail() {
   if (match && match[1]) {
     const url = match[1];
     domain = new URL(url).hostname; // 도메인 이름만 추출
-    console.log(domain);
+    
   }
 
 
@@ -224,7 +219,7 @@ function FestiDetail() {
 
               <div className='sub_tel'>
                 <p className='sub_p_tag'>Tel</p>
-                {festidata.tel ? festidata.tel.replace(/<br\s*\/?>/gm, '\n').replace(/'\n'/g, '<br>' ) : ''}
+                {festidata.tel ? festidata.tel.replace(/<br\s*\/?>/gm, '\n').replace(/'\n'/g, '<br>') : ''}
               </div>
             </div>
 
@@ -232,13 +227,13 @@ function FestiDetail() {
 
               <div className='fest_info_bottom_else_details'>
 
-              <div className='sub_entry_fee'>
+                <div className='sub_entry_fee'>
                   <p className='sub_p_tag'>Entry Fee</p>
                   {festidata.detail_intro_fest && festidata.detail_intro_fest[0].use_time_festival.replace(/<br>/g, ' ')}
 
                 </div>
 
-              <div className='sub_age'>
+                <div className='sub_age'>
                   <p className='sub_p_tag'>Age Limit</p>
                   {festidata.detail_intro_fest && festidata.detail_intro_fest[0].age_limit}
                 </div>
@@ -252,54 +247,91 @@ function FestiDetail() {
                   <p className='sub_p_tag'>Duration</p>
                   {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_start_date} ~ {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_end_date}
                 </div>
-
-
               </div>
-
-
             </div>
           </div>
 
           <p className='sub_p_tag' >Location</p>
           <p className='sub_p_tag_0' >{festidata.addr1}</p>
-          
+
           <div className='fest_info_map'>
             <div id="map" style={{ width: '500px', height: '500px' }}></div>;
-
           </div>
-
         </div>
 
-        <div className='review_info'>
-          <h1>Review</h1>
 
-          <div className='review_posting'>
+        <div>
 
-            <div className='review_posting_input'>
-              <p>Details</p>
+          <div className="review_info">
+            <h1>Review</h1>
+            <div className="review_posting">
+              <div className="review_posting_input">
+                <p>Details</p>
+                <input
+                  id="content_text"
+                  placeholder="Post Your Review"
+                  type="text"
+                  value={reviewInput}
+                  onChange={(e) => setReviewInput(e.target.value)}
+                />
+                <input
+                  id="title_text"
+                  placeholder="Review Title"
+                  type="text"
+                  value={reviewTitle}
+                  onChange={(e) => setReviewTitle(e.target.value)}
+                />
+                <input
+                  id="rank_number"
+                  placeholder="Rank (1-5)"
+                  type="number"
+                  min="1"
+                  max="5"
+                  value={reviewRank}
+                  onChange={(e) => setReviewRank(Number(e.target.value))}
+                />
+                <button className="posting_button" onClick={addReview}>
+                  post
+                </button>
+              </div>
+              <div className="review_posted">
+                <p>Other Reviews</p>
+                {reviews.map((review, idx) => (
+                  <div className="list" key={idx}>
+                    <h2>{review.content}</h2>
+                    <p>Title: {review.title}</p>
+                    <p>Rank: {review.rank}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        {/* <p>Details</p>
               <input id='content_text' placeholder='Post Your Review' type='text'
                 value={reviewInput}
                 onChange={(e) => { setReviewInput(e.target.value) }} />
 
               <button className='posting_button' onClick={addReview}>
                 post
-              </button>
+              </button> */}
 
-            </div>
+        <div className='review_posted'>
+          <p>Other Reviews</p>
+          {/* {festidata.reviews && festidata.reviews[0].content} */}
 
-            <div className='review_posted'>
-              <p>Other Reviews</p>
-              {/* {festidata.reviews && festidata.reviews[0].content} */}
-
-              {reviews.map((review, idx) => (
+          {/* {reviews.map((review, idx) => (
                 <div className='list' key={idx}>
                   <h2>{review.content}</h2>
                 </div>
-              ))}
+              ))} */}
 
-            </div>
-          </div>
         </div>
+
 
       </Festi_info >
 
