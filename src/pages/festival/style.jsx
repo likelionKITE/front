@@ -52,7 +52,7 @@ export const YourSlider = styled(Slider)`
       width: 16rem;
       height: 21rem;
       object-fit: cover;
-      margin-botton:0.4 rem;
+      margin-bottom:0.4 rem;
     }
 
     h2 {

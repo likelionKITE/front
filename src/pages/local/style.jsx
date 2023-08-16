@@ -63,7 +63,7 @@ export const ImageContainer = styled.div`
     p {
         font-size: 2rem;
         font-family: Lexend;
-        width: 55%;
+        width: 65%;
     }
 
     .wrapper {
@@ -71,7 +71,7 @@ export const ImageContainer = styled.div`
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(2, 1fr);
         gap: 10px;
-        width: 55%;
+        width: 65%;
         padding-top: 1rem;
         padding-bottom: 1rem;
 
@@ -157,7 +157,7 @@ export const Festival = styled.div`
 
     div img {
         width: 14rem;
-        height: 15rem;
+        height: 15.5rem;
         border-radius: 0.3rem;
     }
 
