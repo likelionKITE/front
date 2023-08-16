@@ -29,6 +29,28 @@ const DestiDetail = () => {
     }
   };
 
+  // 지도
+  const { kakao } = window;
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
+      level: 5,
+    };
+    const map = new kakao.maps.Map(container, options);
+  
+    //지도에 마커 생성 및 호출
+    const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+    marker.setMap(map);
+  
+  
+  }, [detailData.mapx, detailData.mapy]);
+  // 지도 끝
+
   // 찜
   const handleLike = async () => {
     try {
@@ -195,6 +217,9 @@ const DestiDetail = () => {
 
       {/* 찜 */}
       <button onClick={handleLike}>Like ({likeCount})</button>
+
+      {/* 지도 */}
+      <div id="map" style={{ width: '500px', height: '500px' }}></div>;
 
       {/* 리뷰 */}
       <div>

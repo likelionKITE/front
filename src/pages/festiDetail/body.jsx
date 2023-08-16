@@ -8,22 +8,6 @@ import { detailApi } from './apis';
 import axios from 'axios';
 
 function FestiDetail() {
-  // 찜 버튼
-  const [liked, setLiked] = useState(false);
-
-  // const handleLikeClick = () => {
-  //   try {
-  //     const response = axios.post(`127.0.0.1:8000/festival/like/${content_id}/`);
-
-  //     if (response.data.message === 'success') {
-  //       setLiked(true);
-  //     } else {
-  //       setLiked(false);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }}
-
   // 축제 정보 불러오기
   const [festidata, setFestiData] = useState({});
   const { content_id } = useParams();
@@ -39,11 +23,68 @@ function FestiDetail() {
       console.error('Error fetching data:', error);
       // setLoading(false); // 데이터 로딩 중 에러가 발생했음을 설정
     }
-
   }
   useEffect(() => {
     getDetail();
   }, []);
+
+  // 찜
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          console.error('Access token not found.');
+          return;
+        }
+
+        const likeResponse = await axios.get(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/like/${content_id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setLikeCount(likeResponse.data.like_cnt);
+        setLiked(likeResponse.data.like_cnt > 0);
+      } catch (error) {
+        console.error('Error fetching like information:', error);
+      }
+    };
+    fetchData();
+  }, [content_id]);
+
+  const handleLike = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        console.error('Access token not found.');
+        return;
+      }
+
+      const response = await axios.post(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/like/${content_id}/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.like_cnt >= 0) {
+        setLiked(!liked);
+        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+      }
+    } catch (error) {
+      console.error('Error liking content:', error);
+    }
+  };
+
 
   // 리뷰 작성 및 나열
   const [reviews, setReviews] = useState([]);
@@ -169,8 +210,6 @@ function FestiDetail() {
   };
 
 
-
-
   // 이하 지도구현
 
   const { kakao } = window;
@@ -205,22 +244,6 @@ function FestiDetail() {
     domain = new URL(url).hostname; // 도메인 이름만 추출
 
   }
-
-
-
-  // const homepageHtml = festidata.detailCommon[0].homepage;
-
-  // const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
-  // const match = homepageHtml.match(regex);
-
-  // let domain = '';
-  // if (match && match[1]) {
-  //   const url = match[1];
-  //   domain = new URL(url).hostname; // 도메인 이름만 추출
-  //   console.log(domain);
-  // }
-
-
 
   return (
     <>
@@ -260,9 +283,14 @@ function FestiDetail() {
                 </div>
 
               </ul>
+              {/* 찜 구현 */}
+
               <div>
                 <p className='hub_p_tag'>My Likes (Click 🤍)</p>
-                {/* <button className='like_button' onClick={handleLikeClick}>{liked ? '🤍' : '🩷'}</button> */}
+                <button className='like_button' onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
+
+                {/* <button onClick={handleLike}>Like </button>
+              <p>Total Likes: ({likeCount})</p> */}
               </div>
             </div>
           </div>
