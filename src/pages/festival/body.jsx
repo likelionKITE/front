@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -7,11 +7,16 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {
   FestivalContainer,
+  Pagetitle,
   YourSlider,
+  Text,
   CategorySelect,
   ImageContainer,
   CategorySelectWrapper
 } from './style';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faIcons } from "@fortawesome/free-solid-svg-icons";
+
 const removeParenthesesContent = (text) => {
   return text
     .replace(/(\([^)]*\))|(\))/g, '')
@@ -33,12 +38,13 @@ function FestivalList() {
   const [currentMonthFestivals, setCurrentMonthFestivals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortType, setSortType] = useState('');
-  const month_dict = {"1": "01","2": "02","3": "03","4": "04","5": "05","6": "06",
-  "7": "07","8": "08","9": "09","10": "10","11": "11","12": "12",
+  const month_dict = {
+    "1": "01", "2": "02", "3": "03", "4": "04", "5": "05", "6": "06",
+    "7": "07", "8": "08", "9": "09", "10": "10", "11": "11", "12": "12",
   };
   const area_dict = {
-    "Seoul": "1", "Incheon": "2", "Daejeon": "3", "Daegu": "4", "Gwangju": "5", "Busan": "6", 
-    "Ulsan": "7", "Sejong": "8", "Gyeonggi-do": "31", "Gangwon-do": "32", "Chungcheongbuk-do": "33", 
+    "Seoul": "1", "Incheon": "2", "Daejeon": "3", "Daegu": "4", "Gwangju": "5", "Busan": "6",
+    "Ulsan": "7", "Sejong": "8", "Gyeonggi-do": "31", "Gangwon-do": "32", "Chungcheongbuk-do": "33",
     "Chungcheongnam-do": "34", "Gyeongsangbuk-do": "35", "Gyeongsangnam-do": "36", "Jeollabuk-do": "37", "Jeollanam-do": "38", "Jeju-do": "39"
   };
   const fetchData = async () => {
@@ -83,9 +89,11 @@ function FestivalList() {
   const SliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
     arrows: false
   };
 
@@ -107,56 +115,60 @@ function FestivalList() {
 
   return (
     <FestivalContainer>
-      <h1>Festival List</h1>
+
+      <Pagetitle>
+        <h1><FontAwesomeIcon icon={faIcons} /> Festival</h1>
+      </Pagetitle>
+      
       <h2>Festival in this month</h2>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <YourSlider {...SliderSettings}>
           {currentMonthFestivals.map(festival => (
-          <div key={festival.content_id}>
-            <Link to={`/festiDetail/${festival.content_id}`}>
-              <img src={festival.first_image} alt={festival.title} />
-              <p>{removeParenthesesContent(festival.title)}</p> {/* 변경된 부분 */}
-            </Link>
-          </div>
+            <div key={festival.content_id}>
+              <Link to={`/festiDetail/${festival.content_id}`}>
+                <img src={festival.first_image} alt={festival.title} />
+                <p>{removeParenthesesContent(festival.title)}</p> {/* 변경된 부분 */}
+              </Link>
+            </div>
           ))}
         </YourSlider>
       )}
 
-      <h2>Search your favorite Festival!</h2>
+      <Text>Search your favorite Festival</Text>
       <CategorySelectWrapper>
-      <CategorySelect onChange={handleMonthChange} value={selectedMonth}>
-        <option value="">Select Month</option>
-        {Object.entries(month_dict).map(([key, value]) => (
-          <option key={key} value={value}>
-            {key}
-          </option>
-        ))}
-      </CategorySelect>
-      <CategorySelect onChange={handleAreaChange} value={selectedArea}>
-        <option value="">Select Area</option>
-        {Object.entries(area_dict).map(([key, value]) => (
-          <option key={value} value={value}>
-            {key}
-          </option>
-        ))}
-      </CategorySelect>
-      <CategorySelect onChange={handleSortChange} value={sortType}>
-        <option value="">Sort by</option>
-        <option value="like">Likes</option>
-        <option value="startdate">Start Date</option>
-      </CategorySelect>
+        <CategorySelect onChange={handleMonthChange} value={selectedMonth}>
+          <option value="">Select Month</option>
+          {Object.entries(month_dict).map(([key, value]) => (
+            <option key={key} value={value}>
+              {key}
+            </option>
+          ))}
+        </CategorySelect>
+        <CategorySelect onChange={handleAreaChange} value={selectedArea}>
+          <option value="">Select Area</option>
+          {Object.entries(area_dict).map(([key, value]) => (
+            <option key={value} value={value}>
+              {key}
+            </option>
+          ))}
+        </CategorySelect>
+        <CategorySelect onChange={handleSortChange} value={sortType}>
+          <option value="">Sort by</option>
+          <option value="like">Likes</option>
+          <option value="startdate">Start Date</option>
+        </CategorySelect>
       </CategorySelectWrapper>
       <ImageContainer>
         <div className="wrapper">
           {festivalList.map(festival => (
-              <Link to={`/festiDetail/${festival.content_id}`}key={festival.content_id}>
-                <div>
+            <Link to={`/festiDetail/${festival.content_id}`} key={festival.content_id}>
+              <div>
                 <img src={festival.first_image} alt={festival.title} />
                 <p>{removeParenthesesContent(festival.title)}</p>
-              </div>  
-              </Link>
+              </div>
+            </Link>
           ))}
         </div>
       </ImageContainer>

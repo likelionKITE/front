@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Slider from 'react-slick';
+
 
 export const MainContainer = styled.div`
     display: flex;
@@ -64,9 +66,11 @@ export const Travel = styled.div`
     div p {
         font-size: 1rem;
         padding-left: 0.3rem;
+        margin-top: 0.2rem;
         margin-right: 0;
         text-align: center;
-        width: 15rem;
+        width: 14.5rem;
+        font-family: LexendLight;
     }
 `
 
@@ -78,6 +82,14 @@ export const Festival = styled.div`
     padding-top: 4rem;
     padding-bottom: 5rem;
     width: 100%;
+`
+
+export const YourSlider = styled(Slider)`
+    opacity: 1;
+    width: 62rem;
+    transform: translate3d(0px, 0px, 0px);
+    justify-content: center;
+    margin-bottom: 6rem;
 
     div img {
         width: 15rem;
@@ -86,16 +98,19 @@ export const Festival = styled.div`
     }
 
     div p {
+        font-size: 1rem;
         padding-left: 0.3rem;
+        margin-top: 0.2rem;
         margin-right: 0;
         text-align: center;
-        width: 15rem;
+        width: 14.5rem;
+        font-family: LexendLight;
     }
-`
+`;
 
 export const Button = styled.div`
     display: flex;
-    margin-right: 30rem;
+    margin-right: 28rem;
     margin-bottom: 1rem;
 
     button {
@@ -113,7 +128,9 @@ export const Button = styled.div`
     }
 
     p {
+        font-family: Dosis;
         font-size: 2rem;
+        margin-right: 1rem;
     }
 `
 
