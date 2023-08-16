@@ -41,7 +41,7 @@ export const FestivalContainer = styled.div`
 
 export const YourSlider = styled(Slider)`
   opacity: 1;
-  width: 60rem;
+  width: 62rem;
   transform: translate3d(0px, 0px, 0px);
   justify-content: center;
 
@@ -51,7 +51,6 @@ export const YourSlider = styled(Slider)`
     img {
       width: 16rem;
       height: 21rem;
-      border-radius: 0.3rem 0.3rem 0 0;
       object-fit: cover;
       margin-botton:0.4 rem;
     }

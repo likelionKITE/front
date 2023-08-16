@@ -5,14 +5,6 @@ const Container = styled.div`
   margin-top: 5rem;
 `;
 
-const Card = styled.div`
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-`;
-
 const CardTitle = styled.h1`
   margin-bottom: 20px;
   font-size: 1.5rem;
@@ -39,7 +31,13 @@ const Button = styled.button`
   }
 `;
 
-const Section = styled(Card)`
+const Section = styled.div`
+  margin: 20px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   h2 {
     margin-bottom: 10px;
     font-size: 1.5rem;
@@ -72,6 +70,12 @@ const StyledImage = styled.img`
   border-radius: 40px;
 `;
 
-export {Container, Card, CardTitle, CardSubtitle, Button, Section, ImageLink,StyledImage
+export {
+  Container,
+  CardTitle,
+  CardSubtitle,
+  Button,
+  Section,
+  ImageLink,
+  StyledImage
 };
-//브랜치 실수 확인용
