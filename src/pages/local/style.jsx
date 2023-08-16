@@ -52,18 +52,27 @@ export const LocationButton = styled.button`
 
 export const ImageContainer = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: #e9fdfd;
     width: 100%;
+    padding-top: 2rem;
     margin-top: 1rem;
+    
+    p {
+        font-size: 2rem;
+        font-family: Lexend;
+        width: 55%;
+    }
 
     .wrapper {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(2, 1fr);
         gap: 10px;
-        width: 65%;
-        padding-top: 2rem;
+        width: 55%;
+        padding-top: 1rem;
         padding-bottom: 1rem;
 
         div {
@@ -89,6 +98,8 @@ export const ImageContainer = styled.div`
                 word-wrap: break-word;
                 font-size: 0.9rem;
                 text-align: center;
+                margin-right: 0;
+                font-family: Dosis;
             }
         }
 }
@@ -99,6 +110,7 @@ export const PaginationContainer = styled.div`
     justify-content: center;
     width: 100%;
     background-color: #e9fdfd;
+    padding-bottom: 1.5rem;
 
     button {
         padding: 0.2rem 0.5rem;
@@ -121,8 +133,9 @@ export const FestivalContainer = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #e9fdfd;
+    background-color: #e2f5e2;
     padding-bottom: 1.5rem;
+    margin-top: 3rem;
     margin-bottom: 5rem;
 `;
 
@@ -132,17 +145,19 @@ export const Festival = styled.div`
     align-items: center;
     justify-content: center;
     padding-top: 2rem;
-    width: 100%;
+    padding-bottom: 1rem;
+    width: 100rem;
 
     p {
         font-size: 2rem;
-        padding-bottom: 0.6rem;
-        margin-right: 58rem;
+        font-family: Lexend;
+        padding-bottom: 1rem;
+        margin-right: 54rem;
     }
 
     div img {
-        width: 15rem;
-        height: 10rem;
+        width: 14rem;
+        height: 15rem;
         border-radius: 0.3rem;
     }
 
@@ -151,6 +166,7 @@ export const Festival = styled.div`
         padding-left: 0.3rem;
         margin-right: 0;
         text-align: center;
-        width: 15rem;
+        width: 13rem;
+        font-family: Dosis;
     }
 `;

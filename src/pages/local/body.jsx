@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faAnglesRight, faLocationDot, faIcons } from "@fortawesome/free-solid-svg-icons";
 import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, PaginationContainer, Festival, FestivalContainer } from './style';
 
 export const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
@@ -37,15 +37,17 @@ function Local() {
         slidesToScroll: 1,
     };
 
-    const FestivalSlider = ({ title, items }) => (
+    const FestivalSlider = ({ items }) => (
         <Festival>
-            <p>{title}</p>
+            <p><FontAwesomeIcon icon={faIcons} /> Festival</p>
             <Slider {...settings} style={{ width: '65rem', opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
                 {items.map((item) => (
-                    <div key={item.content_id}>
-                        <img src={item.first_image2} alt={item.title} />
-                        <p>{item.title}</p>
-                    </div>
+                    <Link to={`/festiDetail/${item.content_id}`}>
+                        <div key={item.content_id}>
+                            <img src={item.first_image2} alt={item.title} />
+                            <p>{item.title}</p>
+                        </div>
+                    </Link>
                 ))}
             </Slider>
         </Festival>
@@ -109,7 +111,7 @@ function Local() {
         <LocalContainer>
             <h1>Discover the hidden fun in South Korea!</h1>
             <Text>Please select a region</Text>
-            
+
             {/* 지역 */}
             <ButtonContainer>
                 {Object.entries(areas).map(([area, areaCode]) => (
@@ -123,6 +125,7 @@ function Local() {
             </ButtonContainer>
 
             <ImageContainer>
+                <p><FontAwesomeIcon icon={faLocationDot} /> Tourist Destination</p>
                 <div className="wrapper">
                     {currentItems.map((item) => (
                         <Link to={`/destiDetail/${item.content_id}`}> {/* Link를 여행지 상세 페이지로 연결 */}
@@ -142,10 +145,10 @@ function Local() {
                 ))}
                 {pageGroup < totalGroups && <button onClick={handleNextGroup}><FontAwesomeIcon icon={faAnglesRight} /></button>}
             </PaginationContainer>
-            
+
             {/* 축제 */}
             <FestivalContainer>
-                <FestivalSlider title="Festival" items={festivalList} />
+                <FestivalSlider title={<FontAwesomeIcon icon={faIcons} /> + "Festival"} items={festivalList} />
             </FestivalContainer>
 
         </LocalContainer>
