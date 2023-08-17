@@ -15,7 +15,6 @@ function Header() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('currentUser');
         localStorage.removeItem('userInfo');
-        localStorage.removeItem('likedDestinations'); // 찜한 내용 삭제
 
         setIsSignedIn(false);
         setCurrentUser(null);

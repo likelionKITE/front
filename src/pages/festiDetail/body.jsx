@@ -112,7 +112,6 @@ const FestiDetail = () => {
         );
 
         setLikeCount(likeResponse.data.like_cnt);
-        setLiked(likeResponse.data.like_cnt > 0);
       } catch (error) {
         console.error('Error fetching like information:', error);
       }
@@ -137,10 +136,8 @@ const FestiDetail = () => {
           },
         }
       );
-      if (response.data.like_cnt >= 0) {
         setLiked(!liked);
-        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-      }
+        setLikeCount(response.data.like_cnt);
     } catch (error) {
       console.error('Error liking content:', error);
     }

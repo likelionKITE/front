@@ -175,6 +175,7 @@ export const WriteReviewTitle = styled.h3`
   font-size: 15px;
   margin-bottom: 10px;
 `;
+
 export function removeBreakTags(str) {
   return str.replace(/<br\s*\/?>/g, '\n'); // <br> 태그를 개행문자(\n)로 변환
 }
