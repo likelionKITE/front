@@ -126,9 +126,9 @@ export const ImageContainer = styled.div`
 
       img {
         width: 11.9rem;
-          height: 9.5rem;
-          border-radius: 0.3rem 0.3rem 0 0;
-          margin-bottom: 0.3rem;
+        height: 9.5rem;
+        border-radius: 0.3rem 0.3rem 0 0;
+        margin-bottom: 0.3rem;
       }
 
       p {

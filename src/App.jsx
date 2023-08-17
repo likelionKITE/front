@@ -16,25 +16,25 @@ import Mypage from "./layout/mypage/body";
 function App() {
     return (
         <>
-        <AuthProvider>
-            <GlobalStyle />
-            <Router>
-                <Layout>
-                    <Routes>
-                        <Route path={`/`} element={<Main />}></Route>
-                        <Route path={`/signin`} element={<Signin />}></Route>
-                        <Route path={`/signup`} element={<Signup />}></Route>
-                        <Route path={`/festival`} element={<Festival />}></Route>
-                        <Route path={`/destination`} element={<Destination />}></Route>
-                        <Route path={`/local`} element={<Local />}></Route>
-                        <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
-                        <Route path={`/festiDetail/:content_id`} element={<FestiDetail />}></Route>
-                        <Route path={`/destiDetail/:content_id`} element={<DestiDetail />}></Route>
-                        <Route path={`/mypage`} element={<Mypage />}></Route>
-                    </Routes>
-                </Layout>
-            </Router>
-        </AuthProvider>
+            <AuthProvider>
+                <GlobalStyle />
+                <Router>
+                    <Layout>
+                        <Routes>
+                            <Route path={`/`} element={<Main />}></Route>
+                            <Route path={`/signin`} element={<Signin />}></Route>
+                            <Route path={`/signup`} element={<Signup />}></Route>
+                            <Route path={`/festival`} element={<Festival />}></Route>
+                            <Route path={`/destination`} element={<Destination />}></Route>
+                            <Route path={`/local`} element={<Local />}></Route>
+                            <Route path={`/travelInfo`} element={<TravelInfo />}></Route>
+                            <Route path={`/festiDetail/:content_id`} element={<FestiDetail />}></Route>
+                            <Route path={`/destiDetail/:content_id`} element={<DestiDetail />}></Route>
+                            <Route path={`/mypage`} element={<Mypage />}></Route>
+                        </Routes>
+                    </Layout>
+                </Router>
+            </AuthProvider>
         </>
     )
 }
