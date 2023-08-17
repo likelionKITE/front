@@ -5,6 +5,8 @@ import { useContext } from 'react';
 import { Wrapper, Nickname, Likes, Box, Reviews } from './style';
 import { Link } from 'react-router-dom';
 import { removeParenthesesContent } from '../../pages/local/body';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faPen } from "@fortawesome/free-solid-svg-icons";
 
 function Mypage() {
     const { mypageData, setMyPageData } = useContext(AuthContext);
@@ -32,10 +34,12 @@ function Mypage() {
     return (
         <Wrapper>
             <Nickname>
-                <h1>Hello, {mypageData ? mypageData.nickname : ""}!</h1>
+                <h1>Hello, {mypageData ? mypageData.nickname : ""} !</h1>
             </Nickname>
 
-            <h2>My Likes</h2>
+            <hr />
+
+            <h2>My Likes <FontAwesomeIcon icon={faHeart} /></h2>
             <Likes>
                 {likes.map((like, index) => (
                     <Link to={`/destiDetail/${like.content_id}`}>
@@ -47,18 +51,26 @@ function Mypage() {
                 ))}
             </Likes>
 
+            <hr />
+
             <Reviews>
-                <h2>My Review</h2>
+                <h2>My Review <FontAwesomeIcon icon={faPen} /></h2>
                 {reviews.map((review, index) => (
                     <div>
                         <Link to={`/destiDetail/${review.real_content_id}`}>
                             <p className="tour" key={index}>{removeParenthesesContent(review.tour)}</p>
+                            <hr />
+                            <p>Title</p>
                             <p className="title" key={index}>{review.title}</p>
+                            <hr />
+                            <p>Content</p>
                             <p className="content" key={index}>{review.content}</p>
                         </Link>
                     </div>
                 ))}
             </Reviews>
+
+            <hr />
 
         </Wrapper>
     );
