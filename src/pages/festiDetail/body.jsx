@@ -29,7 +29,6 @@ import {
   WriteReviewTitle,
   removeBreakTags,
   InfoMap,
-  Time
 } from './style'
 const Star = styled.span`
   font-size: 24px;

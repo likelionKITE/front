@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../pages/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { HeaderWrapper, Content, Nav, Menu, Sign } from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import logoImage from '../Logo.png';
 
 function Header() {
     const { isSignedIn, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
@@ -24,7 +25,9 @@ function Header() {
     return (
         <HeaderWrapper>
             <Content>
-                <Sign to='/'>KITE</Sign>
+                <Link to='/'>
+                    <img src={logoImage} alt="KITE" />
+                </Link>
                 <Nav>
                     <Menu to='/festival'>Festival</Menu>
                     <Menu to='/destination'>Tourist Destination</Menu>
