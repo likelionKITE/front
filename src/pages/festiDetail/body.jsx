@@ -3,7 +3,31 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
-
+import {Container,
+  Image,
+  MapContainer,
+  DetailContainer,
+  DetailContainer2,
+  ReviewContainer,
+  ReviewForm,
+  ReviewItem,
+  ReviewActions,
+  ReviewEditForm,
+  SubmitButton,
+  CancelButton,
+  LikeButton,
+  HomepageLink,
+  Title,
+  Subtitle,
+  Text,
+  Input,
+  Textarea,
+  EditButton,
+  DeleteButton,
+  SaveButton,
+  RatingContainer,
+  WriteReviewTitle,
+  removeBreakTags} from './style'
 const Star = styled.span`
   font-size: 24px;
   cursor: pointer;
@@ -281,81 +305,113 @@ const FestiDetail = () => {
   };
 
   // 홈페이지 추출
+  const homepageHtml = detailData.detailCommon && detailData.detailCommon[0]?.homepage;
+
+  const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
+  const match = homepageHtml ? homepageHtml.match(regex) : null;
+
+  let domain = '';
+  if (match && match[1]) {
+    const url = match[1];
+    domain = new URL(url).hostname; // 도메인 이름만 추출
+
+  }
+
 
   return (
-    <div>
-      <img src={detailData.first_image} alt={detailData.title} />
-      {/* 찜 */}
-      <button onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
+    <Container>
+      {Object.keys(detailData).length > 0 && (
+        <>
+          <Image src={detailData.first_image} alt={detailData.title} />
 
-      {/* 여행지 설명 */}
-      <h1>{detailData.title && removeParenthesesContent(detailData.title)}</h1>
-      <p>{detailData.addr1}</p>
-      <p>Tel: {detailData.tel}</p>
+          <LikeButton onClick={handleLike}>
+            {liked ? '♥' : '♡'} Total Like ({likeCount})
+          </LikeButton>
 
-      {/* 지도 */}
-      <div id="map" style={{ width: '500px', height: '500px' }}></div>
-
-      {/* 리뷰 */}
-      <div>
-        <h2>Reviews</h2>
-        {reviews.map((review) => (
-          <div key={review.id}>
-            {editingReviewId === review.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editingReview.title}
-                  onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
-                />
-                <textarea
-                  value={editingReview.content}
-                  onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
-                />
-                <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
-                <button onClick={() => handleSaveEdit(review.id)}>Save</button>
-                <button onClick={handleCancelEdit}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                <h3>{review.title}</h3>
-                <p>{review.content}</p>
-                <Rating initialValue={review.rank} readOnly />
-                <p>Created At: {review.created_at}</p>
-                <p>Updated At: {review.updated_at}</p>
-                {currentUser && review.user === currentUser && (
+          <DetailContainer>
+            <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
+            <Text>{detailData.addr1}</Text>
+            <Text>Tel: {removeBreakTags(detailData.tel)}</Text>
+          </DetailContainer>
+          <DetailContainer2>
+            <Subtitle>Additional Information</Subtitle>
+            <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
+            <Text>Event Place: {detailData.detail_intro_fest[0]?.event_place}</Text>
+            <Text>
+              Event Dates: {detailData.detail_intro_fest[0]?.event_start_date} -{' '}
+              {detailData.detail_intro_fest[0]?.event_end_date}
+            </Text>
+            {domain && (
+              <Text>
+                Homepage: <HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink>
+              </Text>
+            )}
+          </DetailContainer2>
+          <MapContainer id="map"></MapContainer>
+          <ReviewContainer>
+            <Subtitle>Reviews</Subtitle>
+            {reviews.map((review) => (
+              <ReviewItem key={review.id}>
+                {editingReviewId === review.id ? (
+                  <ReviewEditForm>
+                    <Input
+                      type="text"
+                      value={editingReview.title}
+                      onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
+                    />
+                    <Textarea
+                      value={editingReview.content}
+                      onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
+                    />
+                    <RatingContainer>
+                      <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
+                    </RatingContainer>
+                    <ReviewActions>
+                      <SaveButton onClick={() => handleSaveEdit(review.id)}>Save</SaveButton>
+                      <CancelButton onClick={handleCancelEdit}>Cancel</CancelButton>
+                    </ReviewActions>
+                  </ReviewEditForm>
+                ) : (
                   <div>
-                    <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
-                    <button onClick={() => handleEditReview(review)}>Edit</button>
+                    <h3>{review.title}</h3>
+                    <p>{review.content}</p>
+                    <Rating initialValue={review.rank} readOnly />
+                    <p>Writer:{review.user}</p>
+                    <p>Created At: {review.created_at}</p>
+                    <p>Updated At: {review.updated_at}</p>
+                    {currentUser && review.user === currentUser && (
+                      <ReviewActions>
+                        <DeleteButton onClick={() => handleDeleteReview(review.id)}>Delete</DeleteButton>
+                        <EditButton onClick={() => handleEditReview(review)}>Edit</EditButton>
+                      </ReviewActions>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
-          </div>
-        ))}
+              </ReviewItem>
+            ))}
 
-        {/* 리뷰 작성 폼 */}
-        <div>
-          <h3>Write a Review</h3>
-          <input
-            type="text"
-            placeholder="Title"
-            value={newReview.title}
-            onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
-          />
-          <textarea
-            placeholder="Content"
-            value={newReview.content}
-            onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
-          />
-          <Rating
-            initialValue={newReview.rank}
-            onChange={handleRatingChange}
-          />
-          <button onClick={handleAddReview}>Submit</button>
-        </div>
-      </div>
-    </div>
+            <ReviewForm>
+              <WriteReviewTitle>Write a Review</WriteReviewTitle>
+              <Input
+                type="text"
+                placeholder="Title"
+                value={newReview.title}
+                onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
+              />
+              <Textarea
+                placeholder="Content"
+                value={newReview.content}
+                onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+              />
+              <RatingContainer>
+                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
+              </RatingContainer>
+              <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+            </ReviewForm>
+          </ReviewContainer>
+        </>
+      )}
+    </Container>
   );
 };
 

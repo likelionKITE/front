@@ -1,143 +1,180 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-export const Festi_info = styled.div`
-    /* .fest_info{
-        text-align: center;
-    } */
-    h1{
-        margin-bottom: 30px;
-        margin-left: 50px;
-    }
-    //첫번째 박스
-    .fest_info_top{
-        text-align: center;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        margin-left: 50px;
-        margin-right: 50px;
-        
-    }
-    .fest_info_img{
-        width: 450px;
-        height: 350px;
-        /* max-width: 90%;
-        max-height: 90%; */
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:15rem;
+  padding-top:7rem;
+`;
 
-    }
-    .fest_info_hub{
-        margin-top: 50px;
-        margin-left: 50px;
-        margin-right: 20px;
+export const Image = styled.img`
+  width: 55rem;
+  height: 40rem;
+  margin-bottom: 20px;
+`;
 
-        font-size: 30px;
-        font-weight: bold;
-    }
-    .hub_p_tag{
-        font-size: 20px;
-    }
-    .like_button{
-        font-size: 30px;
-        border: none;
-        background-color: white;
+export const MapContainer = styled.div`
+  width: 30rem;
+  height: 30rem;
+`;
 
-    }
-    //두번째 박스
-    .fest_info_bottom{
-        margin: 50px;  
-        border: solid 2px #b8b8b8;
-    }
-    .sub_homepagesub_tel{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
+export const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 55rem;
+  margin-bottom: 10px;
+`;
+export const DetailContainer2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 55rem;
+  margin-bottom: 20px;
+  text-align:justify;
+`;
 
-    .fest_info_bottom_else{
-        margin: 30px;   
-        font-size: 15px;
+export const ReviewContainer = styled.div`
+  margin-top: 20px;
+  width: 100%;
+`;
 
+export const ReviewForm = styled.div`
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 20px;
+`;
 
-    }
-    .fest_info_bottom_else_details{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
-    .sub_p_tag{
-        text-align: center;
-        font-size: 30px;
-        font-weight: bold;
+export const ReviewItem = styled.div`
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
 
-    }
-    .sub_p_tag_0{
-        font-size: 10px;
-        text-align: center;
-    }
-    .sub_over_view{
-        margin-left: 100px;
-        margin-right: 100px;
-        margin-bottom: 50px;
-        display: none
-    }
-    .fest_info_map{
-        display: flex;
-        justify-content: center;
-    }
+export const ReviewActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+`;
 
+export const ReviewEditForm = styled.div`
+margin-top: 10px;
+padding: 10px;
+background-color: #f5f5f5;
+border-radius: 4px;
+`;
 
+export const SubmitButton = styled.button`
+background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+`;
 
-/* 이하 리뷰 부분 css */
-    .review_info{
-        margin-top: 50px;
-        padding: 20px;
-        padding-left: 30px;
-    }
-    .review_posting_input{
-        margin-top: 30px;
-        margin-left: 50px;
-    }
-    
-    #title_text{
-        width: 90%;
-        padding-bottom: 0px;
-        border: none;
-        font-size: 20px;
-        border-bottom: solid 2px #b8b8b8;
-        font-weight: bold;
-    }
-    #content_text{
-        width: 90%;
-        padding-bottom: 0px;
-        resize: none;
-        border: none;
-        border-bottom: solid 2px #b8b8b8;
-        font-size: 40px;
-    }
-    #content_text:focus{ outline: none; }
-    #title_text:focus{outline: none;}
-    .posting_button{
-        margin-left:10px;
-        border: none;
-        background-color: #b2b594;
-        border-radius: 5px;
-        font-size: 20px;
-    }
-    .review_posted{
-        margin-top: 30px;
-        margin-left: 50px;
-    }
-    
-    /* .review_posting{
-        display: flex;
-        justify-content: center ;
-    }
-    .review_posting_detail{
-        display: flex;
-        justify-content: center ;
-        
-    } */
+export const CancelButton = styled.button`
+  background-color: #ccc;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 4px;
+`;
 
+export const LikeButton = styled.button`
+  background-color: ${props => (props.liked ? '#FFF' : '#FFF')};
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+`;
 
-`
+export const Star = styled.span`
+  font-size: 25px;
+  cursor: pointer;
+  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
+`;
+
+export const HomepageLink = styled.a`
+  color: #007bff;
+  text-decoration: none;
+`;
+
+export const Title = styled.h1`
+  font-size: 30px;
+  margin-bottom: 10px;
+`;
+
+export const Subtitle = styled.h2`
+  font-size: 25px;
+  margin-bottom: 10px;
+`;
+
+export const Text = styled.p`
+  margin-bottom: 10px;
+  font-size: 20px;
+  white-space: pre-line;
+`;
+
+export const Input = styled.input`
+width: 100%;
+padding: 8px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+`;
+
+export const Textarea = styled.textarea`
+width: 100%;
+padding: 8px;
+margin-bottom: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+resize: none;
+`;
+
+export const EditButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 750px;
+`;
+
+export const DeleteButton = styled.button`
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+`;
+
+export const SaveButton = styled.button`
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+`;
+
+export const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const WriteReviewTitle = styled.h3`
+  font-size: 15px;
+  margin-bottom: 10px;
+`;
+export function removeBreakTags(str) {
+  return str.replace(/<br\s*\/?>/g, '\n'); // <br> 태그를 개행문자(\n)로 변환
+}
