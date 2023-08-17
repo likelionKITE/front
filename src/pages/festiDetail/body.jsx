@@ -3,11 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
-import {Container,
-  Image,
+import {
+  Container,
   MapContainer,
   DetailContainer,
-  DetailContainer2,
+  Overview,
   ReviewContainer,
   ReviewForm,
   ReviewItem,
@@ -27,7 +27,10 @@ import {Container,
   SaveButton,
   RatingContainer,
   WriteReviewTitle,
-  removeBreakTags} from './style'
+  removeBreakTags,
+  InfoMap,
+  Time
+} from './style'
 const Star = styled.span`
   font-size: 24px;
   cursor: pointer;
@@ -136,8 +139,8 @@ const FestiDetail = () => {
           },
         }
       );
-        setLiked(!liked);
-        setLikeCount(response.data.like_cnt);
+      setLiked(!liked);
+      setLikeCount(response.data.like_cnt);
     } catch (error) {
       console.error('Error liking content:', error);
     }
@@ -314,40 +317,54 @@ const FestiDetail = () => {
 
   }
 
+  const telPattern = /\d{2,}-\d{2,}-\d{3,}-\d{4,}/;
+  const telMatch = detailData.tel ? detailData.tel.match(telPattern) : null;
+  const extractedTel = telMatch ? telMatch[0] : "";
 
   return (
     <Container>
 
       {Object.keys(detailData).length > 0 && (
         <>
-          <Image src={detailData.first_image} alt={detailData.title} />
-
+          <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
           {/* 찜 */}
           <LikeButton onClick={handleLike}>
-            {liked ? '♥' : '♡'} Total Like ({likeCount})
+            {liked ? '♥' : '♡'} {likeCount}
           </LikeButton>
 
           {/* 여행지 설명 */}
-          <DetailContainer>
-            <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
-            <Text>{detailData.addr1}</Text>
-            <Text>Tel: {removeBreakTags(detailData.tel)}</Text>
-          </DetailContainer>
-
-          <DetailContainer2>
-            <Subtitle>Additional Information</Subtitle>
-            <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
-            <Text>Event Place: {detailData.detail_intro_fest[0]?.event_place}</Text>
-            <Text>
-              Event Dates: {detailData.detail_intro_fest[0]?.event_start_date} -{' '}
-              {detailData.detail_intro_fest[0]?.event_end_date}
-            </Text>
-            {domain && (
+          <InfoMap>
+            <img src={detailData.first_image} alt={detailData.title} />
+            <DetailContainer>
               <Text>
-                Homepage: <HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink>
+                <p className='info'>Address</p>
+                <p className='content'>{detailData.addr1}</p>
               </Text>
-            )}
-          </DetailContainer2>
+              <Text>
+                <p className='info'>Tel</p>
+                <p className='content'>{extractedTel}</p>
+              </Text>
+              {domain && (
+                <Text>
+                  <p className='info'>Homepage</p>
+                  <p className='content'><HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink></p>
+                </Text>
+              )}
+              <Text>
+                <p className='info'>Event Place</p>
+                <p className='content'>{detailData.detail_intro_fest[0]?.event_place}</p>
+              </Text>
+              <Text>
+                <p className='info'>Event Dates</p>
+                <p className='content'>{detailData.detail_intro_fest[0]?.event_start_date} -{' '}
+                  {detailData.detail_intro_fest[0]?.event_end_date}</p>
+              </Text>
+              <Overview>
+                <p className='info'>Overview</p>
+                <p className='content'>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</p>
+              </Overview>
+            </DetailContainer>
+          </InfoMap>
 
           {/* 지도 */}
           <MapContainer id="map"></MapContainer>
@@ -378,12 +395,14 @@ const FestiDetail = () => {
                   </ReviewEditForm>
                 ) : (
                   <div>
+                    <Rating initialValue={review.rank} readOnly />
                     <h3>{review.title}</h3>
                     <p>{review.content}</p>
-                    <Rating initialValue={review.rank} readOnly />
-                    <p>Writer:{review.user}</p>
-                    <p>Created At: {review.created_at}</p>
-                    <p>Updated At: {review.updated_at}</p>
+
+                    <hr />
+
+                    <p className='time'>Writer  {review.user}</p>
+                    <p className='time'>Created At {review.created_at} Updated At {review.updated_at}</p>
                     {currentUser && review.user === currentUser && (
                       <ReviewActions>
                         <DeleteButton onClick={() => handleDeleteReview(review.id)}>Delete</DeleteButton>
@@ -397,6 +416,9 @@ const FestiDetail = () => {
 
             <ReviewForm>
               <WriteReviewTitle>Write a Review</WriteReviewTitle>
+              <RatingContainer>
+                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
+              </RatingContainer>
               <Input
                 type="text"
                 placeholder="Title"
@@ -408,9 +430,6 @@ const FestiDetail = () => {
                 value={newReview.content}
                 onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
               />
-              <RatingContainer>
-                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
-              </RatingContainer>
 
               {currentUser ? (
                 <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>

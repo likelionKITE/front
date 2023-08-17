@@ -2,27 +2,30 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 
 export const Wrapper = styled.div`
-    margin-top: 6rem;
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
+    width: 60%;
+    background-color: #fefeeb;
+    padding: 3rem 5rem;
 
     h2 {
-        width: 50%;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
         font-family: LexendLight;
+    }
+
+    hr {
+        margin-bottom: 2rem;
+        border-radius: 10rem;
     }
 `
 
 export const Nickname = styled.div`
-    width: 50%;
     margin-bottom: 2rem;
 `
 
 export const Likes = styled.div`
     margin-bottom: 2rem;
-    width: 50%;
     display: flex;
     flex-wrap: wrap;
     
@@ -58,18 +61,27 @@ export const Box = styled.div`
 `
 
 export const Reviews = styled.div`
-    width: 50%;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 
     div {
         margin-bottom: 2rem;
         border: 1px solid #ccc;
         border-radius: 0.5rem;
-        padding: 1rem 1.5rem;
+        padding: 1.5rem 1.5rem;
+        background-color: #ffffff;
+
+    }
+
+    hr {
+        margin-bottom: 1rem;
+        border-radius: 10rem;
+        width: 35rem;
+        opacity: 0.3;
     }
 
     .tour {
         margin-bottom: 0.5rem;
+        font-size: 1.5rem;
     }
     .title {
         font-size: 1.8rem;
@@ -77,6 +89,7 @@ export const Reviews = styled.div`
     }
 
     .content {
+        margin-top: 0.3rem;
         font-family: LexendLight;
     }
 `

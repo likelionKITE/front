@@ -28,7 +28,9 @@ import {
   SaveButton,
   RatingContainer,
   WriteReviewTitle,
-  removeBreakTags
+  removeBreakTags,
+  InfoMap,
+  Overview
 } from '../festiDetail/style'
 
 const Star = styled.span`
@@ -328,35 +330,44 @@ const DestiDetail = () => {
 
       {Object.keys(detailData).length > 0 && (
         <>
-          <Image src={detailData.first_image} alt={detailData.title} />
+          <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
 
           {/* 찜 */}
           {currentUser ? (
-                <LikeButton onClick={handleLike}>
-                {liked ? '♥' : '♡'}  Total Like: ({likeCount})
-              </LikeButton>
-              ) : (
-                <Link to ="/signin"><LikeButton >
-                {liked ? '♥' : '♡'}  Total Like: ({likeCount})
-              </LikeButton></Link>
-              )}
+            <LikeButton onClick={handleLike}>
+              {liked ? '♥' : '♡'} {likeCount}
+            </LikeButton>
+          ) : (
+            <Link to="/signin"><LikeButton >
+              {liked ? '♥' : '♡'}  Total Like: ({likeCount})
+            </LikeButton></Link>
+          )}
 
           {/* 여행지 설명 */}
-          <DetailContainer>
-            <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
-            <Text>{detailData.addr1}</Text>
-            <Text>Tel: {detailData.tel}</Text>
-          </DetailContainer>
+          <InfoMap>
+            <Image src={detailData.first_image} alt={detailData.title} />
 
-          <DetailContainer2>
-            <Subtitle>Additional Information</Subtitle>
-            <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
-            {domain && (
+            <DetailContainer>
               <Text>
-                Homepage: <HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink>
+                <p className='info'>Address</p>
+                <p className='content'>{detailData.addr1}</p>
               </Text>
-            )}
-          </DetailContainer2>
+              <Text>
+                <p className='info'>Tel</p>
+                <p className='content'>{detailData.tel}</p>
+              </Text>
+              {domain && (
+                <Text>
+                  <p className='info'>Homepage</p>
+                  <p className='content'><HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink></p>
+                </Text>
+              )}
+              <Overview>
+                <p className='info'>Overview</p>
+                <p className='content'>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</p>
+              </Overview>
+            </DetailContainer>
+          </InfoMap>
 
           {/* 지도 */}
           <MapContainer id="map"></MapContainer>
@@ -387,12 +398,14 @@ const DestiDetail = () => {
                   </ReviewEditForm>
                 ) : (
                   <div>
+                    <Rating initialValue={review.rank} readOnly />
                     <h3>{review.title}</h3>
                     <p>{review.content}</p>
-                    <Rating initialValue={review.rank} readOnly />
-                    <p>Writer:{review.user}</p>
-                    <p>Created At: {review.created_at}</p>
-                    <p>Updated At: {review.updated_at}</p>
+
+                    <hr />
+
+                    <p className='time'>Writer  {review.user}</p>
+                    <p className='time'>Created At {review.created_at} Updated At {review.updated_at}</p>
                     {currentUser && review.user === currentUser && (
                       <ReviewActions>
                         <DeleteButton onClick={() => handleDeleteReview(review.id)}>Delete</DeleteButton>
@@ -406,6 +419,9 @@ const DestiDetail = () => {
 
             <ReviewForm>
               <WriteReviewTitle>Write a Review</WriteReviewTitle>
+              <RatingContainer>
+                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
+              </RatingContainer>
               <Input
                 type="text"
                 placeholder="Title"
@@ -417,9 +433,6 @@ const DestiDetail = () => {
                 value={newReview.content}
                 onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
               />
-              <RatingContainer>
-                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
-              </RatingContainer>
 
               {currentUser ? (
                 <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>

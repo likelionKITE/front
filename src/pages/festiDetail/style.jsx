@@ -4,40 +4,92 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding:15rem;
-  padding-top:7rem;
+  padding-top: 5rem;
+  width: 100%;
+
+  hr {
+    margin: 3rem 0rem;
+    color: black;
+  }
 `;
 
 export const Image = styled.img`
   width: 55rem;
-  height: 40rem;
-  margin-bottom: 20px;
+  height: 45rem;
+  margin-bottom: 0.5rem;
 `;
 
+export const InfoMap = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 65%;
+  margin-bottom: 3rem;
+
+  img {
+    width: 30rem;
+    height: 28rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    margin-right: 1.5rem;
+  }
+`
+
 export const MapContainer = styled.div`
-  width: 30rem;
-  height: 30rem;
+  width: 50%;
+  height: 25rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 55rem;
   margin-bottom: 10px;
+  overflow: hidden;
 `;
-export const DetailContainer2 = styled.div`
+
+export const Text = styled.p`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  white-space: pre-line;
+
+  .info {
+    font-family: Lexend;
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  .content {
+    font-family: LexendLight;
+    font-size: 1.15rem;
+  }
+`;
+
+export const Overview = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  width: 55rem;
-  margin-bottom: 20px;
-  text-align:justify;
+  height: 14rem;
+  overflow: hidden;
+
+  .info {
+    font-family: Lexend;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  .content {
+    font-family: LexendLight;
+    font-size: 1.15rem;
+  }
 `;
 
 export const ReviewContainer = styled.div`
-  margin-top: 20px;
-  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  width: 50%;
 `;
 
 export const ReviewForm = styled.div`
@@ -49,11 +101,32 @@ export const ReviewForm = styled.div`
 
 export const ReviewItem = styled.div`
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 0.8rem 1rem;
   margin-bottom: 10px;
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .time {
+    font-family: Dosis;
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  h3 {
+    font-family: Lexend;
+    margin-top: 0.8rem;
+  }
+
+  p {
+    font-family: LexendLight;
+    margin-top: 0.8rem;
+  }
+
+  hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 export const ReviewActions = styled.div`
@@ -70,7 +143,7 @@ border-radius: 4px;
 `;
 
 export const SubmitButton = styled.button`
-background-color: #007bff;
+background-color: #385bf6;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -94,6 +167,7 @@ export const LikeButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 25px;
+  margin-bottom: 2rem;
 `;
 
 export const Star = styled.span`
@@ -108,19 +182,18 @@ export const HomepageLink = styled.a`
 `;
 
 export const Title = styled.h1`
-  font-size: 30px;
+  font-size: 2rem;
+  width: 60%;
+  margin-top: 1rem;
   margin-bottom: 10px;
+  font-family: Lexend;
+  text-align: center;
 `;
 
 export const Subtitle = styled.h2`
   font-size: 25px;
   margin-bottom: 10px;
-`;
-
-export const Text = styled.p`
-  margin-bottom: 10px;
-  font-size: 20px;
-  white-space: pre-line;
+  font-family: Lexend;
 `;
 
 export const Input = styled.input`
@@ -133,6 +206,7 @@ border-radius: 4px;
 
 export const Textarea = styled.textarea`
 width: 100%;
+height: 8rem;
 padding: 8px;
 margin-bottom: 10px;
 border: 1px solid #ccc;
@@ -141,39 +215,55 @@ resize: none;
 `;
 
 export const EditButton = styled.button`
-  background-color: #007bff;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-  margin-right: 750px;
+    padding: 0.2rem 0.8rem;
+    margin: 0.4rem;
+    margin-right: 41rem;
+    border-radius: 0.2rem;
+    background-color: #f0f0f0;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #000;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
 `;
 
 export const DeleteButton = styled.button`
-  background-color: #dc3545;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
+    padding: 0.4rem 0.9rem;
+    margin: 0.4rem;
+    margin-left: 0rem;
+    border-radius: 0.2rem;
+    background-color: #f0f0f0;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #000;
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
 `;
 
 export const SaveButton = styled.button`
-  background-color: #28a745;
+  background-color: #49db6b;
   color: white;
   padding: 5px 10px;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
 `;
 
 export const RatingContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 0.7rem;
 `;
 
 export const WriteReviewTitle = styled.h3`
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 `;
 
 export function removeBreakTags(str) {
