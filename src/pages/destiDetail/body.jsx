@@ -331,9 +331,15 @@ const DestiDetail = () => {
           <Image src={detailData.first_image} alt={detailData.title} />
 
           {/* 찜 */}
-          <LikeButton onClick={handleLike}>
-            {liked ? '♥' : '♡'}  Total Like ({likeCount})
-          </LikeButton>
+          {currentUser ? (
+                <LikeButton onClick={handleLike}>
+                {liked ? '♥' : '♡'}  Total Like: ({likeCount})
+              </LikeButton>
+              ) : (
+                <Link to ="/signin"><LikeButton >
+                {liked ? '♥' : '♡'}  Total Like: ({likeCount})
+              </LikeButton></Link>
+              )}
 
           {/* 여행지 설명 */}
           <DetailContainer>
