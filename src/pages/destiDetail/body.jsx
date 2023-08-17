@@ -357,6 +357,7 @@ const DestiDetail = () => {
           <LikeButton onClick={handleLike}>
             {liked ? '♥' : '♡'}  Total Like ({likeCount})
           </LikeButton>
+          
 
           {/* 여행지 설명 */}
           <DetailContainer>
@@ -460,7 +461,7 @@ const DestiDetail = () => {
               {currentUser ? (
                 <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
               ) : (
-                <Link to ="/signin">You can submit review after you sign in</Link>
+                <Link to ="/signin"><SubmitButton>Submit</SubmitButton></Link>
               )}
 
               {/* <SubmitButton onClick={handleAddReview}>Submit</SubmitButton> */}
