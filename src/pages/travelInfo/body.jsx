@@ -40,19 +40,19 @@ function TravelInfo() {
             If you want to move within one city, you can use city buses,
             subways, and taxis.
           </CardSubtitle>
-          <ImageLink href="https://apps.apple.com/us/app/subway-korea/id325924444">
+          <ImageLink href="https://apps.apple.com/us/app/subway-korea/id325924444" target='blank'>
             <StyledImage src={Subway} alt="subway korea" />
             <h4>subway korea</h4>
             <h5>find timetable of subway</h5>
           </ImageLink>
 
-          <ImageLink href="https://www.kakaocorp.com/page/service/service/KakaoT?lang=en">
+          <ImageLink href="https://www.kakaocorp.com/page/service/service/KakaoT?lang=en" target='blank'>
             <StyledImage src={Taxi} alt="Kakao Taxi" />
             <h4>Kakao Taxi</h4>
             <h5>Book taxi in advance</h5>
           </ImageLink>
 
-          <ImageLink href="https://apps.apple.com/us/app/naver-map-navigation/id311867728">
+          <ImageLink href="https://apps.apple.com/us/app/naver-map-navigation/id311867728"target='blank'>
             <StyledImage src={Map} alt="Naver map" />
             <h4>Naver map</h4>
             <h5>Check location of bus in real time</h5>
@@ -65,13 +65,13 @@ function TravelInfo() {
             If you want to travel between different cities, intercity buses and
             various trains are available.
           </CardSubtitle>
-          <ImageLink href="https://www.kobus.co.kr/main.do">
+          <ImageLink href="https://www.kobus.co.kr/main.do" target='blank'>
             <StyledImage src={Kobus} alt="intercity bus" />
             <h4>Intercity bus</h4>
             <h5>find timetable of intercity bus</h5>
           </ImageLink>
 
-          <ImageLink href="https://www.letskorail.com/ebizbf/EbizBfKrPassAbout.do">
+          <ImageLink href="https://www.letskorail.com/ebizbf/EbizBfKrPassAbout.do" target='blank'>
             <StyledImage src={Korail} alt="express train" />
             <h4>Express train</h4>
             <h5>Reserve various express trains</h5>
