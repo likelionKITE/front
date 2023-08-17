@@ -4,6 +4,12 @@ import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
 
+const Star = styled.span`
+  font-size: 24px;
+  cursor: pointer;
+  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
+`;
+
 const FestiDetail = () => {
   const { content_id } = useParams();
   const [detailData, setDetailData] = useState({});
@@ -43,8 +49,8 @@ const FestiDetail = () => {
     fetchReviews(); // 리뷰 목록 불러오기
   }, [content_id]);
 
-  // 조건부 렌더링을 사용하여 detailData가 존재할 때만 지도를 렌더링합니다.
-  const renderMap = () => {
+  useEffect(() => {
+    // 조건부 렌더링을 사용하여 detailData가 존재할 때만 지도를 렌더링합니다.
     if (detailData && detailData.mapx && detailData.mapy) {
       const container = document.getElementById('map');
       const options = {
@@ -60,7 +66,7 @@ const FestiDetail = () => {
       });
       marker.setMap(map);
     }
-  };
+  }, [detailData]);
 
   // 찜
   useEffect(() => {
@@ -117,11 +123,6 @@ const FestiDetail = () => {
   };
 
   // 별점
-  const Star = styled.span`
-  font-size: 24px;
-  cursor: pointer;
-  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
-`;
 
   const Rating = ({ initialValue, onChange }) => {
     const [selectedStars, setSelectedStars] = useState(initialValue);
@@ -270,7 +271,9 @@ const FestiDetail = () => {
   // 리뷰 목록 불러오기
   const fetchReviews = async () => {
     try {
-      const response = await axios.get( `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`,      );
+      const response = await axios.get(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`
+      );
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews:', error);
@@ -278,21 +281,21 @@ const FestiDetail = () => {
   };
 
   // 홈페이지 추출
-  
+
   return (
     <div>
       <img src={detailData.first_image} alt={detailData.title} />
       {/* 찜 */}
       <button onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
-  
+
       {/* 여행지 설명 */}
       <h1>{detailData.title && removeParenthesesContent(detailData.title)}</h1>
-    <p>{detailData.addr1}</p>
-    <p>Tel: {detailData.tel}</p>
+      <p>{detailData.addr1}</p>
+      <p>Tel: {detailData.tel}</p>
 
-    {/* 지도 */}
-    <div id="map" style={{ width: '500px', height: '500px' }}></div>;
-  
+      {/* 지도 */}
+      <div id="map" style={{ width: '500px', height: '500px' }}></div>
+
       {/* 리뷰 */}
       <div>
         <h2>Reviews</h2>
@@ -330,7 +333,7 @@ const FestiDetail = () => {
             )}
           </div>
         ))}
-  
+
         {/* 리뷰 작성 폼 */}
         <div>
           <h3>Write a Review</h3>
@@ -354,7 +357,6 @@ const FestiDetail = () => {
       </div>
     </div>
   );
-  
 };
 
 export default FestiDetail;
