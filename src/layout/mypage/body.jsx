@@ -35,7 +35,7 @@ function Mypage() {
                 <h1>Hello, {mypageData ? mypageData.nickname : ""}!</h1>
             </Nickname>
 
-            <h1>My Likes</h1>
+            <h2>My Likes</h2>
             <Likes>
                 {likes.map((like, index) => (
                     <Link to={`/destiDetail/${like.content_id}`}>
@@ -48,7 +48,7 @@ function Mypage() {
             </Likes>
 
             <Reviews>
-                <h1>My Review</h1>
+                <h2>My Review</h2>
                 {reviews.map((review, index) => (
                     <div>
                         <Link to={`/destiDetail/${review.real_content_id}`}>
