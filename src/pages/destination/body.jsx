@@ -94,7 +94,7 @@ function TravelList() {
     <TravelContainer>
 
       <Pagetitle>
-        <h1><FontAwesomeIcon icon={faLocationDot} /> Travel List</h1>
+        <h1><FontAwesomeIcon icon={faLocationDot} /> Tourist Destination</h1>
       </Pagetitle>
 
       <SelectWrapper>

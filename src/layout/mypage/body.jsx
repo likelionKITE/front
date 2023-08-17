@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from '../../pages/AuthContext';
 import { useContext } from 'react';
-import { Margin } from './style';
+import { Wrapper, Nickname, Likes, Box, Reviews } from './style';
+import { Link } from 'react-router-dom';
+import { removeParenthesesContent } from '../../pages/local/body';
 
 function Mypage() {
-    const { mypageData, setMyPageData } = useContext(AuthContext); // 수정된 부분
+    const { mypageData, setMyPageData } = useContext(AuthContext);
+    const likes = mypageData ? mypageData.user_like_response : []
+    const reviews = mypageData ? mypageData.user_review_response : []
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
@@ -16,59 +20,48 @@ function Mypage() {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(response => {
-            setMyPageData(response.data);
-        })
-        .catch(error => {
-            console.log(error.response);
-        });
+            .then(response => {
+                setMyPageData(response.data);
+            })
+            .catch(error => {
+                console.log(error.response);
+            });
     }, [setMyPageData]);
 
-    return (
-        <Margin>
-            <AboutMe nickname={mypageData ? mypageData.nickname : ""} />
-            <MyLikes likes={mypageData ? mypageData.user_like_response : []} />
-            <MyReview reviews={mypageData ? mypageData.user_review_response : []} />
-        </Margin>
-    );
-}
 
-
-function AboutMe({ nickname }) {
     return (
-        <div className='aboutme'>
-            <h1>About Me</h1>
-            <p>Nickname: {nickname}</p>
-      // ... other components
-        </div>
-    );
-}
+        <Wrapper>
+            <Nickname>
+                <h1>Hello, {mypageData ? mypageData.nickname : ""}!</h1>
+            </Nickname>
 
-function MyLikes({ likes }) {
-    return (
-        <div className='mylikes'>
             <h1>My Likes</h1>
-            <ul>
+            <Likes>
                 {likes.map((like, index) => (
-                    <li key={index}>{like.title}</li>
+                    <Link to={`/destiDetail/${like.content_id}`}>
+                        <Box key={index}>
+                            <img src={like.first_image} alt={like.title} />
+                            <p>{removeParenthesesContent(like.title)}</p>
+                        </Box>
+                    </Link>
                 ))}
-            </ul>
-        </div>
-    );
-}
+            </Likes>
 
-function MyReview({ reviews }) {
-    return (
-        <div className='myreview'>
-            <h1>My Review</h1>
-            <ul>
+            <Reviews>
+                <h1>My Review</h1>
                 {reviews.map((review, index) => (
-                    <li key={index}>{review.title}</li>
+                    <div>
+                        <Link to={`/destiDetail/${review.real_content_id}`}>
+                            <p className="tour" key={index}>{removeParenthesesContent(review.tour)}</p>
+                            <p className="title" key={index}>{review.title}</p>
+                            <p className="content" key={index}>{review.content}</p>
+                        </Link>
+                    </div>
                 ))}
-            </ul>
-        </div>
+            </Reviews>
+
+        </Wrapper>
     );
 }
 
 export default Mypage;
-
