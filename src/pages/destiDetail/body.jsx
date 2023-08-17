@@ -3,7 +3,39 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
+import {
+  Container,
+  Image,
+  MapContainer,
+  DetailContainer,
+  DetailContainer2,
+  ReviewContainer,
+  ReviewForm,
+  ReviewItem,
+  ReviewActions,
+  ReviewEditForm,
+  SubmitButton,
+  CancelButton,
+  LikeButton,
+  HomepageLink,
+  Title,
+  Subtitle,
+  Text,
+  Input,
+  Textarea,
+  EditButton,
+  DeleteButton,
+  SaveButton,
+  RatingContainer,
+  WriteReviewTitle,
+  removeBreakTags
+} from './style'
 
+  const Star = styled.span`
+  font-size: 24px;
+  cursor: pointer;
+  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
+`;
 
 const DestiDetail = () => {
   const { content_id } = useParams();
@@ -22,6 +54,10 @@ const DestiDetail = () => {
     content: '',
     rank: 5
   });
+  console.log(detailData)
+  console.log(detailData.mapx)
+  console.log(detailData.first_image)
+
   // 로그인한 유저 정보
   const currentUser = localStorage.getItem('currentUser');
 
@@ -36,24 +72,46 @@ const DestiDetail = () => {
   };
 
   // 지도
+
   const { kakao } = window;
 
   useEffect(() => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
-      level: 5,
-    };
-    const map = new kakao.maps.Map(container, options);
+    // 조건부 렌더링을 사용하여 detailData가 존재할 때만 지도를 렌더링합니다.
+    if (detailData && detailData.mapx && detailData.mapy) {
+      const container = document.getElementById('map');
+      const options = {
+        center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
+        level: 5,
+      };
+      const map = new kakao.maps.Map(container, options);
 
-    //지도에 마커 생성 및 호출
-    const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-    });
-    marker.setMap(map);
+      // 지도에 마커 생성 및 호출
+      const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+      });
+      marker.setMap(map);
+    }
+  }, [detailData]);
 
-  }, [detailData.mapx, detailData.mapy]);
+  // const { kakao } = window;
+
+  // useEffect(() => {
+  //   const container = document.getElementById('map');
+  //   const options = {
+  //     center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
+  //     level: 5,
+  //   };
+  //   const map = new kakao.maps.Map(container, options);
+
+  //   //지도에 마커 생성 및 호출
+  //   const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
+  //   const marker = new kakao.maps.Marker({
+  //     position: markerPosition,
+  //   });
+  //   marker.setMap(map);
+
+  // }, [detailData.mapx, detailData.mapy]);
   // 지도 끝
 
   // 찜
@@ -112,11 +170,7 @@ const DestiDetail = () => {
 
 
   // 별점
-  const Star = styled.span`
-  font-size: 24px;
-  cursor: pointer;
-  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
-`;
+
 
   const Rating = ({ initialValue, onChange }) => {
     const [selectedStars, setSelectedStars] = useState(initialValue);
@@ -291,93 +345,181 @@ const DestiDetail = () => {
   }
 
   return (
-    <div>
+    <Container>
+      {Object.keys(detailData).length > 0 && (
+        <div>
 
-      <img src={detailData.first_image} alt={detailData.title} />
-      {/* 찜 */}
-      <button onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
+          <Image src={detailData.first_image} alt={detailData.title} />
+          {/* 찜 */}
+          <LikeButton onClick={handleLike}>
+            {liked ? '♥' : '♡'}  Total Like ({likeCount})
+          </LikeButton>
 
-      {/* 여행지 설명 */}
-      <h1>{detailData.title && removeParenthesesContent(detailData.title)}</h1>
-      <p>{detailData.addr1}</p>
-      <p>Tel: {detailData.tel}</p>
-      {detailData.detailCommon && (
-        <>
-          <p>Overview: {detailData.detailCommon[0].overview}</p>
-          {domain && (
-            <p>
-              Homepage:{" "}
-              <a href={`http://${domain}`} target="_blank" rel="noopener noreferrer">
-                {domain}
-              </a>
-            </p>
-          )}
-        </>
-      )}
+          {/* 여행지 설명 */}
+          <DetailContainer>
+            <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
+            <Text>{detailData.addr1}</Text>
+            <Text>Tel: {detailData.tel}</Text>
+          </DetailContainer>
+          <DetailContainer2>
+          <Subtitle>Additional Information</Subtitle>
+          <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
+            {/* <Text>Event Place: {detailData.detail_intro_travel[0]?.event_place}</Text> */}
+            {/* <Text>
+              Event Dates: {detailData.detail_intro_travel[0]?.event_start_date} -{' '}
+              {detailData.detail_intro_travel[0]?.event_end_date}
+            </Text> */}
+            {domain && (
+              <Text>
+                Homepage: <HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink>
+              </Text>
+            )}
 
-      {/* 지도 */}
-      <div id="map" style={{ width: '500px', height: '500px' }}></div>;
+            {/* {detailData.detailCommon && (
+              <>
+                <p>Overview: {detailData.detailCommon[0].overview}</p>
+                {domain && (
+                  <p>
+                    Homepage:{" "}
+                    <a href={`http://${domain}`} target="_blank" rel="noopener noreferrer">
+                      {domain}
+                    </a>
+                  </p>
+                )}
+              </>
+            )} */}
 
-      {/* 리뷰 */}
-      <div>
-        <h2>Reviews</h2>
-        {reviews.map((review) => (
-          <div key={review.id}>
-            {editingReviewId === review.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editingReview.title}
-                  onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
-                />
-                <textarea
-                  value={editingReview.content}
-                  onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
-                />
-                <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
-                <button onClick={() => handleSaveEdit(review.id)}>Save</button>
-                <button onClick={handleCancelEdit}>Cancel</button>
-              </div>
-            ) : (
-              <div>
-                <h3>{review.title}</h3>
-                <p>{review.content}</p>
-                <Rating initialValue={review.rank} readOnly />
-                <p>Created At: {review.created_at}</p>
-                <p>Updated At: {review.updated_at}</p>
-                {currentUser && review.user === currentUser && (
+          </DetailContainer2>
+          {/* 지도 */}
+          <MapContainer id="map"></MapContainer>
+          {/* <div id="map" style={{ width: '500px', height: '500px' }}></div>; */}
+          <ReviewContainer>
+          {/* 리뷰 */}
+          <div>
+          <Subtitle>Reviews</Subtitle>
+            {reviews.map((review) => (
+              <ReviewItem key={review.id}>
+                {editingReviewId === review.id ? (
+                  <ReviewEditForm>
+                    <Input
+                      type="text"
+                      value={editingReview.title}
+                      onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
+                    />
+                    <Textarea
+                      value={editingReview.content}
+                      onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
+                    />
+                    <RatingContainer>
+                      <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
+                    </RatingContainer>
+                    <ReviewActions>
+                      <SaveButton onClick={() => handleSaveEdit(review.id)}>Save</SaveButton>
+                      <CancelButton onClick={handleCancelEdit}>Cancel</CancelButton>
+                    </ReviewActions>
+                  </ReviewEditForm>
+                ) : (
                   <div>
-                    <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
-                    <button onClick={() => handleEditReview(review)}>Edit</button>
+                    <h3>{review.title}</h3>
+                    <p>{review.content}</p>
+                    <Rating initialValue={review.rank} readOnly />
+                    <p>Writer:{review.user}</p>
+                    <p>Created At: {review.created_at}</p>
+                    <p>Updated At: {review.updated_at}</p>
+                    {currentUser && review.user === currentUser && (
+                      <ReviewActions>
+                        <DeleteButton onClick={() => handleDeleteReview(review.id)}>Delete</DeleteButton>
+                        <EditButton onClick={() => handleEditReview(review)}>Edit</EditButton>
+                      </ReviewActions>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
-          </div>
-        ))}
+              </ReviewItem>
+            ))}
 
-        {/* 리뷰 작성 폼 */}
-        <div>
-          <h3>Write a Review</h3>
-          <input
-            type="text"
-            placeholder="Title"
-            value={newReview.title}
-            onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
-          />
-          <textarea
-            placeholder="Content"
-            value={newReview.content}
-            onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
-          />
-          <Rating
-            initialValue={newReview.rank}
-            onChange={handleRatingChange}
-          />
-          <button onClick={handleAddReview}>Submit</button>
+            <ReviewForm>
+              <WriteReviewTitle>Write a Review</WriteReviewTitle>
+              <Input
+                type="text"
+                placeholder="Title"
+                value={newReview.title}
+                onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
+              />
+              <Textarea
+                placeholder="Content"
+                value={newReview.content}
+                onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+              />
+              <RatingContainer>
+                <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
+              </RatingContainer>
+              <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+            </ReviewForm>
+
+
+            {/* <h2>Reviews</h2>
+            {reviews.map((review) => (
+              <div key={review.id}>
+                {editingReviewId === review.id ? (
+                  <div>
+                    <input
+                      type="text"
+                      value={editingReview.title}
+                      onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
+                    />
+                    <textarea
+                      value={editingReview.content}
+                      onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
+                    />
+                    <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
+                    <button onClick={() => handleSaveEdit(review.id)}>Save</button>
+                    <button onClick={handleCancelEdit}>Cancel</button>
+                  </div>
+                ) : (
+                  <div>
+                    <h3>{review.title}</h3>
+                    <p>{review.content}</p>
+                    <Rating initialValue={review.rank} readOnly />
+                    <p>Created At: {review.created_at}</p>
+                    <p>Updated At: {review.updated_at}</p>
+                    {currentUser && review.user === currentUser && (
+                      <div>
+                        <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
+                        <button onClick={() => handleEditReview(review)}>Edit</button>
+                      </div>
+                    )}
+                  </div>
+                )} 
+              </div>
+            ))}
+            */}
+
+            {/* 리뷰 작성 폼 */}
+            {/* <div>
+              <h3>Write a Review</h3>
+              <input
+                type="text"
+                placeholder="Title"
+                value={newReview.title}
+                onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
+              />
+              <textarea
+                placeholder="Content"
+                value={newReview.content}
+                onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+              />
+              <Rating
+                initialValue={newReview.rank}
+                onChange={handleRatingChange}
+              />
+              <button onClick={handleAddReview}>Submit</button>
+            </div> */}
+
+          </div>
+          </ReviewContainer>
         </div>
-      </div>
-    </div>
+      )}
+    </Container>
   );
 };
 
