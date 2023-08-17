@@ -1,11 +1,12 @@
 import jwt_decode from 'jwt-decode';
-
+import { removeParenthesesContent } from '../local/body';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Festi_info } from './style';
 import { detailApi } from './apis';
 // import MapComponent from './map';
 import axios from 'axios';
+import styled from 'styled-components';
 
 function FestiDetail() {
   // 축제 정보 불러오기
@@ -84,8 +85,6 @@ function FestiDetail() {
       console.error('Error liking content:', error);
     }
   };
-
-
   // 리뷰 작성 및 나열
   const [reviews, setReviews] = useState([]);
   const [reviewInput, setReviewInput] = useState('');
@@ -245,13 +244,11 @@ function FestiDetail() {
 
   }
 
-  return (
+  return (//<Festi_info>
     <>
       <div>
 
       </div>
-
-      <Festi_info>
         <h1>Tourist Destination</h1>
 
 
@@ -436,9 +433,6 @@ function FestiDetail() {
             </div>
           </div>
         </div>
-
-      </Festi_info >
-
     </>
 
   );
