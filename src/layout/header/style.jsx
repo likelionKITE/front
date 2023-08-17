@@ -22,6 +22,11 @@ export const Content = styled.div`
     align-items: center;
     padding: 0 1.25rem;
 
+    img {
+        width: 4.8rem;
+        height: 2.3rem;
+    }
+
     button {
         background: transparent;
         border: none;

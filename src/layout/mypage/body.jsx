@@ -62,7 +62,7 @@ function Mypage() {
                             <hr />
                             <p>Title</p>
                             <p className="title" key={index}>{review.title}</p>
-                            <hr />
+                            
                             <p>Content</p>
                             <p className="content" key={index}>{review.content}</p>
                         </Link>
