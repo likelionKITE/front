@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
@@ -317,19 +317,23 @@ const FestiDetail = () => {
 
   return (
     <Container>
+
       {Object.keys(detailData).length > 0 && (
         <>
           <Image src={detailData.first_image} alt={detailData.title} />
 
+          {/* 찜 */}
           <LikeButton onClick={handleLike}>
             {liked ? '♥' : '♡'} Total Like ({likeCount})
           </LikeButton>
 
+          {/* 여행지 설명 */}
           <DetailContainer>
             <Title>{detailData.title && removeParenthesesContent(detailData.title)}</Title>
             <Text>{detailData.addr1}</Text>
             <Text>Tel: {removeBreakTags(detailData.tel)}</Text>
           </DetailContainer>
+
           <DetailContainer2>
             <Subtitle>Additional Information</Subtitle>
             <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
@@ -344,7 +348,11 @@ const FestiDetail = () => {
               </Text>
             )}
           </DetailContainer2>
+
+          {/* 지도 */}
           <MapContainer id="map"></MapContainer>
+
+          {/* 리뷰 */}
           <ReviewContainer>
             <Subtitle>Reviews</Subtitle>
             {reviews.map((review) => (
@@ -403,7 +411,12 @@ const FestiDetail = () => {
               <RatingContainer>
                 <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
               </RatingContainer>
-              <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+
+              {currentUser ? (
+                <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+              ) : (
+                <Link to="/signin"><SubmitButton>Submit</SubmitButton></Link>
+              )}
             </ReviewForm>
           </ReviewContainer>
         </>

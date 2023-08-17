@@ -29,9 +29,9 @@ import {
   RatingContainer,
   WriteReviewTitle,
   removeBreakTags
-} from './style'
+} from '../festiDetail/style'
 
-  const Star = styled.span`
+const Star = styled.span`
   font-size: 24px;
   cursor: pointer;
   color: ${props => (props.selected ? '#FFD700' : '#DDD')};
@@ -93,25 +93,6 @@ const DestiDetail = () => {
       marker.setMap(map);
     }
   }, [detailData]);
-
-  // const { kakao } = window;
-
-  // useEffect(() => {
-  //   const container = document.getElementById('map');
-  //   const options = {
-  //     center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
-  //     level: 5,
-  //   };
-  //   const map = new kakao.maps.Map(container, options);
-
-  //   //지도에 마커 생성 및 호출
-  //   const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
-  //   const marker = new kakao.maps.Marker({
-  //     position: markerPosition,
-  //   });
-  //   marker.setMap(map);
-
-  // }, [detailData.mapx, detailData.mapy]);
   // 지도 끝
 
   // 찜
@@ -134,7 +115,6 @@ const DestiDetail = () => {
         );
 
         setLikeCount(likeResponse.data.like_cnt);
-        setLiked(likeResponse.data.like_cnt > 0);
       } catch (error) {
         console.error('Error fetching like information:', error);
       }
@@ -162,10 +142,8 @@ const DestiDetail = () => {
           },
         }
       );
-      if (response.data.like_cnt >= 0) {
-        setLiked(!liked);
-        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-      }
+      setLiked(!liked);
+      setLikeCount(response.data.like_cnt);
     } catch (error) {
       console.error('Error liking content:', error);
     }
@@ -173,8 +151,6 @@ const DestiDetail = () => {
 
 
   // 별점
-
-
   const Rating = ({ initialValue, onChange }) => {
     const [selectedStars, setSelectedStars] = useState(initialValue);
 
@@ -349,15 +325,15 @@ const DestiDetail = () => {
 
   return (
     <Container>
-      {Object.keys(detailData).length > 0 && (
-        <div>
 
+      {Object.keys(detailData).length > 0 && (
+        <>
           <Image src={detailData.first_image} alt={detailData.title} />
+
           {/* 찜 */}
           <LikeButton onClick={handleLike}>
             {liked ? '♥' : '♡'}  Total Like ({likeCount})
           </LikeButton>
-          
 
           {/* 여행지 설명 */}
           <DetailContainer>
@@ -365,42 +341,23 @@ const DestiDetail = () => {
             <Text>{detailData.addr1}</Text>
             <Text>Tel: {detailData.tel}</Text>
           </DetailContainer>
+
           <DetailContainer2>
-          <Subtitle>Additional Information</Subtitle>
-          <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
-            {/* <Text>Event Place: {detailData.detail_intro_travel[0]?.event_place}</Text> */}
-            {/* <Text>
-              Event Dates: {detailData.detail_intro_travel[0]?.event_start_date} -{' '}
-              {detailData.detail_intro_travel[0]?.event_end_date}
-            </Text> */}
+            <Subtitle>Additional Information</Subtitle>
+            <Text>{removeBreakTags(detailData.detailCommon && detailData.detailCommon[0]?.overview)}</Text>
             {domain && (
               <Text>
                 Homepage: <HomepageLink href={match[1]} target="_blank" rel="noopener noreferrer">{domain}</HomepageLink>
               </Text>
             )}
-
-            {/* {detailData.detailCommon && (
-              <>
-                <p>Overview: {detailData.detailCommon[0].overview}</p>
-                {domain && (
-                  <p>
-                    Homepage:{" "}
-                    <a href={`http://${domain}`} target="_blank" rel="noopener noreferrer">
-                      {domain}
-                    </a>
-                  </p>
-                )}
-              </>
-            )} */}
-
           </DetailContainer2>
+
           {/* 지도 */}
           <MapContainer id="map"></MapContainer>
-          {/* <div id="map" style={{ width: '500px', height: '500px' }}></div>; */}
-          <ReviewContainer>
+
           {/* 리뷰 */}
-          <div>
-          <Subtitle>Reviews</Subtitle>
+          <ReviewContainer>
+            <Subtitle>Reviews</Subtitle>
             {reviews.map((review) => (
               <ReviewItem key={review.id}>
                 {editingReviewId === review.id ? (
@@ -461,76 +418,11 @@ const DestiDetail = () => {
               {currentUser ? (
                 <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
               ) : (
-                <Link to ="/signin"><SubmitButton>Submit</SubmitButton></Link>
+                <Link to="/signin"><SubmitButton>Submit</SubmitButton></Link>
               )}
-
-              {/* <SubmitButton onClick={handleAddReview}>Submit</SubmitButton> */}
-
-
             </ReviewForm>
-
-
-            {/* <h2>Reviews</h2>
-            {reviews.map((review) => (
-              <div key={review.id}>
-                {editingReviewId === review.id ? (
-                  <div>
-                    <input
-                      type="text"
-                      value={editingReview.title}
-                      onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
-                    />
-                    <textarea
-                      value={editingReview.content}
-                      onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
-                    />
-                    <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
-                    <button onClick={() => handleSaveEdit(review.id)}>Save</button>
-                    <button onClick={handleCancelEdit}>Cancel</button>
-                  </div>
-                ) : (
-                  <div>
-                    <h3>{review.title}</h3>
-                    <p>{review.content}</p>
-                    <Rating initialValue={review.rank} readOnly />
-                    <p>Created At: {review.created_at}</p>
-                    <p>Updated At: {review.updated_at}</p>
-                    {currentUser && review.user === currentUser && (
-                      <div>
-                        <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
-                        <button onClick={() => handleEditReview(review)}>Edit</button>
-                      </div>
-                    )}
-                  </div>
-                )} 
-              </div>
-            ))}
-            */}
-
-            {/* 리뷰 작성 폼 */}
-            {/* <div>
-              <h3>Write a Review</h3>
-              <input
-                type="text"
-                placeholder="Title"
-                value={newReview.title}
-                onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
-              />
-              <textarea
-                placeholder="Content"
-                value={newReview.content}
-                onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
-              />
-              <Rating
-                initialValue={newReview.rank}
-                onChange={handleRatingChange}
-              />
-              <button onClick={handleAddReview}>Submit</button>
-            </div> */}
-
-          </div>
           </ReviewContainer>
-        </div>
+        </>
       )}
     </Container>
   );
