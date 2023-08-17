@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { removeParenthesesContent } from '../local/body';
 import styled from 'styled-components';
@@ -147,6 +147,9 @@ const DestiDetail = () => {
       const token = localStorage.getItem('accessToken');
       if (!token) {
         console.error('Access token not found.');
+        //로그인 페이지로 이동
+        <Link to="/signin" />;
+
         return;
       }
 
@@ -453,7 +456,16 @@ const DestiDetail = () => {
               <RatingContainer>
                 <Rating initialValue={newReview.rank} onChange={handleRatingChange} />
               </RatingContainer>
-              <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+
+              {currentUser ? (
+                <SubmitButton onClick={handleAddReview}>Submit</SubmitButton>
+              ) : (
+                <Link to ="/signin">You can submit review after you sign in</Link>
+              )}
+
+              {/* <SubmitButton onClick={handleAddReview}>Submit</SubmitButton> */}
+
+
             </ReviewForm>
 
 
