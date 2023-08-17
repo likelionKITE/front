@@ -1,37 +1,68 @@
-import jwt_decode from 'jwt-decode';
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Festi_info } from './style';
-import { detailApi } from './apis';
-// import MapComponent from './map';
 import axios from 'axios';
+import { removeParenthesesContent } from '../local/body';
+import styled from 'styled-components';
 
-function FestiDetail() {
-  // 축제 정보 불러오기
-  const [festidata, setFestiData] = useState({});
+const FestiDetail = () => {
   const { content_id } = useParams();
+  const [detailData, setDetailData] = useState({});
+  const [likeCount, setLikeCount] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({
+    title: '',
+    content: '',
+    rank: 5 // 기본 평점 설정
+  });
+  const [editingReviewId, setEditingReviewId] = useState(null); // 현재 수정 중인 리뷰의 id
+  const [editingReview, setEditingReview] = useState({
+    title: '',
+    content: '',
+    rank: 5
+  });
+  // 로그인한 유저 정보
+  const currentUser = localStorage.getItem('currentUser');
 
-  const getDetail = async () => {
-
+  // 여행지 정보
+  const fetchData = async () => {
     try {
-      const url = `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/detail/${content_id}/`
-      const response = await axios.get(url);
-      setFestiData(response.data);
-
+      const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/detail/${content_id}/`);
+      setDetailData(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
-      // setLoading(false); // 데이터 로딩 중 에러가 발생했음을 설정
+      console.error('Error fetching detail data:', error);
     }
-  }
+  };
+
+  // 이하 지도구현
+
+  const { kakao } = window;
+
   useEffect(() => {
-    getDetail();
-  }, []);
+    fetchData();
+    fetchReviews(); // 리뷰 목록 불러오기
+  }, [content_id]);
+
+  // 조건부 렌더링을 사용하여 detailData가 존재할 때만 지도를 렌더링합니다.
+  const renderMap = () => {
+    if (detailData && detailData.mapx && detailData.mapy) {
+      const container = document.getElementById('map');
+      const options = {
+        center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
+        level: 5,
+      };
+      const map = new kakao.maps.Map(container, options);
+
+      // 지도에 마커 생성 및 호출
+      const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+      });
+      marker.setMap(map);
+    }
+  };
 
   // 찜
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,363 +116,245 @@ function FestiDetail() {
     }
   };
 
+  // 별점
+  const Star = styled.span`
+  font-size: 24px;
+  cursor: pointer;
+  color: ${props => (props.selected ? '#FFD700' : '#DDD')};
+`;
 
-  // 리뷰 작성 및 나열
-  const [reviews, setReviews] = useState([]);
-  const [reviewInput, setReviewInput] = useState('');
-  const [reviewTitle, setReviewTitle] = useState('');
-  const [reviewRank, setReviewRank] = useState(5);
+  const Rating = ({ initialValue, onChange }) => {
+    const [selectedStars, setSelectedStars] = useState(initialValue);
 
-  //리뷰 작성
-  const addReview = async () => {
-    console.log("")
-
-    if (reviewInput && reviewTitle) {
-      const newReview = {
-        title: reviewTitle,
-        content: reviewInput,
-        rank: reviewRank,
-      };
-
-      try {
-        const token = localStorage.getItem('accessToken');
-
-        const response = await axios.post(
-          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`,
-          newReview,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data.id) {
-          setReviews([...reviews, response.data]);
-          setReviewInput('');
-          setReviewTitle('');
-          setReviewRank(5);
-        }
-      } catch (error) {
-        console.error('Error adding review:', error);
-      }
-    }
-  }
-  //리뷰 나열
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`
-        );
-        setReviews(response.data);
-        console.log(response.data);
-
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-      }
+    const handleStarClick = starIndex => {
+      setSelectedStars(starIndex + 1);
+      onChange(starIndex + 1); // 선택한 별점 값을 부모 컴포넌트로 전달
     };
 
-    fetchReviews();
-  }, [content_id]);
-
-  //이하 수정과 삭제
-  const [editingReview, setEditingReview] = useState(null);
-
-
-  const editReview = async (review) => {
-    if (!editingReview) {
-      setEditingReview(review);
-    } else {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const response = await axios.put(
-          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${review.id}/`,
-          editingReview,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.data.content_id) {
-          const updatedReviews = reviews.map(existingReview => {
-            if (existingReview.id === review.id) {
-              return { ...existingReview, ...editingReview };
-            }
-            return existingReview;
-          });
-          setReviews(updatedReviews);
-          setEditingReview(null);
-        }
-      } catch (error) {
-        console.error('Error updating review:', error);
-      }
-    }
-  };
-  const cancelEdit = () => {
-    setEditingReview(null);
+    return (
+      <div>
+        {[...Array(5)].map((_, index) => (
+          <Star
+            key={index}
+            selected={index < selectedStars}
+            onClick={() => handleStarClick(index)}
+          >
+            ★
+          </Star>
+        ))}
+      </div>
+    );
   };
 
+  const handleRatingChange = (value) => {
+    setNewReview({
+      ...newReview,
+      rank: value // 선택한 별점 값을 newReview의 rank로 설정
+    });
+  };
 
-
-
-  const deleteReview = async (reviewId) => {
+  // 리뷰 작성
+  const handleAddReview = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const accessToken = localStorage.getItem('accessToken');
 
-      const response = await axios.delete(
-        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${reviewId}/`,
+      if (!accessToken) {
+        console.error('Access token not found.');
+        return;
+      }
+
+      const response = await axios.post(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`,
+        {
+          title: newReview.title,
+          content: newReview.content,
+          rank: newReview.rank // 기본 평점 또는 선택한 평점 값을 전달
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${accessToken}`
+          }
         }
       );
 
-      if (response.status === 204) {
-        const updatedReviews = reviews.filter(existingReview => existingReview.id !== reviewId);
-        setReviews(updatedReviews);
+      setReviews([...reviews, response.data]);
+      setNewReview({
+        title: '',
+        content: '',
+        rank: 5
+      });
+
+      await fetchReviews();
+    } catch (error) {
+      console.error('Error adding review:', error);
+    }
+  };
+
+  // 리뷰 삭제
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (!accessToken) {
+        console.error('Access token not found.');
+        return;
       }
+
+      await axios.delete(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${reviewId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
+
+      // 삭제한 리뷰를 화면에서 제거하기 위해 리뷰 상태 업데이트
+      setReviews(reviews.filter((review) => review.id !== reviewId));
     } catch (error) {
       console.error('Error deleting review:', error);
     }
   };
 
-
-  // 이하 지도구현
-
-  const { kakao } = window;
-
-  useEffect(() => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(festidata.mapy, festidata.mapx),
-      level: 5,
-    };
-    const map = new kakao.maps.Map(container, options);
-
-    //지도에 마커 생성 및 호출
-    const markerPosition = new kakao.maps.LatLng(festidata.mapy, festidata.mapx);
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
+  // 리뷰 수정
+  const handleEditReview = (review) => {
+    setEditingReviewId(review.id);
+    setEditingReview({
+      title: review.title,
+      content: review.content,
+      rank: review.rank
     });
-    marker.setMap(map);
+  };
 
+  const handleCancelEdit = () => {
+    setEditingReviewId(null);
+    setEditingReview({
+      title: '',
+      content: '',
+      rank: 5
+    });
+  };
 
-  }, [festidata.mapx, festidata.mapy]);
+  const handleSaveEdit = async (reviewId) => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
 
-  // 홈페이지 도메인 추출
-  const homepageHtml = festidata.detailCommon && festidata.detailCommon[0]?.homepage;
+      if (!accessToken) {
+        console.error('Access token not found.');
+        return;
+      }
 
-  const regex = /href="([^"]+)"/; // href 속성값을 추출하기 위한 정규식
-  const match = homepageHtml ? homepageHtml.match(regex) : null;
+      const response = await axios.put(
+        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/detail/${reviewId}/`,
+        {
+          title: editingReview.title,
+          content: editingReview.content,
+          rank: editingReview.rank
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        },
+        console.log()
+      );
 
-  let domain = '';
-  if (match && match[1]) {
-    const url = match[1];
-    domain = new URL(url).hostname; // 도메인 이름만 추출
+      // 수정한 리뷰를 화면에서 업데이트하기 위해 리뷰 상태 업데이트
+      setReviews(reviews.map((review) => (review.id === reviewId ? response.data : review)));
+      setEditingReviewId(null); // 수정 상태 해제
+    } catch (error) {
+      console.error('Error editing review:', error);
+    }
+  };
 
-  }
+  // 리뷰 목록 불러오기
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get( `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/review/${content_id}/`,      );
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
 
+  // 홈페이지 추출
+  
   return (
-    <>
+    <div>
+      <img src={detailData.first_image} alt={detailData.title} />
+      {/* 찜 */}
+      <button onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
+  
+      {/* 여행지 설명 */}
+      <h1>{detailData.title && removeParenthesesContent(detailData.title)}</h1>
+    <p>{detailData.addr1}</p>
+    <p>Tel: {detailData.tel}</p>
+
+    {/* 지도 */}
+    <div id="map" style={{ width: '500px', height: '500px' }}></div>;
+  
+      {/* 리뷰 */}
       <div>
-
-      </div>
-
-      <Festi_info>
-        <h1>Tourist Destination</h1>
-
-
-        <div className='fest_info'>
-          <div className='fest_info_top'>
-            <div>
-              <ul >
-
-                <img
-                  className='fest_info_img' src={festidata.first_image}>
-                </img>
-
-              </ul>
-            </div>
-            <div className='fest_info_hub'>
-
-              <ul>
-
-                <div>
-                  <p className='hub_p_tag'>Name</p>
-                  {festidata.title}
-                  <p><br></br></p>
-                </div>
-
-                <div>
-                  <p className='hub_p_tag'>Address</p>
-                  {festidata.addr1}
-                  <p><br></br></p>
-                </div>
-
-              </ul>
-              {/* 찜 구현 */}
-
+        <h2>Reviews</h2>
+        {reviews.map((review) => (
+          <div key={review.id}>
+            {editingReviewId === review.id ? (
               <div>
-                <p className='hub_p_tag'>My Likes (Click 🤍)</p>
-                <button className='like_button' onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
-
-                {/* <button onClick={handleLike}>Like </button>
-              <p>Total Likes: ({likeCount})</p> */}
-              </div>
-            </div>
-          </div>
-
-          <div className='fest_info_bottom'>
-            <div className='fest_info_bottom_overview+homepage'>
-
-              <div className='sub_overview'>
-                <p className='sub_p_tag'>Overview</p>
-                {festidata.detailCommon && festidata.detailCommon[0].overview}
-              </div>
-
-              <div><p><br></br></p></div>
-
-            </div>
-            <div className='sub_homepagesub_tel'>
-              <div className='sub_homepage'>
-                <p className='sub_p_tag'>Homepage</p>
-                {domain && <p>{domain} </p>}
-              </div>
-
-              <div className='sub_tel'>
-                <p className='sub_p_tag'>Tel</p>
-                {festidata.tel ? festidata.tel.replace(/<br\s*\/?>/gm, '\n').replace(/'\n'/g, '<br>') : ''}
-              </div>
-            </div>
-
-            <div className='fest_info_bottom_else'>
-
-              <div className='fest_info_bottom_else_details'>
-
-                <div className='sub_entry_fee'>
-                  <p className='sub_p_tag'>Entry Fee</p>
-                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].use_time_festival.replace(/<br>/g, ' ')}
-
-                </div>
-
-                <div className='sub_category'>
-                  <p className='sub_p_tag'>Category</p>
-                  {festidata.cat1}
-                </div>
-
-                <div className='sub_date'>
-                  <p className='sub_p_tag'>Duration</p>
-                  {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_start_date} ~ {festidata.detail_intro_fest && festidata.detail_intro_fest[0].event_end_date}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p className='sub_p_tag' >Location</p>
-          <p className='sub_p_tag_0' >{festidata.addr1}</p>
-
-          <div className='fest_info_map'>
-            <div id="map" style={{ width: '500px', height: '500px' }}></div>;
-          </div>
-        </div>
-
-        <div>
-
-          <div className="review_info">
-            <h1>Review</h1>
-            <div className="review_posting">
-              <div className="review_posting_input">
-                {/* 리뷰 생성 */}
-                <p>Details</p>
-
-                <textarea
-                  id="title_text"
-                  placeholder="Review Title"
-                  type="text"
-                  value={reviewTitle}
-                  onChange={(e) => setReviewTitle(e.target.value)}
-                />
-                <textarea
-                  id="content_text"
-                  placeholder="Post Your Review"
-                  type="text"
-                  value={reviewInput}
-                  onChange={(e) => setReviewInput(e.target.value)}
-                />
-
                 <input
-                  id="rank_number"
-                  placeholder="Rank (1-5)"
-                  type="number"
-                  min="1"
-                  max="5"
-                  value={reviewRank}
-                  onChange={(e) => setReviewRank(Number(e.target.value))}
+                  type="text"
+                  value={editingReview.title}
+                  onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
                 />
-                <button className="posting_button" onClick={addReview}>
-                  post
-                </button>
+                <textarea
+                  value={editingReview.content}
+                  onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
+                />
+                <Rating initialValue={editingReview.rank} onChange={(value) => setEditingReview({ ...editingReview, rank: value })} />
+                <button onClick={() => handleSaveEdit(review.id)}>Save</button>
+                <button onClick={handleCancelEdit}>Cancel</button>
               </div>
-
-              <div className="review_posted">
-                {/* 리뷰 나열 */}
-                <p>Other Reviews</p>
-
-                {reviews.slice().reverse().map((review, idx) => (
-                  <div className="list" key={idx}>
-                    {editingReview && editingReview.id === review.id ? (
-                      <>
-                        <input
-                          type="text"
-                          value={editingReview.title}
-                          onChange={(e) => setEditingReview({ ...editingReview, title: e.target.value })}
-                        />
-                        <input
-                          type="text"
-                          value={editingReview.content}
-                          onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })}
-                        />
-
-
-                        <button onClick={() => editReview(review)}>Save</button>
-                        <button onClick={cancelEdit}>Cancel</button>
-                      </>
-                    ) : (
-                      <>
-                        <h2>Title: {review.title}</h2>
-                        <p>Details: {review.content}</p>
-                        <p>Rank: {review.rank}</p>
-
-                        <p>User Nickname: {review.user}
-
-                        </p>
-                        <p>Written on: {new Date(review.created_at).toLocaleDateString()}</p>
-                        <p>Updated on: {new Date(review.updated_at).toLocaleDateString()}
-                        </p>
-
-                        <button onClick={() => setEditingReview({ ...review })}>Edit</button>
-                        <button onClick={() => deleteReview(review.id)}>Delete</button>
-                      </>
-                    )}
+            ) : (
+              <div>
+                <h3>{review.title}</h3>
+                <p>{review.content}</p>
+                <Rating initialValue={review.rank} readOnly />
+                <p>Created At: {review.created_at}</p>
+                <p>Updated At: {review.updated_at}</p>
+                {currentUser && review.user === currentUser && (
+                  <div>
+                    <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
+                    <button onClick={() => handleEditReview(review)}>Edit</button>
                   </div>
-                ))}
+                )}
               </div>
-
-
-
-            </div>
+            )}
           </div>
+        ))}
+  
+        {/* 리뷰 작성 폼 */}
+        <div>
+          <h3>Write a Review</h3>
+          <input
+            type="text"
+            placeholder="Title"
+            value={newReview.title}
+            onChange={(e) => setNewReview({ ...newReview, title: e.target.value })}
+          />
+          <textarea
+            placeholder="Content"
+            value={newReview.content}
+            onChange={(e) => setNewReview({ ...newReview, content: e.target.value })}
+          />
+          <Rating
+            initialValue={newReview.rank}
+            onChange={handleRatingChange}
+          />
+          <button onClick={handleAddReview}>Submit</button>
         </div>
-
-      </Festi_info >
-
-    </>
-
+      </div>
+    </div>
   );
-
+  
 };
+
 export default FestiDetail;

@@ -9,6 +9,7 @@ const DestiDetail = () => {
   const { content_id } = useParams();
   const [detailData, setDetailData] = useState({});
   const [likeCount, setLikeCount] = useState(0);
+  const [liked, setLiked] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
     title: '',
@@ -56,11 +57,37 @@ const DestiDetail = () => {
   // 지도 끝
 
   // 찜
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          console.error('Access token not found.');
+          return;
+        }
+
+        const likeResponse = await axios.get(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/like/${content_id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setLikeCount(likeResponse.data.like_cnt);
+        setLiked(likeResponse.data.like_cnt > 0);
+      } catch (error) {
+        console.error('Error fetching like information:', error);
+      }
+    };
+    fetchData();
+  }, [content_id]);
+
   const handleLike = async () => {
     try {
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (!accessToken) {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
         console.error('Access token not found.');
         return;
       }
@@ -70,15 +97,16 @@ const DestiDetail = () => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-
-      // 좋아요 개수 업데이트
-      setLikeCount(response.data.like_cnt);
+      if (response.data.like_cnt >= 0) {
+        setLiked(!liked);
+        setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+      }
     } catch (error) {
-      console.error('Error adding like:', error);
+      console.error('Error liking content:', error);
     }
   };
 
@@ -267,7 +295,7 @@ const DestiDetail = () => {
 
       <img src={detailData.first_image} alt={detailData.title} />
       {/* 찜 */}
-      <button onClick={handleLike}>Like ({likeCount})</button>
+      <button onClick={handleLike}>{liked ? '🩷' : '🤍'}  Total Like ({likeCount})</button>
 
       {/* 여행지 설명 */}
       <h1>{detailData.title && removeParenthesesContent(detailData.title)}</h1>
