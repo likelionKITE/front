@@ -8,9 +8,10 @@ export const Wrapper = styled.div`
     align-items: center;
     width: 100%;
 
-    h1 {
+    h2 {
         width: 50%;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        font-family: LexendLight;
     }
 `
 
