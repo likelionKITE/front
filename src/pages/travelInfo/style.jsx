@@ -2,18 +2,21 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
+  font-family: LexendLight;
 `;
 
 const CardTitle = styled.h1`
   margin-bottom: 20px;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-family: LexendLight;
 `;
 
 const CardSubtitle = styled.h4`
   margin-top: 10px;
+  font-family: LexendLight;
+  margin-bottom: 30px;
   color: #555;
-  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
@@ -25,6 +28,7 @@ const Button = styled.button`
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: LexendLight;
 
   &:hover {
     background-color: #6E7783;
@@ -33,7 +37,7 @@ const Button = styled.button`
 
 const Section = styled.div`
   margin: 20px;
-  padding: 30px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -41,22 +45,37 @@ const Section = styled.div`
   h2 {
     margin-bottom: 10px;
     font-size: 1.5rem;
+    font-family: LexendLight;
   }
 
   h4 {
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
     color: #555;
+    font-family: LexendLight;
   }
 `;
 
+const AppDescription = styled.a`
+  /* margin-top: 10px; */
+`
+
 const ImageLink = styled.a`
   display: inline-block;
-  margin-right: 20px;
+
+  width: 130px;
+  height: 150px;
+
+  margin-top: 10px;
+  margin-right: 30px;
+  margin-left: 30px;
+
   overflow: hidden;
   transition: transform 0.3s;
 
   h5 {
     color: #555;
+    font-family: LexendLight;
   }
 
   &:hover {
@@ -65,9 +84,11 @@ const ImageLink = styled.a`
 `;
 
 const StyledImage = styled.img`
-  width: 100px;
+  width: 80px;
   height: auto;
-  border-radius: 40px;
+  border-radius: 20px;
+
+
 `;
 
 export {
@@ -76,6 +97,7 @@ export {
   CardSubtitle,
   Button,
   Section,
+  AppDescription,
   ImageLink,
   StyledImage
 };
