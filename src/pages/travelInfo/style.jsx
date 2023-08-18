@@ -12,8 +12,9 @@ const CardTitle = styled.h1`
 
 const CardSubtitle = styled.h4`
   margin-top: 10px;
+  margin-bottom: 30px;
   color: #555;
-  margin-bottom: 10px;
+  
 `;
 
 const Button = styled.button`
@@ -33,7 +34,7 @@ const Button = styled.button`
 
 const Section = styled.div`
   margin: 20px;
-  padding: 30px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -44,14 +45,26 @@ const Section = styled.div`
   }
 
   h4 {
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
     color: #555;
   }
 `;
 
+const AppDescription = styled.a`
+  /* margin-top: 10px; */
+`
+
 const ImageLink = styled.a`
   display: inline-block;
-  margin-right: 20px;
+
+  width: 130px;
+  height: 150px;
+
+  margin-top: 10px;
+  margin-right: 30px;
+  margin-left: 30px;
+
   overflow: hidden;
   transition: transform 0.3s;
 
@@ -65,9 +78,11 @@ const ImageLink = styled.a`
 `;
 
 const StyledImage = styled.img`
-  width: 100px;
+  width: 80px;
   height: auto;
-  border-radius: 40px;
+  border-radius: 20px;
+
+
 `;
 
 export {
@@ -76,6 +91,7 @@ export {
   CardSubtitle,
   Button,
   Section,
+  AppDescription,
   ImageLink,
   StyledImage
 };

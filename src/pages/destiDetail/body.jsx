@@ -67,7 +67,7 @@ const DestiDetail = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/detail/${content_id}/`);
-      setDetailData(response.data[0]);
+      setDetailData(response.data);
     } catch (error) {
       console.error('Error fetching detail data:', error);
     }
