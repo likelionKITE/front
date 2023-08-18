@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight, faLocationDot, faIcons } from "@fortawesome/free-solid-svg-icons";
-import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, PaginationContainer, Festival, FestivalContainer } from './style';
+import { LocalContainer, ButtonContainer, LocationButton, Text, ImageContainer, PaginationContainer, Festival, FestivalContainer, Box, Content } from './style';
 
 export const removeParenthesesContent = (text) => { // 여행지 이름 한글 등 불필요한 부분 제거
     return text
@@ -45,13 +45,15 @@ function Local() {
                     <Link to={`/festiDetail/${item.content_id}`}>
                         <div key={item.content_id}>
                             <img src={item.first_image} alt={item.title} />
-                            <p>{item.title}</p>
+                            <p>{removeParenthesesContent(item.title)}</p>
                         </div>
                     </Link>
                 ))}
             </Slider>
         </Festival>
     );
+
+    const shouldUseSlider = festivalList.length >= 5; // 슬라이더 사용 여부를 판단
 
     useEffect(() => { // 지역 불러오기
         axios.get('https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/city/list/')
@@ -148,7 +150,23 @@ function Local() {
 
             {/* 축제 */}
             <FestivalContainer>
-                <FestivalSlider title={<FontAwesomeIcon icon={faIcons} /> + "Festival"} items={festivalList} />
+                {shouldUseSlider ? (
+                    <FestivalSlider title={<FontAwesomeIcon icon={faIcons} /> + "Festival"} items={festivalList} />
+                ) : (
+                    <Box>
+                        <p><FontAwesomeIcon icon={faIcons} /> Festival</p>
+                        <Content>
+                            {festivalList.map((item) => (
+                                <Link to={`/festiDetail/${item.content_id}`} key={item.content_id}>
+                                    <div>
+                                        <img src={item.first_image} alt={item.title} />
+                                        <p>{removeParenthesesContent(item.title)}</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </Content>
+                    </Box>
+                )}
             </FestivalContainer>
 
         </LocalContainer>

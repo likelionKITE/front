@@ -174,3 +174,41 @@ export const Festival = styled.div`
         font-family: LexendLight;
     }
 `;
+
+export const Box = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    width: 100rem;
+
+    p {
+        font-size: 2rem;
+        font-family: Lexend;
+        padding-bottom: 1rem;
+        margin-right: 54rem;
+    }
+`
+export const Content = styled.div`
+        display: flex;
+        flex-direction: row;
+
+        img {
+        width: 14rem;
+        height: 18rem;
+        border-radius: 0.3rem;
+        margin: 0 1rem;
+    }
+
+        p {
+        font-size: 1rem;
+        margin-top: 0.2rem;
+        margin-left: 1.8rem;
+        margin-right: 0;
+        text-align: center;
+        width: 13rem;
+        font-family: LexendLight;
+    }
+`

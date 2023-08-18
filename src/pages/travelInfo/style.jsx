@@ -43,6 +43,7 @@ const Section = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   h2 {
+    margin-top: 1rem;
     margin-bottom: 10px;
     font-size: 1.5rem;
     font-family: LexendLight;
@@ -50,7 +51,7 @@ const Section = styled.div`
 
   h4 {
     /* margin-top: 10px; */
-    margin-bottom: 10px;
+    margin: 1rem 1rem;
     color: #555;
     font-family: LexendLight;
   }
@@ -73,9 +74,13 @@ const ImageLink = styled.a`
   overflow: hidden;
   transition: transform 0.3s;
 
+  h4 {
+    margin-bottom: 0.5rem;
+  }
+
   h5 {
     color: #555;
-    font-family: LexendLight;
+    font-family: Dosis;
   }
 
   &:hover {
