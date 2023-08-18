@@ -2,18 +2,20 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
+  font-family: LexendLight;
 `;
 
 const CardTitle = styled.h1`
   margin-bottom: 20px;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-family: LexendLight;
 `;
 
 const CardSubtitle = styled.h4`
   margin-top: 10px;
-  color: #555;
   margin-bottom: 10px;
+  font-family: LexendLight;
 `;
 
 const Button = styled.button`
@@ -25,6 +27,7 @@ const Button = styled.button`
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: LexendLight;
 
   &:hover {
     background-color: #6E7783;
@@ -41,11 +44,13 @@ const Section = styled.div`
   h2 {
     margin-bottom: 10px;
     font-size: 1.5rem;
+    font-family: LexendLight;
   }
 
   h4 {
     margin-top: 10px;
     color: #555;
+    font-family: LexendLight;
   }
 `;
 
@@ -57,6 +62,7 @@ const ImageLink = styled.a`
 
   h5 {
     color: #555;
+    font-family: LexendLight;
   }
 
   &:hover {

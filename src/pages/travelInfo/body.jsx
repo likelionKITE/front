@@ -35,7 +35,7 @@ function TravelInfo() {
         </Section>
 
         <Section>
-          <h2>Information about transportation in Korea</h2>
+          <h2>Transportation available within one city</h2>
           <CardSubtitle>
             If you want to move within one city, you can use city buses,
             subways, and taxis.
