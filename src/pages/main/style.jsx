@@ -54,7 +54,8 @@ export const Travel = styled.div`
     p {
         font-size: 2rem;
         padding-bottom: 0.6rem;
-        margin-right: 45rem;
+        margin-right: 44rem;
+        font-family: LexendLight;
     }
 
     div img {
@@ -90,6 +91,7 @@ export const YourSlider = styled(Slider)`
     transform: translate3d(0px, 0px, 0px);
     justify-content: center;
     margin-bottom: 6rem;
+    
 
     div img {
         width: 15rem;
@@ -110,7 +112,7 @@ export const YourSlider = styled(Slider)`
 
 export const Button = styled.div`
     display: flex;
-    margin-right: 28rem;
+    margin-right: 25.5rem;
     margin-bottom: 1rem;
 
     button {
@@ -121,6 +123,7 @@ export const Button = styled.div`
         border-radius: 0.3rem;
         margin-right: 0.5rem;
         transition: background-color 0.4s ease;
+        font-family: Dosis;
     }
 
     button:hover {
@@ -128,7 +131,7 @@ export const Button = styled.div`
     }
 
     p {
-        font-family: Dosis;
+        font-family: LexendLight;
         font-size: 2rem;
         margin-right: 1rem;
     }
