@@ -125,7 +125,7 @@ function Main() {
 
             {/* 좋아요 많은 여행지 */}
             <TravelSlider
-                title={<>Most Tourist Destination</>}
+                title={<>Most liked Travel spot</>}
                 items={mostLiked.map(item => ({
                     ...item,
                     link: `/destiDetail/${item.content_id}`

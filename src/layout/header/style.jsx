@@ -23,8 +23,8 @@ export const Content = styled.div`
     padding: 0 1.25rem;
 
     img {
-        width: 4.2rem;
-        height: 2.2rem;
+        width: 3.5rem;
+        height: 2rem;
     }
 
     button {
