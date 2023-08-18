@@ -60,7 +60,7 @@ const FestiDetail = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/detail/${content_id}/`);
-      setDetailData(response.data);
+      setDetailData(response.data || response.data[0]);
     } catch (error) {
       console.error('Error fetching detail data:', error);
     }
@@ -76,14 +76,14 @@ const FestiDetail = () => {
   }, [content_id]);
 
   useEffect(() => {
-    // 조건부 렌더링을 사용하여 detailData가 존재할 때만 지도를 렌더링합니다.
-    if (detailData && detailData.mapx && detailData.mapy) {
-      const container = document.getElementById('map');
-      const options = {
-        center: new kakao.maps.LatLng(detailData.mapy, detailData.mapx),
-        level: 5,
-      };
-      const map = new kakao.maps.Map(container, options);
+    if (window.kakao) { // kakao 객체가 있는지 확인
+      if (detailData && detailData.mapx && detailData.mapy) {
+        const container = document.getElementById('map');
+        const options = {
+          center: new window.kakao.maps.LatLng(detailData.mapy, detailData.mapx), // window.kakao 사용
+          level: 5,
+        };
+        const map = new window.kakao.maps.Map(container, options);
 
       // 지도에 마커 생성 및 호출
       const markerPosition = new kakao.maps.LatLng(detailData.mapy, detailData.mapx);
@@ -91,19 +91,19 @@ const FestiDetail = () => {
         position: markerPosition,
       });
       marker.setMap(map);
-    }
+    }}
   }, [detailData]);
 
   // 찜
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLikeData = async () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (!token) {
           console.error('Access token not found.');
           return;
         }
-
+  
         const likeResponse = await axios.get(
           `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/like/${content_id}/`,
           {
@@ -112,38 +112,67 @@ const FestiDetail = () => {
             },
           }
         );
-
         setLikeCount(likeResponse.data.like_cnt);
+  
+        axios.get(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/detail/${content_id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(likeState => {
+          if (likeState.data.like_user_exists == "False") {
+            setLiked(false);
+            
+          } else {
+            setLiked(true);
+          };
+          console.log(liked);
+          console.log(likeState.data.like_user_exists);
+        })
+        .catch(error => {
+          console.error('Error fetching like information:', error);
+        });
+        
       } catch (error) {
         console.error('Error fetching like information:', error);
       }
     };
-    fetchData();
+    fetchLikeData();
   }, [content_id]);
 
-  const handleLike = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        console.error('Access token not found.');
-        return;
-      }
 
-      const response = await axios.post(
-        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/like/${content_id}/`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setLiked(!liked);
-      setLikeCount(response.data.like_cnt);
-    } catch (error) {
-      console.error('Error liking content:', error);
+  const handleLike = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      console.error('Access token not found.');
+      return;
     }
+  
+    axios.post(
+      `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/festival/like/${content_id}/`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(response => {
+      if (response.data.message === 'added') {
+        setLiked(true);
+      } else {
+        setLiked(false);
+      }
+      setLikeCount(response.data.like_cnt);
+    })
+    .catch(error => {
+      console.error('Error liking content:', error);
+    });
   };
+  
 
   // 별점
 

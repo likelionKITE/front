@@ -67,7 +67,7 @@ const DestiDetail = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/detail/${content_id}/`);
-      setDetailData(response.data[0]);
+      setDetailData(response.data || response.data[0]);
     } catch (error) {
       console.error('Error fetching detail data:', error);
     }
@@ -99,14 +99,14 @@ const DestiDetail = () => {
 
   // 찜
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLikeData = async () => {
       try {
         const token = localStorage.getItem('accessToken');
         if (!token) {
           console.error('Access token not found.');
           return;
         }
-
+  
         const likeResponse = await axios.get(
           `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/like/${content_id}/`,
           {
@@ -115,40 +115,64 @@ const DestiDetail = () => {
             },
           }
         );
-
         setLikeCount(likeResponse.data.like_cnt);
+  
+        axios.get(
+          `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/detail/${content_id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(likeState => {
+          if (likeState.data.like_user_exists == "False") {
+            setLiked(false);
+            
+          } else {
+            setLiked(true);
+          };
+          console.log(liked);
+          console.log(likeState.data.like_user_exists);
+        })
+        .catch(error => {
+          console.error('Error fetching like information:', error);
+        });
+        
       } catch (error) {
         console.error('Error fetching like information:', error);
       }
     };
-    fetchData();
+    fetchLikeData();
   }, [content_id]);
 
-  const handleLike = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        console.error('Access token not found.');
-        //로그인 페이지로 이동
-        <Link to="/signin" />;
-
-        return;
-      }
-
-      const response = await axios.post(
-        `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/like/${content_id}/`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setLiked(!liked);
-      setLikeCount(response.data.like_cnt);
-    } catch (error) {
-      console.error('Error liking content:', error);
+  const handleLike = () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      console.error('Access token not found.');
+      return;
     }
+  
+    axios.post(
+      `https://port-0-kite-ac2nlkthnw32.sel4.cloudtype.app/travel/like/${content_id}/`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(response => {
+      if (response.data.message === 'added') {
+        setLiked(true);
+      } else {
+        setLiked(false);
+      }
+      setLikeCount(response.data.like_cnt);
+    })
+    .catch(error => {
+      console.error('Error liking content:', error);
+    });
   };
 
 
